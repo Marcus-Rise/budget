@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const InputError = styled.small`
-  color: red
+  color: red;
 `;
 
-export {InputError}
+export { InputError };

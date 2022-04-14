@@ -11,7 +11,7 @@ const Home: NextPage = () => {
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
       <Container centered>
-        <TransactionForm onSubmit={() => {}}/>
+        <TransactionForm onSubmit={() => {}} />
       </Container>
     </>
   );
