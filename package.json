@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "combine": "yarn build && yarn build-storybook --quiet && cp -r ./storybook-static ./public"
+    "build-storybook": "build-storybook --quiet -o public/storybook",
+    "combine": "yarn build && yarn build-storybook"
   },
   "dependencies": {
     "next": "12.1.4",

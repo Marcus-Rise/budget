@@ -1,12 +1,20 @@
 module.exports = {
-  "stories": [
+  stories: [
     "../src/**/*.stories.mdx",
     "../src/**/*.stories.@(js|jsx|ts|tsx)"
   ],
-  "addons": [
+  addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions"
   ],
-  "framework": "@storybook/react"
+  framework: "@storybook/react",
+  managerHead: (head, { configType }) => {
+    if (configType === 'PRODUCTION') {
+      return (`
+        ${head}
+        <base href="storybook/">
+      `);
+    }
+  },
 }
