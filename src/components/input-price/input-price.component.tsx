@@ -1,6 +1,7 @@
 import type { ChangeEventHandler, InputHTMLAttributes } from "react";
 import { forwardRef, useCallback } from "react";
 import type { Merge } from "../../types/Merge";
+import { Input } from "../input";
 
 type BaseInputPriceProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
 type Props = {
@@ -16,7 +17,7 @@ const InputPrice = forwardRef<HTMLInputElement, InputPriceProps>(({ onChange, ..
     [onChange],
   );
 
-  return <input {...props} type={"number"} ref={ref} onChange={change} />;
+  return <Input {...props} type={"number"} ref={ref} onChange={change} />;
 });
 
 export { InputPrice };

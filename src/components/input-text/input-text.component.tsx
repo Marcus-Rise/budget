@@ -1,6 +1,7 @@
 import type { ChangeEventHandler, InputHTMLAttributes } from "react";
 import { forwardRef, useCallback } from "react";
 import type { Merge } from "../../types/Merge";
+import { Input } from "../input";
 
 type BaseInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
 type Props = {
@@ -16,7 +17,7 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(({ onChange, ...p
     [onChange],
   );
 
-  return <input {...props} onChange={change} type={"text"} ref={ref} />;
+  return <Input {...props} onChange={change} type={"text"} ref={ref} />;
 });
 
 export { InputText };
