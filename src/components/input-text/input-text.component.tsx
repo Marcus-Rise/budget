@@ -1,9 +1,22 @@
-import type { FC, InputHTMLAttributes } from "react";
+import type {ChangeEventHandler, InputHTMLAttributes} from "react";
+import {forwardRef, useCallback} from "react";
+import type {Merge} from "../../types/Merge";
 
-type InputTextProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
-
-const InputText: FC<InputTextProps> = (props) => {
-  return <input type={"text"} {...props} />;
+type BaseInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;
+type Props = {
+  onChange: (val: string) => void;
 };
+type InputTextProps = Merge<[BaseInputProps, Props]>;
 
-export { InputText };
+const InputText = forwardRef<HTMLInputElement, InputTextProps>(({onChange, ...props}, ref) => {
+  const change: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      onChange(e.target.value);
+    },
+    [onChange],
+  );
+
+  return <input {...props} onChange={change} type={"text"} ref={ref}/>;
+});
+
+export {InputText};
