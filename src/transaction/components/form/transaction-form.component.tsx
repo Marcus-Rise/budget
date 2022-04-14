@@ -38,7 +38,7 @@ const TransactionForm: FC<TransactionFormProps> = ({onSubmit}) => {
         rules={{required: "Введите название"}}
         render={({field, fieldState}) => {
           return <InputContainer>
-            <InputText {...field} placeholder={"Название"}/>
+            <InputText {...field} placeholder={"Название"} />
             {fieldState.error && <InputError>{fieldState.error.message}</InputError>}
           </InputContainer>
         }}
