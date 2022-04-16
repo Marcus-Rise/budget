@@ -5,25 +5,42 @@ import { InputPrice } from "../../../components/input-price";
 import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
-import type { ITransactionFormDto } from "../dto";
 import { InputError } from "../../../components/input-error";
 import styled from "styled-components";
+import { InputRadio } from "../../../components/input-radio";
+import { InputDate } from "../../../components/input-date/input-date.component";
+import { InputAutocomplete } from "../../../components/input-autocomplete/input-autocomplete.component";
+import type { ITransactionFormDto } from "./transaction-form.dto";
+import { TransactionType } from "./transaction-form.dto";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
 
 const InputContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
 `;
 
-type TransactionFormProps = {
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`;
+
+type TransactionFormProps = ITransactionFormDto & {
   onSubmit: (dto: ITransactionFormDto) => void;
+  onCancel: () => void;
+  categories: string[];
 };
 
-const TransactionForm: FC<TransactionFormProps> = ({ onSubmit }) => {
+const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categories, ...dto }) => {
   const { handleSubmit, control } = useForm<ITransactionFormDto>({
-    defaultValues: {
-      amount: "" as unknown as number,
-      title: "",
-    },
+    defaultValues: dto,
   });
 
   const submit: SubmitHandler<ITransactionFormDto> = useCallback(
@@ -34,35 +51,88 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
-      <Controller
-        name={"title"}
-        control={control}
-        rules={{ required: "Введите название" }}
-        render={({ field, fieldState }) => {
-          return (
+    <Form onSubmit={handleSubmit(submit)}>
+      <Row>
+        <Controller
+          name={"title"}
+          control={control}
+          rules={{ required: "Введите название" }}
+          render={({ field, fieldState }) => (
             <InputContainer>
               <InputText {...field} placeholder={"Название"} />
-              {fieldState.error && <InputError>{fieldState.error.message}</InputError>}
+              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
-          );
-        }}
-      />
-      <Controller
-        name={"amount"}
-        control={control}
-        rules={{ required: "Введите сумму" }}
-        render={({ field, fieldState }) => {
-          return (
+          )}
+        />
+        <Controller
+          name={"amount"}
+          control={control}
+          rules={{ required: "Введите сумму" }}
+          render={({ field, fieldState }) => (
             <InputContainer>
               <InputPrice {...field} placeholder={"Сумма"} />
-              {fieldState.error && <InputError>{fieldState.error.message}</InputError>}
+              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
-          );
-        }}
-      />
-      <Button type={"submit"}>Добавить</Button>
-    </form>
+          )}
+        />
+      </Row>
+
+      <Row>
+        <Controller
+          name={"type"}
+          control={control}
+          render={({ field }) => (
+            <>
+              <InputRadio
+                {...field}
+                id={TransactionType.CREDIT}
+                value={TransactionType.CREDIT}
+                checked={field.value === TransactionType.CREDIT}
+              />
+              <InputRadio
+                {...field}
+                id={TransactionType.DEBIT}
+                value={TransactionType.DEBIT}
+                checked={field.value === TransactionType.DEBIT}
+              />
+            </>
+          )}
+        />
+      </Row>
+
+      <Row>
+        <Controller
+          name={"date"}
+          control={control}
+          rules={{ required: "Введите дату" }}
+          render={({ field, fieldState }) => (
+            <InputContainer>
+              <InputDate {...field} />
+              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+            </InputContainer>
+          )}
+        />
+
+        <Controller
+          name={"category"}
+          control={control}
+          rules={{ required: "Введите категорию" }}
+          render={({ field, fieldState }) => (
+            <InputContainer>
+              <InputAutocomplete {...field} variants={categories} />
+              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+            </InputContainer>
+          )}
+        />
+      </Row>
+
+      <Row>
+        <Button type={"button"} onClick={onCancel}>
+          Удалить
+        </Button>
+        <Button type={"submit"}>Добавить</Button>
+      </Row>
+    </Form>
   );
 };
 

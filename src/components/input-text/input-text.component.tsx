@@ -21,3 +21,4 @@ const InputText = forwardRef<HTMLInputElement, InputTextProps>(({ onChange, ...p
 });
 
 export { InputText };
+export type { InputTextProps };
