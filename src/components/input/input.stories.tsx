@@ -10,7 +10,7 @@ const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
 
 const Default = Template.bind({});
 Default.args = {
-  value: "Value",
+  value: "",
 };
 
 const Labeled = Template.bind({});

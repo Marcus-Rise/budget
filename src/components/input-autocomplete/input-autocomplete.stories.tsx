@@ -24,5 +24,12 @@ Default.args = {
   variants: ["foo", "bar", "baz"],
 };
 
+const Labeled = Template.bind({});
+Labeled.args = {
+  label: "Label",
+  value: "",
+  variants: ["foo", "bar", "baz"],
+};
+
 export default Config;
-export { Default };
+export { Default, Labeled };

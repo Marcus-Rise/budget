@@ -12,7 +12,7 @@ describe("Input", () => {
     expect(screen.queryByText("Label")).toBeNull();
   });
 
-  it("should have no label without placeholder and value", () => {
+  it("should appear label", () => {
     render(<Labeled />);
 
     expect(screen.queryByText("Label")).toBeNull();
