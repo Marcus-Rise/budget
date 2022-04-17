@@ -6,8 +6,13 @@ import format from "date-fns/format";
 import locale from "date-fns/locale/ru";
 import type { Merge } from "../../types/Merge";
 import { Input } from "../input";
+import styled from "styled-components";
 
 registerLocale("ru", locale);
+
+const StyledInput = styled(Input)`
+  width: 100%;
+`;
 
 type BaseReactDatePickerProps = Omit<
   ReactDatePickerProps,
@@ -57,7 +62,7 @@ const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
         onChange={change}
         locale="ru"
         customInputRef={ref as unknown as string}
-        customInput={<Input type={"date"} />}
+        customInput={<StyledInput type={"date"} />}
       />
     );
   },
