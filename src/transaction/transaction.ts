@@ -12,9 +12,25 @@ const useTransaction = () => {
     setTransactions((transactions) => [transaction, ...transactions]);
   }, []);
 
+  const deleteTransaction = useCallback((uuid: string) => {
+    setTransactions((transactions) => {
+      const transactionIndex = transactions.findIndex((i) => i.uuid === uuid);
+
+      if (transactionIndex === -1) {
+        return transactions;
+      }
+
+      return [
+        ...transactions.slice(0, transactionIndex),
+        ...transactions.slice(transactionIndex + 1),
+      ];
+    });
+  }, []);
+
   return {
     transactions,
     createTransaction,
+    deleteTransaction,
   };
 };
 

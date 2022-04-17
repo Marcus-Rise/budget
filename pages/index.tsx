@@ -8,12 +8,13 @@ import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
+import type { TransactionModel } from "../src/transaction/transaction.model";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction";
 import { TransactionListItem } from "../src/transaction/components/list-item";
 
 const Home: NextPage = () => {
-  const { transactions, createTransaction } = useTransaction();
+  const { transactions, createTransaction, deleteTransaction } = useTransaction();
   const [transaction, setTransaction] = useState<ITransactionFormDto>();
 
   const prepareTransaction = useCallback((dto: ITransactionFormQuickDto) => {
@@ -21,7 +22,7 @@ const Home: NextPage = () => {
       ...dto,
       type: TransactionType.CREDIT,
       date: new Date(),
-      category: "",
+      category: "Другое",
     };
 
     setTransaction(trDto);
@@ -40,10 +41,29 @@ const Home: NextPage = () => {
     [clearTransactionForm, createTransaction],
   );
 
+  const editTransaction = useCallback((transaction: TransactionModel) => {
+    return () => setTransaction(transaction);
+  }, []);
+
+  const removeTransaction = useCallback(
+    (transaction: TransactionModel) => {
+      return () => deleteTransaction(transaction.uuid);
+    },
+    [deleteTransaction],
+  );
+
   const transactionsList = useMemo(
     () =>
-      transactions.map((i, index) => <TransactionListItem key={i.uuid} {...i} index={index + 1} />),
-    [transactions],
+      transactions.map((i, index) => (
+        <TransactionListItem
+          key={i.uuid}
+          {...i}
+          index={index + 1}
+          onClick={editTransaction(i)}
+          onRemove={removeTransaction(i)}
+        />
+      )),
+    [editTransaction, removeTransaction, transactions],
   );
 
   return (
