@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import type { ChangeEventHandler, InputHTMLAttributes } from "react";
-import { forwardRef, useCallback, useMemo, useState } from "react";
+import type { InputHTMLAttributes } from "react";
+import { forwardRef, useMemo } from "react";
 
 const StyledInput = styled.input`
   border-radius: 1rem;
@@ -31,36 +31,17 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
 };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ label, onChange, ...props }, ref) => {
-  const [value, setValue] = useState(props.value);
-
-  const change: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      setValue(e.target.value);
-
-      if (onChange) {
-        onChange(e);
-      }
-    },
-    [onChange],
-  );
-
+const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => {
   const isShowLabel = useMemo(() => {
-    return !!label && (!!value || !!props.placeholder);
-  }, [label, props.placeholder, value]);
+    return !!label && (!!props.value || !!props.placeholder);
+  }, [label, props.placeholder, props.value]);
 
   const placeholder = useMemo(() => props.placeholder ?? label, [label, props.placeholder]);
 
   return (
     <Root>
       {isShowLabel && <Label htmlFor={props.id}>{label}</Label>}
-      <StyledInput
-        {...props}
-        onChange={change}
-        ref={ref}
-        placeholder={placeholder}
-        data-testid={"input"}
-      />
+      <StyledInput {...props} ref={ref} placeholder={placeholder} data-testid={"input"} />
     </Root>
   );
 });

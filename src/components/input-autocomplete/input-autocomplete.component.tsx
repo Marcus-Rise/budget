@@ -30,7 +30,7 @@ const Variant = styled.li`
 const VariantContainer = styled.ul`
   display: none;
 
-  ${Input}:focus ~ &, ${Root}:hover & {
+  ${Input} > input:focus ~ &, ${Root}:hover & {
     display: block !important;
   }
 
