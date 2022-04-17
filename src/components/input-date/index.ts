@@ -1,1 +1,1 @@
-export * from "./input-date.components";
+export * from "./input-date.component";
