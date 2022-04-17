@@ -8,9 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:ci": "jest --ci",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook --quiet -o public/storybook",
-    "ci": "yarn lint && yarn test && yarn build && yarn build-storybook"
+    "ci": "yarn lint && yarn test:ci && yarn build && yarn build-storybook"
   },
   "dependencies": {
     "next": "12.1.5",
