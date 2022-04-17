@@ -6,9 +6,12 @@ import type { Merge } from "../../types/Merge";
 
 const Root = styled.div`
   position: relative;
+  display: inline-block;
 `;
 
-const Input = styled(InputText)``;
+const Input = styled(InputText)`
+  width: 100%;
+`;
 
 const Variant = styled.li`
   padding: 0.75rem 1rem;
