@@ -23,8 +23,10 @@ const InputContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
 
-  &:not(:last-child) {
-    margin-bottom: 1rem;
+  ${media.sm} {
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
   }
 `;
 
