@@ -12,6 +12,7 @@ import { InputDate } from "../../../components/input-date";
 import { InputAutocomplete } from "../../../components/input-autocomplete/input-autocomplete.component";
 import type { ITransactionFormDto } from "./transaction-form.dto";
 import { TransactionType } from "../../transaction.model";
+import { media } from "../../../../styles/grid";
 
 const Form = styled.form`
   display: flex;
@@ -21,14 +22,28 @@ const Form = styled.form`
 const InputContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+`;
+
+const InputRadioContainer = styled.div`
+  display: inline-flex;
 `;
 
 const Row = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
 
   &:not(:last-child) {
     margin-bottom: 1rem;
+  }
+
+  ${media.md} {
+    flex-direction: row;
+    justify-content: space-between;
   }
 `;
 
@@ -82,7 +97,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           name={"type"}
           control={control}
           render={({ field }) => (
-            <>
+            <InputRadioContainer>
               <InputRadio
                 {...field}
                 id={TransactionType.CREDIT}
@@ -95,7 +110,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
                 value={TransactionType.DEBIT}
                 checked={field.value === TransactionType.DEBIT}
               />
-            </>
+            </InputRadioContainer>
           )}
         />
       </Row>
@@ -127,10 +142,14 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
       </Row>
 
       <Row>
-        <Button type={"button"} onClick={onCancel}>
-          Отменить
-        </Button>
-        <Button type={"submit"}>Добавить</Button>
+        <InputContainer>
+          <Button type={"button"} onClick={onCancel}>
+            Отменить
+          </Button>
+        </InputContainer>
+        <InputContainer>
+          <Button type={"submit"}>Добавить</Button>
+        </InputContainer>
       </Row>
     </Form>
   );
