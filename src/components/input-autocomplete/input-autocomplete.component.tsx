@@ -63,7 +63,7 @@ const compareStrings = (str1: string, str2: string): boolean => {
   const left = formatString(str1);
   const right = formatString(str2);
 
-  return left.includes(right) || right.includes(left);
+  return (left.includes(right) || right.includes(left)) && left !== right;
 };
 
 const InputAutocomplete = forwardRef<HTMLInputElement, InputAutocompleteProps>((props, ref) => {
