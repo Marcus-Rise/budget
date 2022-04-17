@@ -10,6 +10,7 @@ import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction";
+import { TransactionListItem } from "../src/transaction/components/list-item";
 
 const Home: NextPage = () => {
   const { transactions, createTransaction } = useTransaction();
@@ -41,14 +42,7 @@ const Home: NextPage = () => {
 
   const transactionsList = useMemo(
     () =>
-      transactions.map((i, index) => (
-        <li key={i.uuid}>
-          <span>
-            {index + 1}. {i.title}, {i.category}, {i.date.toLocaleDateString()}
-          </span>{" "}
-          {i.amount}
-        </li>
-      )),
+      transactions.map((i, index) => <TransactionListItem key={i.uuid} {...i} index={index + 1} />),
     [transactions],
   );
 

@@ -2,7 +2,7 @@ import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TransactionFormQuick } from "./transaction-form-quick.component";
 
 const Config: ComponentMeta<typeof TransactionFormQuick> = {
-  title: "components/" + TransactionFormQuick.name,
+  title: "transaction/FormQuick",
   component: TransactionFormQuick,
 };
 

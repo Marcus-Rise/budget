@@ -3,7 +3,7 @@ import { TransactionForm } from "./transaction-form.component";
 import { TransactionType } from "../../transaction.model";
 
 const Config: ComponentMeta<typeof TransactionForm> = {
-  title: "components/" + TransactionForm.name,
+  title: "transaction/Form",
   component: TransactionForm,
   argTypes: {
     date: { control: "date" },
