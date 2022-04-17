@@ -32,6 +32,7 @@ Default.args = {
 
 const Labeled = Template.bind({});
 Labeled.args = {
+  value: "",
   label: "Label",
 };
 
@@ -39,6 +40,7 @@ const LabeledWithPlaceholder = Template.bind({});
 LabeledWithPlaceholder.args = {
   label: "Label",
   placeholder: "Placeholder",
+  value: "",
 };
 
 const LabeledWithValue = Template.bind({});
