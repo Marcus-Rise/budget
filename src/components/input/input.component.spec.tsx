@@ -7,7 +7,7 @@ const { Labeled, LabeledWithPlaceholder, LabeledWithValue, Default } = composeSt
 
 describe("Input", () => {
   it("should have no label by default", () => {
-    render(<Default {...Default.args} />);
+    render(<Default />);
 
     expect(screen.queryByText("Label")).toBeNull();
   });
