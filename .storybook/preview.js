@@ -1,3 +1,7 @@
+import { themes } from "@storybook/theming";
+import React from "react";
+import { GlobalStyles } from "../styles/global";
+
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {
@@ -6,4 +10,16 @@ export const parameters = {
       date: /Date$/,
     },
   },
-}
+  docs: {
+    theme: themes.dark,
+  },
+};
+
+export const decorators = [
+  (Story) => (
+    <>
+      <GlobalStyles />
+      <Story />
+    </>
+  ),
+];
