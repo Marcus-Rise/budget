@@ -119,7 +119,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите категорию" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputAutocomplete {...field} variants={categories} />
+              <InputAutocomplete {...field} variants={categories} placeholder={"Категория"} />
               {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
           )}
