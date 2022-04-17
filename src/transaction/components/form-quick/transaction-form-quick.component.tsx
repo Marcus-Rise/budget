@@ -19,7 +19,7 @@ type TransactionFormProps = {
 };
 
 const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
-  const { handleSubmit, control } = useForm<ITransactionFormQuickDto>({
+  const { handleSubmit, control, reset } = useForm<ITransactionFormQuickDto>({
     defaultValues: {
       amount: "" as unknown as number,
       title: "",
@@ -29,8 +29,10 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
   const submit: SubmitHandler<ITransactionFormQuickDto> = useCallback(
     (dto) => {
       onSubmit(dto);
+
+      reset();
     },
-    [onSubmit],
+    [onSubmit, reset],
   );
 
   return (
