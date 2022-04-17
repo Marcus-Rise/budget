@@ -8,6 +8,17 @@ import { Controller, useForm } from "react-hook-form";
 import type { ITransactionFormQuickDto } from "./transaction-form-quick.dto";
 import { InputError } from "../../../components/input-error";
 import styled from "styled-components";
+import { media } from "../../../../styles/grid";
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  ${media.md} {
+    flex-direction: row;
+  }
+`;
 
 const InputContainer = styled.div`
   display: inline-flex;
@@ -36,7 +47,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
   );
 
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <Form onSubmit={handleSubmit(submit)}>
       <Controller
         name={"title"}
         control={control}
@@ -60,7 +71,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         )}
       />
       <Button type={"submit"}>Добавить</Button>
-    </form>
+    </Form>
   );
 };
 
