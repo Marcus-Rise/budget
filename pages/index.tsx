@@ -35,7 +35,7 @@ const Home: NextPage = () => {
         <TransactionListItem
           key={i.uuid}
           {...i}
-          index={index + 1}
+          index={index}
           onClick={() => setTransactionDto(i)}
           onRemove={() => deleteTransaction(i.uuid)}
         />
