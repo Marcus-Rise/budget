@@ -4,16 +4,16 @@ import type { ITransactionFormDto } from "./components/form";
 import { TransactionModelFactory } from "./transaction.model.factory";
 
 const useTransaction = () => {
-  const [transactions, setTransactions] = useState<TransactionModel[]>([]);
+  const [items, setItems] = useState<TransactionModel[]>([]);
 
-  const createTransaction = useCallback((dto: ITransactionFormDto) => {
+  const create = useCallback((dto: ITransactionFormDto) => {
     const transaction = TransactionModelFactory.fromFormDto(dto);
 
-    setTransactions((transactions) => [transaction, ...transactions]);
+    setItems((transactions) => [transaction, ...transactions]);
   }, []);
 
-  const deleteTransaction = useCallback((uuid: string) => {
-    setTransactions((transactions) => {
+  const remove = useCallback((uuid: string) => {
+    setItems((transactions) => {
       const transactionIndex = transactions.findIndex((i) => i.uuid === uuid);
 
       if (transactionIndex === -1) {
@@ -27,10 +27,41 @@ const useTransaction = () => {
     });
   }, []);
 
+  const edit = useCallback((dto: ITransactionFormDto) => {
+    setItems((transactions) => {
+      const transactionIndex = transactions.findIndex((i) => i.uuid === dto.uuid);
+
+      if (transactionIndex === -1) {
+        return transactions;
+      }
+
+      const transaction = TransactionModelFactory.fromFormDto(dto);
+
+      return [
+        ...transactions.slice(0, transactionIndex),
+        transaction,
+        ...transactions.slice(transactionIndex + 1),
+      ];
+    });
+  }, []);
+
+  const save = useCallback(
+    (dto: ITransactionFormDto) => {
+      if (dto.uuid) {
+        edit(dto);
+      } else {
+        create(dto);
+      }
+    },
+    [create, edit],
+  );
+
   return {
-    transactions,
-    createTransaction,
-    deleteTransaction,
+    transactions: items,
+    createTransaction: create,
+    deleteTransaction: remove,
+    editTransaction: edit,
+    saveTransaction: save,
   };
 };
 

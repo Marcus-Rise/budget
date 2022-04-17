@@ -9,6 +9,7 @@
   ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "object-shorthand": "error"
   }
 }

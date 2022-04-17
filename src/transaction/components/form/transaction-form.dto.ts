@@ -1,6 +1,7 @@
 import type { TransactionType } from "../../transaction.model";
 
 interface ITransactionFormDto {
+  uuid?: string;
   title: string;
   amount: number;
   type: TransactionType;

@@ -8,49 +8,26 @@ import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
-import type { TransactionModel } from "../src/transaction/transaction.model";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction";
 import { TransactionListItem } from "../src/transaction/components/list-item";
 
-const Home: NextPage = () => {
-  const { transactions, createTransaction, deleteTransaction } = useTransaction();
-  const [transaction, setTransaction] = useState<ITransactionFormDto>();
+const CATEGORIES = ["Другое"];
 
-  const prepareTransaction = useCallback((dto: ITransactionFormQuickDto) => {
-    const trDto: ITransactionFormDto = {
-      ...dto,
+const Home: NextPage = () => {
+  const { saveTransaction, transactions, deleteTransaction } = useTransaction();
+  const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
+
+  const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
+    setTransactionDto({
+      ...quickDto,
       type: TransactionType.CREDIT,
       date: new Date(),
-      category: "Другое",
-    };
-
-    setTransaction(trDto);
+      category: CATEGORIES[0],
+    });
   }, []);
 
-  const categories = useMemo(() => [], []);
-
-  const clearTransactionForm = useCallback(() => setTransaction(undefined), []);
-
-  const addTransaction = useCallback(
-    (dto: ITransactionFormDto) => {
-      createTransaction(dto);
-
-      clearTransactionForm();
-    },
-    [clearTransactionForm, createTransaction],
-  );
-
-  const editTransaction = useCallback((transaction: TransactionModel) => {
-    return () => setTransaction(transaction);
-  }, []);
-
-  const removeTransaction = useCallback(
-    (transaction: TransactionModel) => {
-      return () => deleteTransaction(transaction.uuid);
-    },
-    [deleteTransaction],
-  );
+  const clearTransactionFormDto = useCallback(() => setTransactionDto(undefined), []);
 
   const transactionsList = useMemo(
     () =>
@@ -59,11 +36,20 @@ const Home: NextPage = () => {
           key={i.uuid}
           {...i}
           index={index + 1}
-          onClick={editTransaction(i)}
-          onRemove={removeTransaction(i)}
+          onClick={() => setTransactionDto(i)}
+          onRemove={() => deleteTransaction(i.uuid)}
         />
       )),
-    [editTransaction, removeTransaction, transactions],
+    [deleteTransaction, transactions],
+  );
+
+  const saveTransactionAndClear = useCallback(
+    (dto: ITransactionFormDto) => {
+      saveTransaction(dto);
+
+      clearTransactionFormDto();
+    },
+    [clearTransactionFormDto, saveTransaction],
   );
 
   return (
@@ -76,16 +62,16 @@ const Home: NextPage = () => {
         <TransactionFormQuick onSubmit={prepareTransaction} />
       </Container>
 
-      {transaction && (
+      {transactionDto && (
         <Overlay>
           <Container centered>
             <Modal>
               <Container centered>
                 <TransactionForm
-                  {...transaction}
-                  categories={categories}
-                  onCancel={clearTransactionForm}
-                  onSubmit={addTransaction}
+                  {...transactionDto}
+                  categories={CATEGORIES}
+                  onCancel={clearTransactionFormDto}
+                  onSubmit={saveTransactionAndClear}
                 />
               </Container>
             </Modal>
