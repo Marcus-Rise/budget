@@ -23,6 +23,18 @@ const Form = styled.form`
 const InputContainer = styled.div`
   display: inline-flex;
   flex-direction: column;
+
+  ${media.sm} {
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  ${media.md} {
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
 `;
 
 type TransactionFormProps = {
