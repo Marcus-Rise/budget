@@ -11,6 +11,11 @@ type InputRadioProps = Merge<
 
 const InputContainer = styled.div`
   display: inline-block;
+
+  &:hover,
+  & > * {
+    cursor: pointer;
+  }
 `;
 
 const InputRadio = forwardRef<HTMLInputElement, InputRadioProps>(({ onChange, ...props }, ref) => {
