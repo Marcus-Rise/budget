@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useCallback } from "react";
 import { InputText } from "../../../components/input-text";
-import { InputPrice } from "../../../components/input-price";
+import { InputNumber } from "../../../components/input-number";
 import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
@@ -76,7 +76,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите название" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputText {...field} placeholder={"Название"} />
+              <InputText {...field} label={"Название"} />
               {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
           )}
@@ -87,7 +87,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите сумму" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputPrice {...field} placeholder={"Сумма"} />
+              <InputNumber {...field} label={"Сумма"} />
               {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
           )}
@@ -124,7 +124,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите дату" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputDate {...field} />
+              <InputDate {...field} label={"Дата"} />
               {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
           )}
@@ -136,7 +136,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите категорию" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputAutocomplete {...field} variants={categories} placeholder={"Категория"} />
+              <InputAutocomplete {...field} variants={categories} label={"Категория"} />
               {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
           )}

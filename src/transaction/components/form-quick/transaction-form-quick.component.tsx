@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { useCallback } from "react";
 import { InputText } from "../../../components/input-text";
-import { InputPrice } from "../../../components/input-price";
+import { InputNumber } from "../../../components/input-number";
 import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
@@ -66,7 +66,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         rules={{ required: "Введите название" }}
         render={({ field, fieldState }) => (
           <InputContainer>
-            <InputText {...field} placeholder={"Название"} />
+            <InputText {...field} label={"Название"} />
             {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
           </InputContainer>
         )}
@@ -77,7 +77,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         rules={{ required: "Введите сумму" }}
         render={({ field, fieldState }) => (
           <InputContainer>
-            <InputPrice {...field} placeholder={"Сумма"} />
+            <InputNumber {...field} label={"Сумма"} />
             {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
           </InputContainer>
         )}

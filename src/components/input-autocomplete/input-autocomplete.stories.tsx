@@ -10,11 +10,17 @@ const Config: ComponentMeta<typeof InputAutocomplete> = {
 const Template: ComponentStory<typeof InputAutocomplete> = (args) => {
   const [val, setVal] = useState(args.value);
 
-  return <InputAutocomplete {...args} value={val} onChange={setVal} />;
+  return (
+    <>
+      <InputAutocomplete {...args} value={val} onChange={setVal} />
+      val: {val}
+    </>
+  );
 };
 
 const Default = Template.bind({});
 Default.args = {
+  value: "",
   variants: ["foo", "bar", "baz"],
 };
 
