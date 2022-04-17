@@ -5,11 +5,14 @@ import type { ITransactionFormQuickDto } from "../src/transaction/components/for
 import { TransactionFormQuick } from "../src/transaction/components/form-quick";
 import { useCallback, useMemo, useState } from "react";
 import type { ITransactionFormDto } from "../src/transaction/components/form";
-import { TransactionForm, TransactionType } from "../src/transaction/components/form";
+import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
+import { TransactionType } from "../src/transaction/transaction.model";
+import { useTransaction } from "../src/transaction/transaction";
 
 const Home: NextPage = () => {
+  const { transactions, createTransaction } = useTransaction();
   const [transaction, setTransaction] = useState<ITransactionFormDto>();
 
   const prepareTransaction = useCallback((dto: ITransactionFormQuickDto) => {
@@ -25,11 +28,29 @@ const Home: NextPage = () => {
 
   const categories = useMemo(() => [], []);
 
-  const deleteTransaction = useCallback(() => setTransaction(undefined), []);
+  const clearTransactionForm = useCallback(() => setTransaction(undefined), []);
 
-  const createTransaction = useCallback((dto: ITransactionFormDto) => {
-    console.debug("new transaction", dto);
-  }, []);
+  const addTransaction = useCallback(
+    (dto: ITransactionFormDto) => {
+      createTransaction(dto);
+
+      clearTransactionForm();
+    },
+    [clearTransactionForm, createTransaction],
+  );
+
+  const transactionsList = useMemo(
+    () =>
+      transactions.map((i, index) => (
+        <li key={i.uuid}>
+          <span>
+            {index + 1}. {i.title}, {i.category}, {i.date.toLocaleDateString()}
+          </span>{" "}
+          {i.amount}
+        </li>
+      )),
+    [transactions],
+  );
 
   return (
     <>
@@ -39,23 +60,27 @@ const Home: NextPage = () => {
       </Head>
       <Container centered>
         <TransactionFormQuick onSubmit={prepareTransaction} />
+      </Container>
 
-        {transaction && (
-          <Overlay>
-            <Container centered>
-              <Modal>
-                <Container centered>
-                  <TransactionForm
-                    {...transaction}
-                    categories={categories}
-                    onCancel={deleteTransaction}
-                    onSubmit={createTransaction}
-                  />
-                </Container>
-              </Modal>
-            </Container>
-          </Overlay>
-        )}
+      {transaction && (
+        <Overlay>
+          <Container centered>
+            <Modal>
+              <Container centered>
+                <TransactionForm
+                  {...transaction}
+                  categories={categories}
+                  onCancel={clearTransactionForm}
+                  onSubmit={addTransaction}
+                />
+              </Container>
+            </Modal>
+          </Container>
+        </Overlay>
+      )}
+
+      <Container>
+        <ul>{transactionsList}</ul>
       </Container>
     </>
   );

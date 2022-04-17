@@ -1,7 +1,4 @@
-enum TransactionType {
-  DEBIT = "Доход",
-  CREDIT = "Расход",
-}
+import type { TransactionType } from "../../transaction.model";
 
 interface ITransactionFormDto {
   title: string;
@@ -12,4 +9,3 @@ interface ITransactionFormDto {
 }
 
 export type { ITransactionFormDto };
-export { TransactionType };

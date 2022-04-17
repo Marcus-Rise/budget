@@ -11,7 +11,7 @@ import { InputRadio } from "../../../components/input-radio";
 import { InputDate } from "../../../components/input-date/input-date.component";
 import { InputAutocomplete } from "../../../components/input-autocomplete/input-autocomplete.component";
 import type { ITransactionFormDto } from "./transaction-form.dto";
-import { TransactionType } from "./transaction-form.dto";
+import { TransactionType } from "../../transaction.model";
 
 const Form = styled.form`
   display: flex;
