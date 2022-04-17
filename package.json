@@ -10,7 +10,7 @@
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook --quiet -o public/storybook",
-    "combine": "yarn build && yarn build-storybook"
+    "ci": "yarn lint && yarn test && yarn build && yarn build-storybook"
   },
   "dependencies": {
     "next": "12.1.5",
