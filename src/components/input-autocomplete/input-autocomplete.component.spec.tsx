@@ -1,28 +1,18 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import * as stories from "./input-autocomplete.stories";
-import { composeStories } from "@storybook/testing-react";
+import type { FC } from "react";
+import { useState } from "react";
+import type { InputAutocompleteProps } from "./input-autocomplete.component";
+import { InputAutocomplete } from "./input-autocomplete.component";
 
-const { Default, Labeled } = composeStories(stories);
+const InputWrapper: FC<InputAutocompleteProps> = (props) => {
+  const [val, setVal] = useState(props.value);
+
+  return <InputAutocomplete {...props} value={val} onChange={setVal} />;
+};
 
 describe("InputAutocomplete", () => {
-  it("should change value by typing", () => {
-    render(<Default />);
-
-    const input = screen.getByTestId<HTMLInputElement>("input");
-
-    const value = "awdawd";
-
-    fireEvent.input(input, {
-      target: {
-        value,
-      },
-    });
-
-    expect(input.value).toEqual(value);
-  });
-
   it("should change value by selecting variant", () => {
-    render(<Default />);
+    render(<InputWrapper variants={["foo", "bar", "baz"]} value={""} onChange={() => {}} />);
 
     const input = screen.getByTestId<HTMLInputElement>("input");
 
@@ -39,9 +29,17 @@ describe("InputAutocomplete", () => {
   });
 
   it("should appear label", () => {
-    render(<Labeled />);
+    const label = "Label";
+    render(
+      <InputWrapper
+        label={label}
+        variants={["foo", "bar", "baz"]}
+        value={""}
+        onChange={() => {}}
+      />,
+    );
 
-    expect(screen.queryByText("Label")).toBeNull();
+    expect(screen.queryByText(label)).toBeNull();
 
     const input = screen.getByTestId<HTMLInputElement>("input");
 
@@ -56,6 +54,6 @@ describe("InputAutocomplete", () => {
 
     expect(input.value).toEqual(variantText);
 
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.getByText(label)).not.toBeNull();
   });
 });

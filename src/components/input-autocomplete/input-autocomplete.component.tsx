@@ -104,3 +104,4 @@ const InputAutocomplete = forwardRef<HTMLInputElement, InputAutocompleteProps>((
 });
 
 export { InputAutocomplete };
+export type { InputAutocompleteProps };
