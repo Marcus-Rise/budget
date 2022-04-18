@@ -1,38 +1,65 @@
-import * as stories from "./input.stories";
-import { composeStories } from "@storybook/testing-react";
 import { render, screen, fireEvent } from "@testing-library/react";
+import type { InputProps } from "./input.component";
 import { Input } from "./input.component";
+import type { FC } from "react";
+import { useState } from "react";
 
-const { Labeled, LabeledWithPlaceholder, LabeledWithValue, Default } = composeStories(stories);
+const InputWrapper: FC<InputProps> = ({ value: val, onChange, ...props }) => {
+  const [value, setValue] = useState(val);
+
+  return (
+    <Input
+      {...props}
+      value={value}
+      onChange={(e) => {
+        setValue(e.target.value);
+
+        if (onChange) {
+          onChange(e);
+        }
+      }}
+    />
+  );
+};
 
 describe("Input", () => {
   it("should have no label by default", () => {
-    render(<Default />);
+    const label = "Label";
+    render(<InputWrapper />);
 
-    expect(screen.queryByText("Label")).toBeNull();
-  });
-
-  it("should appear label", () => {
-    render(<Labeled />);
-
-    expect(screen.queryByText("Label")).toBeNull();
+    expect(screen.queryByText(label)).toBeNull();
 
     const input = screen.getByTestId<HTMLInputElement>("input");
 
     fireEvent.input(input, { target: { value: "Value" } });
 
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.queryByText(label)).toBeNull();
+  });
+
+  it("should appear label", () => {
+    const label = "Label";
+    render(<InputWrapper label={label} />);
+
+    expect(screen.queryByText(label)).toBeNull();
+
+    const input = screen.getByTestId<HTMLInputElement>("input");
+
+    fireEvent.input(input, { target: { value: "Value" } });
+
+    expect(screen.getByText(label)).not.toBeNull();
   });
 
   it("should have a label with placeholder", () => {
-    render(<LabeledWithPlaceholder />);
+    const label = "Label";
+    render(<InputWrapper label={label} placeholder={"Placeholder"} />);
 
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.getByText(label)).not.toBeNull();
   });
 
   it("should have a label with value", () => {
-    render(<LabeledWithValue />);
+    const label = "Label";
+    render(<InputWrapper label={label} value={"Value"} />);
 
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.getByText(label)).not.toBeNull();
   });
 });

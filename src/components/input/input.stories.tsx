@@ -1,5 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Input } from "./input.component";
+import { userEvent, within } from "@storybook/testing-library";
 import { useState } from "react";
 
 const Config: ComponentMeta<typeof Input> = {
@@ -26,8 +27,12 @@ const Template: ComponentStory<typeof Input> = ({ value: val, onChange, ...args 
 };
 
 const Default = Template.bind({});
-Default.args = {
-  value: "",
+Default.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  await userEvent.type(canvas.getByTestId("input"), "test value", {
+    delay: 100,
+  });
 };
 
 const Labeled = Template.bind({});
@@ -35,19 +40,19 @@ Labeled.args = {
   value: "",
   label: "Label",
 };
+Labeled.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  await userEvent.type(canvas.getByTestId("input"), "test value", {
+    delay: 100,
+  });
+};
 
 const LabeledWithPlaceholder = Template.bind({});
 LabeledWithPlaceholder.args = {
   label: "Label",
   placeholder: "Placeholder",
-  value: "",
-};
-
-const LabeledWithValue = Template.bind({});
-LabeledWithValue.args = {
-  label: "Label",
-  value: "Value",
 };
 
 export default Config;
-export { Default, Labeled, LabeledWithPlaceholder, LabeledWithValue };
+export { Default, Labeled, LabeledWithPlaceholder };
