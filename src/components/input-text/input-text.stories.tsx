@@ -9,6 +9,14 @@ const Config: ComponentMeta<typeof InputText> = {
 const Template: ComponentStory<typeof InputText> = (args) => <InputText {...args} />;
 
 const Default = Template.bind({});
+Default.args = {
+  value: "",
+};
+const Labeled = Template.bind({});
+Labeled.args = {
+  value: "",
+  label: "Label",
+};
 
 export default Config;
-export { Default };
+export { Default, Labeled };

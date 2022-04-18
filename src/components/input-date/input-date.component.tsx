@@ -24,6 +24,7 @@ type InputDateProps = Merge<
     {
       onChange: (val?: Date | null) => void;
       value?: Date | null | string | number;
+      label?: string;
     },
   ]
 >;
@@ -31,7 +32,7 @@ type InputDateProps = Merge<
 const DATE_MASK = "yyyy-MM-dd";
 
 const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
-  ({ onChange, value, ...props }, ref) => {
+  ({ onChange, value, label, ...props }, ref) => {
     const change = useCallback(
       (val?: Date | null) => {
         onChange(val);
@@ -62,7 +63,7 @@ const InputDate = forwardRef<HTMLInputElement, InputDateProps>(
         onChange={change}
         locale="ru"
         customInputRef={ref as unknown as string}
-        customInput={<StyledInput type={"date"} />}
+        customInput={<StyledInput type={"date"} label={label} />}
       />
     );
   },

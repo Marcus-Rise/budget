@@ -30,7 +30,7 @@ const Variant = styled.li`
 const VariantContainer = styled.ul`
   display: none;
 
-  ${Input}:focus ~ &, ${Root}:hover & {
+  ${Root}:hover > & {
     display: block !important;
   }
 
@@ -104,3 +104,4 @@ const InputAutocomplete = forwardRef<HTMLInputElement, InputAutocompleteProps>((
 });
 
 export { InputAutocomplete };
+export type { InputAutocompleteProps };

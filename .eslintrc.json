@@ -5,11 +5,23 @@
     "plugin:storybook/recommended"
   ],
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "testing-library"
   ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": "error",
     "react/display-name": "off",
     "object-shorthand": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/__tests__/**/*.[jt]s?(x)",
+        "**/?(*.)+(spec|test).[jt]s?(x)"
+      ],
+      "extends": [
+        "plugin:testing-library/react"
+      ]
+    }
+  ]
 }

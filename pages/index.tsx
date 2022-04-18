@@ -58,6 +58,7 @@ const Home: NextPage = () => {
         <title>Бюджет</title>
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
+      <h1>Бюджет</h1>
       <Container centered>
         <TransactionFormQuick onSubmit={prepareTransaction} />
       </Container>
