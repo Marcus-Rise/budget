@@ -27,6 +27,9 @@ const Template: ComponentStory<typeof Input> = ({ value: val, onChange, ...args 
 };
 
 const Default = Template.bind({});
+Default.args = {
+  value: "",
+};
 Default.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
 

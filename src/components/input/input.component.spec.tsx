@@ -1,31 +1,14 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import type { InputProps } from "./input.component";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Input } from "./input.component";
-import type { FC } from "react";
-import { useState } from "react";
+import * as stories from "./input.stories";
+import { composeStories } from "@storybook/testing-react";
 
-const InputWrapper: FC<InputProps> = ({ value: val, onChange, ...props }) => {
-  const [value, setValue] = useState(val);
-
-  return (
-    <Input
-      {...props}
-      value={value}
-      onChange={(e) => {
-        setValue(e.target.value);
-
-        if (onChange) {
-          onChange(e);
-        }
-      }}
-    />
-  );
-};
+const { Default, Labeled, LabeledWithPlaceholder } = composeStories(stories);
 
 describe("Input", () => {
   it("should have no label by default", () => {
     const label = "Label";
-    render(<InputWrapper />);
+    render(<Default />);
 
     expect(screen.queryByText(label)).toBeNull();
 
@@ -38,7 +21,7 @@ describe("Input", () => {
 
   it("should appear label", () => {
     const label = "Label";
-    render(<InputWrapper label={label} />);
+    render(<Labeled />);
 
     expect(screen.queryByText(label)).toBeNull();
 
@@ -51,14 +34,7 @@ describe("Input", () => {
 
   it("should have a label with placeholder", () => {
     const label = "Label";
-    render(<InputWrapper label={label} placeholder={"Placeholder"} />);
-
-    expect(screen.getByText(label)).not.toBeNull();
-  });
-
-  it("should have a label with value", () => {
-    const label = "Label";
-    render(<InputWrapper label={label} value={"Value"} />);
+    render(<LabeledWithPlaceholder />);
 
     expect(screen.getByText(label)).not.toBeNull();
   });
