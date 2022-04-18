@@ -21,7 +21,7 @@ const Label = styled.label`
   font-size: 0.75rem;
 `;
 
-const Root = styled.div`
+const InputWrapper = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -39,10 +39,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref
   const placeholder = useMemo(() => props.placeholder ?? label, [label, props.placeholder]);
 
   return (
-    <Root>
+    <InputWrapper>
       {isShowLabel && <Label htmlFor={props.id}>{label}</Label>}
       <StyledInput {...props} ref={ref} placeholder={placeholder} data-testid={"input"} />
-    </Root>
+    </InputWrapper>
   );
 });
 
