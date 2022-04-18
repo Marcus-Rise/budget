@@ -1,26 +1,11 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { InputAutocomplete } from "./input-autocomplete.component";
 import * as stories from "./input-autocomplete.stories";
 import { composeStories } from "@storybook/testing-react";
 
 const { Default, Labeled } = composeStories(stories);
 
 describe("InputAutocomplete", () => {
-  it("should change value by typing", () => {
-    render(<Default />);
-
-    const input = screen.getByTestId<HTMLInputElement>("input");
-
-    const value = "awdawd";
-
-    fireEvent.input(input, {
-      target: {
-        value,
-      },
-    });
-
-    expect(input.value).toEqual(value);
-  });
-
   it("should change value by selecting variant", () => {
     render(<Default />);
 
@@ -39,9 +24,10 @@ describe("InputAutocomplete", () => {
   });
 
   it("should appear label", () => {
+    const label = "Label";
     render(<Labeled />);
 
-    expect(screen.queryByText("Label")).toBeNull();
+    expect(screen.queryByText(label)).toBeNull();
 
     const input = screen.getByTestId<HTMLInputElement>("input");
 
@@ -56,6 +42,6 @@ describe("InputAutocomplete", () => {
 
     expect(input.value).toEqual(variantText);
 
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.getByText(label)).not.toBeNull();
   });
 });

@@ -1,38 +1,41 @@
+import { fireEvent, render, screen } from "@testing-library/react";
+import { Input } from "./input.component";
 import * as stories from "./input.stories";
 import { composeStories } from "@storybook/testing-react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { Input } from "./input.component";
 
-const { Labeled, LabeledWithPlaceholder, LabeledWithValue, Default } = composeStories(stories);
+const { Default, Labeled, LabeledWithPlaceholder } = composeStories(stories);
 
 describe("Input", () => {
   it("should have no label by default", () => {
+    const label = "Label";
     render(<Default />);
 
-    expect(screen.queryByText("Label")).toBeNull();
-  });
-
-  it("should appear label", () => {
-    render(<Labeled />);
-
-    expect(screen.queryByText("Label")).toBeNull();
+    expect(screen.queryByText(label)).toBeNull();
 
     const input = screen.getByTestId<HTMLInputElement>("input");
 
     fireEvent.input(input, { target: { value: "Value" } });
 
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.queryByText(label)).toBeNull();
+  });
+
+  it("should appear label", () => {
+    const label = "Label";
+    render(<Labeled />);
+
+    expect(screen.queryByText(label)).toBeNull();
+
+    const input = screen.getByTestId<HTMLInputElement>("input");
+
+    fireEvent.input(input, { target: { value: "Value" } });
+
+    expect(screen.getByText(label)).not.toBeNull();
   });
 
   it("should have a label with placeholder", () => {
+    const label = "Label";
     render(<LabeledWithPlaceholder />);
 
-    expect(screen.getByText("Label")).not.toBeNull();
-  });
-
-  it("should have a label with value", () => {
-    render(<LabeledWithValue />);
-
-    expect(screen.getByText("Label")).not.toBeNull();
+    expect(screen.getByText(label)).not.toBeNull();
   });
 });
