@@ -16,7 +16,7 @@ Default.args = {
   amount: 2000,
   date: new Date(),
   category: "Category",
-  index: 1,
+  index: 0,
 };
 
 export default Config;

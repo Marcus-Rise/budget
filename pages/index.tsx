@@ -9,7 +9,7 @@ import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
 import { TransactionType } from "../src/transaction/transaction.model";
-import { useTransaction } from "../src/transaction/transaction";
+import { useTransaction } from "../src/transaction/transaction.hook";
 import { TransactionListItem } from "../src/transaction/components/list-item";
 
 const CATEGORIES = ["Другое"];
