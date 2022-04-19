@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Container } from "../src/components/container";
 import type { ITransactionFormQuickDto } from "../src/transaction/components/form-quick";
 import { TransactionFormQuick } from "../src/transaction/components/form-quick";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
@@ -56,6 +56,18 @@ const Home: NextPage = () => {
     [clearTransactionFormDto, saveTransaction],
   );
 
+  useEffect(() => {
+    if (!transactions.length) {
+      setTransactionDto({
+        title: "",
+        type: TransactionType.CREDIT,
+        date: new Date(),
+        amount: "" as unknown as number,
+        category: CATEGORIES[0],
+      });
+    }
+  }, [transactions.length]);
+
   return (
     <>
       <Head>
@@ -63,30 +75,46 @@ const Home: NextPage = () => {
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
       <h1>Бюджет</h1>
-      <Container centered>
-        <TransactionFormQuick onSubmit={prepareTransaction} />
-      </Container>
 
-      {transactionDto && (
-        <Overlay>
+      {!!transactions.length ? (
+        <>
           <Container centered>
-            <Modal>
-              <Container centered>
-                <TransactionForm
-                  {...transactionDto}
-                  categories={CATEGORIES}
-                  onCancel={clearTransactionFormDto}
-                  onSubmit={saveTransactionAndClear}
-                />
-              </Container>
-            </Modal>
+            <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
-        </Overlay>
+          <br />
+          <Container>
+            <TransactionList>{transactionsList}</TransactionList>
+          </Container>
+
+          {transactionDto && (
+            <Overlay>
+              <Container centered>
+                <Modal>
+                  <Container centered>
+                    <TransactionForm
+                      {...transactionDto}
+                      categories={CATEGORIES}
+                      onCancel={clearTransactionFormDto}
+                      onSubmit={saveTransactionAndClear}
+                    />
+                  </Container>
+                </Modal>
+              </Container>
+            </Overlay>
+          )}
+        </>
+      ) : (
+        !!transactionDto && (
+          <Container centered>
+            <TransactionForm
+              {...transactionDto}
+              categories={CATEGORIES}
+              onCancel={clearTransactionFormDto}
+              onSubmit={saveTransactionAndClear}
+            />
+          </Container>
+        )
       )}
-      <br />
-      <Container>
-        <TransactionList>{transactionsList}</TransactionList>
-      </Container>
     </>
   );
 };
