@@ -1,16 +1,19 @@
-import { memo } from "react";
+import type { HtmlHTMLAttributes } from "react";
+import { forwardRef, memo } from "react";
 
-type PriceProps = { amount: number };
+type PriceProps = HtmlHTMLAttributes<HTMLSpanElement> & { amount: number };
 
-const Price = memo<PriceProps>(({ amount }) => {
-  const str = amount.toLocaleString();
+const Price = memo(
+  forwardRef<HTMLSpanElement, PriceProps>(({ amount, ...props }, ref) => {
+    const str = amount.toLocaleString();
 
-  return (
-    <span>
-      {str}
-      {"\u00A0"}₽
-    </span>
-  );
-});
+    return (
+      <span {...props} ref={ref}>
+        {str}
+        {"\u00A0"}₽
+      </span>
+    );
+  }),
+);
 
 export { Price };

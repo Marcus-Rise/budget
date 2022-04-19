@@ -1,5 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TransactionList, TransactionListItem } from "./transaction-list-item.component";
+import { TransactionType } from "../../transaction.model";
 
 const Config: ComponentMeta<typeof TransactionListItem> = {
   title: "transaction/ListItem",
@@ -18,6 +19,7 @@ const Default = Template.bind({});
 Default.args = {
   title: "Transaction",
   amount: 2000,
+  type: TransactionType.DEBIT,
   date: new Date(),
   category: "Category",
   index: 0,

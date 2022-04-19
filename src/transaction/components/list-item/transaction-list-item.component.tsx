@@ -1,7 +1,7 @@
 import type { FC, MouseEventHandler } from "react";
 import { useCallback } from "react";
-import type { TransactionType } from "../../transaction.model";
-import styled from "styled-components";
+import { TransactionType } from "../../transaction.model";
+import styled, { css } from "styled-components";
 import { Price } from "../../../components/price";
 
 const TransactionList = styled.ul`
@@ -42,10 +42,29 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   color: #868686;
+  border-radius: 100%;
 
   &:hover {
     cursor: pointer;
+    background-color: #868686;
+    color: #eee;
   }
+`;
+
+const StyledPrice = styled(Price)<{ type: TransactionType }>`
+  font-weight: bold;
+
+  ${(props) => {
+    if (props.type === TransactionType.DEBIT) {
+      return css`
+        color: green;
+
+        &::before {
+          content: "+ ";
+        }
+      `;
+    }
+  }}
 `;
 
 type TransactionListItemProps = {
@@ -62,6 +81,7 @@ type TransactionListItemProps = {
 const TransactionListItem: FC<TransactionListItemProps> = ({
   title,
   amount,
+  type,
   index,
   category,
   date,
@@ -83,9 +103,9 @@ const TransactionListItem: FC<TransactionListItemProps> = ({
     <Item onClick={onClick}>
       <span>
         {index + 1}. {title}, {category}, {date.toLocaleDateString()}
-      </span>{" "}
+      </span>
       <div>
-        <Price amount={amount} />{" "}
+        <StyledPrice type={type} amount={amount} />{" "}
         <CloseButton type={"button"} onClick={remove}>
           x
         </CloseButton>
