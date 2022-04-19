@@ -37,7 +37,11 @@ const Home: NextPage = () => {
           {...i}
           index={index}
           onClick={() => setTransactionDto(i)}
-          onRemove={() => deleteTransaction(i.uuid)}
+          onRemove={() => {
+            if (confirm(`Вы действительно хотите удалить ${i.title}, ${i.category}`)) {
+              deleteTransaction(i.uuid);
+            }
+          }}
         />
       )),
     [deleteTransaction, transactions],
