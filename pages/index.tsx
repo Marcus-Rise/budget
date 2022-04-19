@@ -10,7 +10,7 @@ import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction.hook";
-import { TransactionListItem } from "../src/transaction/components/list-item";
+import { TransactionList, TransactionListItem } from "../src/transaction/components/list-item";
 
 const CATEGORIES = ["Другое"];
 
@@ -79,9 +79,9 @@ const Home: NextPage = () => {
           </Container>
         </Overlay>
       )}
-
+      <br />
       <Container>
-        <ul>{transactionsList}</ul>
+        <TransactionList>{transactionsList}</TransactionList>
       </Container>
     </>
   );

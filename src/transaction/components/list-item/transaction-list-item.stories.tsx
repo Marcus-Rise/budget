@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import { TransactionListItem } from "./transaction-list-item.component";
+import { TransactionList, TransactionListItem } from "./transaction-list-item.component";
 
 const Config: ComponentMeta<typeof TransactionListItem> = {
   title: "transaction/ListItem",
@@ -7,7 +7,11 @@ const Config: ComponentMeta<typeof TransactionListItem> = {
 };
 
 const Template: ComponentStory<typeof TransactionListItem> = (args) => (
-  <TransactionListItem {...args} />
+  <TransactionList>
+    <TransactionListItem {...args} />
+    <TransactionListItem {...args} />
+    <TransactionListItem {...args} />
+  </TransactionList>
 );
 
 const Default = Template.bind({});
