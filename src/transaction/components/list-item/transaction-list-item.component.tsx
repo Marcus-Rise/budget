@@ -8,7 +8,7 @@ const TransactionList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
-  box-shadow: 1px 1px 3px 1px #000000a3;
+  box-shadow: 0 1px 3px 1px #000000a3;
   border-radius: 1rem;
 `;
 
@@ -63,6 +63,12 @@ const StyledPrice = styled(Price)<{ type: TransactionType }>`
 
         &::before {
           content: "+ ";
+        }
+      `;
+    } else {
+      return css`
+        &::before {
+          content: "- ";
         }
       `;
     }
