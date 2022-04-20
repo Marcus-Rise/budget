@@ -7,23 +7,26 @@ const Config: ComponentMeta<typeof TransactionListItem> = {
   component: TransactionListItem,
 };
 
-const Template: ComponentStory<typeof TransactionListItem> = (args) => (
+const Template: ComponentStory<typeof TransactionListItem> = () => (
   <TransactionList>
-    <TransactionListItem {...args} />
-    <TransactionListItem {...args} />
-    <TransactionListItem {...args} />
+    <TransactionListItem
+      title={"Зарплата"}
+      amount={20_000}
+      type={TransactionType.DEBIT}
+      date={new Date()}
+      category={"Шиномонтаж"}
+    />
+    <TransactionListItem
+      title={"Диван"}
+      amount={3_000}
+      type={TransactionType.CREDIT}
+      date={new Date()}
+      category={"Мебель"}
+    />
   </TransactionList>
 );
 
 const Default = Template.bind({});
-Default.args = {
-  title: "Transaction",
-  amount: 2000,
-  type: TransactionType.DEBIT,
-  date: new Date(),
-  category: "Category",
-  index: 0,
-};
 
 export default Config;
 export { Default };

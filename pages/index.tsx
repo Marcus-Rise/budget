@@ -31,11 +31,10 @@ const Home: NextPage = () => {
 
   const transactionsList = useMemo(
     () =>
-      transactions.map((i, index) => (
+      transactions.map((i) => (
         <TransactionListItem
           key={i.uuid}
           {...i}
-          index={index}
           onClick={() => setTransactionDto(i)}
           onRemove={() => {
             if (confirm(`Вы действительно хотите удалить "${i.title}, ${i.category}"`)) {

@@ -17,6 +17,7 @@ const Item = styled.li`
   background-color: white;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   &:hover {
     background-color: #eee;
@@ -43,6 +44,7 @@ const CloseButton = styled.button`
   border: none;
   color: #868686;
   border-radius: 100%;
+  margin-left: 0.75rem;
 
   &:hover {
     cursor: pointer;
@@ -52,7 +54,7 @@ const CloseButton = styled.button`
 `;
 
 const StyledPrice = styled(Price)<{ type: TransactionType }>`
-  font-weight: bold;
+  font-size: 1.15rem;
 
   ${(props) => {
     if (props.type === TransactionType.DEBIT) {
@@ -67,9 +69,27 @@ const StyledPrice = styled(Price)<{ type: TransactionType }>`
   }}
 `;
 
+const Title = styled.span`
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+`;
+
+const Category = styled.small`
+  color: #adadad;
+  font-size: 0.8rem;
+`;
+
+const MetaLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const MetaRight = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 type TransactionListItemProps = {
   title: string;
-  index: number;
   category: string;
   date: Date;
   amount: number;
@@ -82,9 +102,7 @@ const TransactionListItem: FC<TransactionListItemProps> = ({
   title,
   amount,
   type,
-  index,
   category,
-  date,
   onClick,
   onRemove,
 }) => {
@@ -101,15 +119,16 @@ const TransactionListItem: FC<TransactionListItemProps> = ({
 
   return (
     <Item onClick={onClick}>
-      <span>
-        {index + 1}. {title}, {category}, {date.toLocaleDateString()}
-      </span>
-      <div>
-        <StyledPrice type={type} amount={amount} />{" "}
+      <MetaLeft>
+        <Title>{title}</Title>
+        <Category>{category}</Category>
+      </MetaLeft>
+      <MetaRight>
+        <StyledPrice type={type} amount={amount} />
         <CloseButton type={"button"} onClick={remove}>
           x
         </CloseButton>
-      </div>
+      </MetaRight>
     </Item>
   );
 };
