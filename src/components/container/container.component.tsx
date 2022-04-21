@@ -1,13 +1,12 @@
 import styled, { css } from "styled-components";
+import { media } from "../../../styles/grid";
 
 const Container = styled.div<{ centered?: boolean }>`
   margin: 0 auto;
 
-  max-width: 80%;
-
-  /*@media (min-width: 1440px) {
-    max-width: 60%;
-  }*/
+  ${media.md} {
+    max-width: 80%;
+  }
 
   ${(props) => {
     if (!!props.centered) {

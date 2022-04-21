@@ -4,16 +4,8 @@ import { TransactionType } from "../../transaction.model";
 import styled, { css } from "styled-components";
 import { Price } from "../../../components/price";
 
-const TransactionList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  box-shadow: 0 1px 3px 1px #000000a3;
-  border-radius: 1rem;
-`;
-
 const Item = styled.li`
-  padding: 1rem;
+  padding: 1rem 0;
   background-color: white;
   display: flex;
   justify-content: space-between;
@@ -22,20 +14,6 @@ const Item = styled.li`
   &:hover {
     background-color: #eee;
     cursor: pointer;
-  }
-
-  &:first-child {
-    border-top-right-radius: 1rem;
-    border-top-left-radius: 1rem;
-  }
-
-  &:not(:last-child) {
-    border-bottom: solid #eee;
-  }
-
-  &:last-child {
-    border-bottom-right-radius: 1rem;
-    border-bottom-left-radius: 1rem;
   }
 `;
 
@@ -78,6 +56,7 @@ const StyledPrice = styled(Price)<{ type: TransactionType }>`
 const Title = styled.span`
   font-weight: bold;
   margin-bottom: 0.3rem;
+  font-size: 1.1rem;
 `;
 
 const Category = styled.small`
@@ -139,4 +118,4 @@ const TransactionListItem: FC<TransactionListItemProps> = ({
   );
 };
 
-export { TransactionListItem, TransactionList };
+export { TransactionListItem };
