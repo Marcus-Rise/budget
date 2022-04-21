@@ -54,7 +54,7 @@ const CloseButton = styled.button`
 `;
 
 const StyledPrice = styled(Price)<{ type: TransactionType }>`
-  font-size: 1.15rem;
+  font-size: 1.1rem;
 
   ${(props) => {
     if (props.type === TransactionType.DEBIT) {
