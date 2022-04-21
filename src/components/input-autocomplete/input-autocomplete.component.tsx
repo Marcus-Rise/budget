@@ -2,7 +2,7 @@ import { forwardRef, useCallback, useMemo } from "react";
 import type { InputTextProps } from "../input-text";
 import { InputText } from "../input-text";
 import styled from "styled-components";
-import type { Merge } from "../../types/Merge";
+import type { Merge } from "../../types/merge";
 
 const Root = styled.div`
   position: relative;

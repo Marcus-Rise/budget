@@ -1,6 +1,6 @@
 import type { ChangeEventHandler } from "react";
 import { forwardRef, useCallback } from "react";
-import type { Merge } from "../../types/Merge";
+import type { Merge } from "../../types/merge";
 import type { InputProps } from "../input";
 import { Input } from "../input";
 

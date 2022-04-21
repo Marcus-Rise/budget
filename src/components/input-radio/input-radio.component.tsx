@@ -1,6 +1,6 @@
 import type { ChangeEventHandler, InputHTMLAttributes } from "react";
 import { forwardRef, useCallback } from "react";
-import type { Merge } from "../../types/Merge";
+import type { Merge } from "../../types/merge";
 import styled from "styled-components";
 
 type BaseInputRadioProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type">;

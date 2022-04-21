@@ -4,7 +4,7 @@ import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.min.css";
 import format from "date-fns/format";
 import locale from "date-fns/locale/ru";
-import type { Merge } from "../../types/Merge";
+import type { Merge } from "../../types/merge";
 import { Input } from "../input";
 import styled from "styled-components";
 
