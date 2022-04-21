@@ -12,8 +12,8 @@ import type { TransactionModel } from "../src/transaction/transaction.model";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction.hook";
 import { TransactionListItem } from "../src/transaction/components/list-item";
-import type { DateGroupedListItem } from "../src/components/date-grouped-list/date-grouped-list.component";
-import { DateGroupedList } from "../src/components/date-grouped-list/date-grouped-list.component";
+import type { DateGroupedListItem } from "../src/components/date-grouped-list";
+import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
 
 const CATEGORIES = ["Другое"];

@@ -1,1 +1,1 @@
-export * from "./date-group-list.component";
+export * from "./date-grouped-list.component";
