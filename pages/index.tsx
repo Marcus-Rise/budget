@@ -8,15 +8,31 @@ import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
+import type { TransactionModel } from "../src/transaction/transaction.model";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction.hook";
-import { TransactionList, TransactionListItem } from "../src/transaction/components/list-item";
+import { TransactionListItem } from "../src/transaction/components/list-item";
+import type { DateGroupedListItem } from "../src/components/date-grouped-list";
+import { DateGroupedList } from "../src/components/date-grouped-list";
+import { TitledList } from "../src/components/titled-list";
 
 const CATEGORIES = ["Другое"];
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
+
+  const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
+    useMemo(
+      () =>
+        transactions.map((i) => {
+          return {
+            ...i,
+            id: i.uuid,
+          };
+        }),
+      [transactions],
+    );
 
   const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
     setTransactionDto({
@@ -28,23 +44,6 @@ const Home: NextPage = () => {
   }, []);
 
   const clearTransactionFormDto = useCallback(() => setTransactionDto(undefined), []);
-
-  const transactionsList = useMemo(
-    () =>
-      transactions.map((i) => (
-        <TransactionListItem
-          key={i.uuid}
-          {...i}
-          onClick={() => setTransactionDto(i)}
-          onRemove={() => {
-            if (confirm(`Вы действительно хотите удалить "${i.title}, ${i.category}"`)) {
-              deleteTransaction(i.uuid);
-            }
-          }}
-        />
-      )),
-    [deleteTransaction, transactions],
-  );
 
   const saveTransactionAndClear = useCallback(
     (dto: ITransactionFormDto) => {
@@ -73,16 +72,35 @@ const Home: NextPage = () => {
         <title>Бюджет</title>
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
-      <h1>Бюджет</h1>
+      <Container>
+        <h1>Бюджет</h1>
+      </Container>
 
       {!!transactions.length ? (
         <>
+          <br />
           <Container centered>
             <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
           <br />
           <Container>
-            <TransactionList>{transactionsList}</TransactionList>
+            <DateGroupedList
+              items={transactionListItems}
+              renderGroup={TitledList}
+              renderItem={(props) => (
+                <TransactionListItem
+                  {...props}
+                  onClick={() => setTransactionDto(props)}
+                  onRemove={() => {
+                    if (
+                      confirm(`Вы действительно хотите удалить "${props.title}, ${props.category}"`)
+                    ) {
+                      deleteTransaction(props.uuid);
+                    }
+                  }}
+                />
+              )}
+            />
           </Container>
 
           {transactionDto && (
