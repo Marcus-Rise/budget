@@ -1,4 +1,4 @@
-import type { ITransactionFormDto } from "./components/form";
+import type { ITransactionFormDto } from "../components/form";
 import { TransactionModel } from "./transaction.model";
 import { v4 as uuid } from "uuid";
 

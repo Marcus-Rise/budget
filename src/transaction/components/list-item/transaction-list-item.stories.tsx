@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TransactionListItem } from "./transaction-list-item.component";
-import { TransactionType } from "../../transaction.model";
+import { TransactionType } from "../../models";
 
 const Config: ComponentMeta<typeof TransactionListItem> = {
   title: "transaction/ListItem",

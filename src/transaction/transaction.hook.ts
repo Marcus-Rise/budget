@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
-import type { TransactionModel } from "./transaction.model";
+import type { TransactionModel } from "./models";
 import type { ITransactionFormDto } from "./components/form";
-import { TransactionModelFactory } from "./transaction.model.factory";
+import { TransactionModelFactory } from "./models";
 
 const useTransaction = () => {
   const [items, setItems] = useState<TransactionModel[]>([]);

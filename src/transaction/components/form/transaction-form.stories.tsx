@@ -1,6 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TransactionForm } from "./transaction-form.component";
-import { TransactionType } from "../../transaction.model";
+import { TransactionType } from "../../models";
 
 const Config: ComponentMeta<typeof TransactionForm> = {
   title: "transaction/Form",

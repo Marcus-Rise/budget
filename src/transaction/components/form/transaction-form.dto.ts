@@ -1,4 +1,4 @@
-import type { TransactionType } from "../../transaction.model";
+import type { TransactionType } from "../../models";
 
 interface ITransactionFormDto {
   uuid?: string;

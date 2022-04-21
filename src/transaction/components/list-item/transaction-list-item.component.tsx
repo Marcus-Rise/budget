@@ -1,6 +1,6 @@
 import type { FC, MouseEventHandler } from "react";
 import { useCallback } from "react";
-import { TransactionType } from "../../transaction.model";
+import { TransactionType } from "../../models";
 import styled, { css } from "styled-components";
 import { Price } from "../../../components/price";
 
