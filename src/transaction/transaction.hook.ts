@@ -1,15 +1,36 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { TransactionModel } from "./models";
-import type { ITransactionFormDto } from "./components/form";
 import { TransactionModelFactory } from "./models";
+import type { ITransactionFormDto } from "./components/form";
+import type { ITransactionRepositoryDto } from "./dto";
+
+const LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
 const useTransaction = () => {
   const [items, setItems] = useState<TransactionModel[]>([]);
 
+  useEffect(() => {
+    let data = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+    if (data) {
+      setItems(
+        JSON.parse(data).map((dto: ITransactionRepositoryDto) =>
+          TransactionModelFactory.fromRepositoryDto(dto),
+        ),
+      );
+    }
+  }, []);
+
   const create = useCallback((dto: ITransactionFormDto) => {
     const transaction = TransactionModelFactory.fromFormDto(dto);
 
-    setItems((transactions) => [transaction, ...transactions]);
+    setItems((transactions) => {
+      const data = [transaction, ...transactions];
+
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+
+      return data;
+    });
   }, []);
 
   const remove = useCallback((uuid: string) => {
@@ -20,10 +41,14 @@ const useTransaction = () => {
         return transactions;
       }
 
-      return [
+      const data = [
         ...transactions.slice(0, transactionIndex),
         ...transactions.slice(transactionIndex + 1),
       ];
+
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+
+      return data;
     });
   }, []);
 
@@ -37,11 +62,15 @@ const useTransaction = () => {
 
       const transaction = TransactionModelFactory.fromFormDto(dto);
 
-      return [
+      const data = [
         ...transactions.slice(0, transactionIndex),
         transaction,
         ...transactions.slice(transactionIndex + 1),
       ];
+
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+
+      return data;
     });
   }, []);
 

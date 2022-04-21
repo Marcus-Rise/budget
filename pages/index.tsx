@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Container } from "../src/components/container";
 import type { ITransactionFormQuickDto } from "../src/transaction/components/form-quick";
 import { TransactionFormQuick } from "../src/transaction/components/form-quick";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
@@ -53,18 +53,6 @@ const Home: NextPage = () => {
     },
     [clearTransactionFormDto, saveTransaction],
   );
-
-  useEffect(() => {
-    if (!transactions.length) {
-      setTransactionDto({
-        title: "",
-        type: TransactionType.CREDIT,
-        date: new Date(),
-        amount: "" as unknown as number,
-        category: CATEGORIES[0],
-      });
-    }
-  }, [transactions.length]);
 
   return (
     <>
@@ -121,16 +109,18 @@ const Home: NextPage = () => {
           )}
         </>
       ) : (
-        !!transactionDto && (
-          <Container centered>
-            <TransactionForm
-              {...transactionDto}
-              categories={CATEGORIES}
-              onCancel={clearTransactionFormDto}
-              onSubmit={saveTransactionAndClear}
-            />
-          </Container>
-        )
+        <Container centered>
+          <TransactionForm
+            title={""}
+            amount={"" as unknown as number}
+            type={TransactionType.CREDIT}
+            date={new Date()}
+            category={CATEGORIES[0]}
+            categories={CATEGORIES}
+            onCancel={clearTransactionFormDto}
+            onSubmit={saveTransactionAndClear}
+          />
+        </Container>
       )}
     </>
   );
