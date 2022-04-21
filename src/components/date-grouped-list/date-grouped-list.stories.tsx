@@ -13,15 +13,15 @@ Default.args = {
   items: [
     {
       date: new Date(),
-      title: "Item",
+      id: "Item",
     },
     {
       date: new Date(),
-      title: "Item2",
+      id: "Item2",
     },
     {
       date: new Date(),
-      title: "Item3",
+      id: "Item3",
     },
   ],
 };
@@ -31,7 +31,7 @@ Single.args = {
   items: [
     {
       date: new Date(),
-      title: "Item",
+      id: "Item",
     },
   ],
 };

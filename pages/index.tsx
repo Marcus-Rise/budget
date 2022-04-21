@@ -3,14 +3,16 @@ import Head from "next/head";
 import { Container } from "../src/components/container";
 import type { ITransactionFormQuickDto } from "../src/transaction/components/form-quick";
 import { TransactionFormQuick } from "../src/transaction/components/form-quick";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
+import type { TransactionModel } from "../src/transaction/transaction.model";
 import { TransactionType } from "../src/transaction/transaction.model";
 import { useTransaction } from "../src/transaction/transaction.hook";
 import { TransactionListItem } from "../src/transaction/components/list-item";
+import type { DateGroupedListItem } from "../src/components/date-grouped-list/date-grouped-list.component";
 import { DateGroupedList } from "../src/components/date-grouped-list/date-grouped-list.component";
 import { TitledList } from "../src/components/titled-list";
 
@@ -19,6 +21,18 @@ const CATEGORIES = ["Другое"];
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
+
+  const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
+    useMemo(
+      () =>
+        transactions.map((i) => {
+          return {
+            ...i,
+            id: i.uuid,
+          };
+        }),
+      [transactions],
+    );
 
   const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
     setTransactionDto({
@@ -71,7 +85,7 @@ const Home: NextPage = () => {
           <br />
           <Container>
             <DateGroupedList
-              items={transactions}
+              items={transactionListItems}
               renderGroup={TitledList}
               renderItem={(props) => (
                 <TransactionListItem

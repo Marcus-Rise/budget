@@ -2,7 +2,8 @@ import type { FC, ReactElement } from "react";
 import { datedListSortHelper, datedListSortKeyToDateHelper } from "../../helpers/dated-list-sort";
 import { dateToStringHelper } from "../../helpers/date-to-string";
 
-type DateGroupedListItem = { date: Date; title: string };
+type DateGroupedBaseListItem = { id: string; date: Date };
+type DateGroupedListItem<Object extends DateGroupedBaseListItem = DateGroupedBaseListItem> = Object;
 
 type RenderGroupComponent = FC<{
   title: string;
@@ -17,7 +18,7 @@ type DateGroupedListProps<Object extends DateGroupedListItem> = {
 
 const DateGroupedList = <Object extends DateGroupedListItem>({
   items,
-  renderItem = (props) => <li>{props.title}</li>,
+  renderItem = (props) => <li>{props.date.toLocaleDateString()}</li>,
   renderGroup = (props) => (
     <ul>
       <span>{props.title}</span>
@@ -35,7 +36,7 @@ const DateGroupedList = <Object extends DateGroupedListItem>({
 
     const RenderItem = renderItem;
     const items = Array.from(dateGroups.get(group) ?? []).map((item) => {
-      return <RenderItem key={item.title} {...item} />;
+      return <RenderItem key={item.id} {...item} />;
     });
 
     const RenderGroup = renderGroup;
@@ -51,3 +52,4 @@ const DateGroupedList = <Object extends DateGroupedListItem>({
 };
 
 export { DateGroupedList };
+export type { DateGroupedListItem };
