@@ -10,13 +10,11 @@ import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
 import type { TransactionModel } from "../src/transaction/models";
 import { TransactionType } from "../src/transaction/models";
-import { useTransaction } from "../src/transaction/transaction.hook";
+import { useTransaction, TRANSACTION_CATEGORY_OTHER } from "../src/transaction/transaction.hook";
 import { TransactionListItem } from "../src/transaction/components/list-item";
 import type { DateGroupedListItem } from "../src/components/date-grouped-list";
 import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
-
-const CATEGORY_OTHER = "Другое";
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction, profit, transactionCategories } =
@@ -40,7 +38,7 @@ const Home: NextPage = () => {
       ...quickDto,
       type: TransactionType.CREDIT,
       date: new Date(),
-      category: CATEGORY_OTHER,
+      category: TRANSACTION_CATEGORY_OTHER,
     });
   }, []);
 
@@ -118,7 +116,7 @@ const Home: NextPage = () => {
             amount={"" as unknown as number}
             type={TransactionType.CREDIT}
             date={new Date()}
-            category={CATEGORY_OTHER}
+            category={TRANSACTION_CATEGORY_OTHER}
             categories={transactionCategories}
             onCancel={clearTransactionFormDto}
             onSubmit={saveTransactionAndClear}

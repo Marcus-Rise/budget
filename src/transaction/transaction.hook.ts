@@ -5,6 +5,7 @@ import type { ITransactionFormDto } from "./components/form";
 import type { ITransactionRepositoryDto } from "./dto";
 
 const LOCAL_STORAGE_KEY = "BUDGET_DATA";
+const TRANSACTION_CATEGORY_OTHER = "Другое";
 
 const useTransaction = () => {
   const [items, setItems] = useState<TransactionModel[]>([]);
@@ -14,7 +15,7 @@ const useTransaction = () => {
 
     const uniqueCategories = new Set(transactionCategories);
 
-    uniqueCategories.add("Другое");
+    uniqueCategories.add(TRANSACTION_CATEGORY_OTHER);
 
     return Array.from(uniqueCategories);
   }, [items]);
@@ -116,4 +117,4 @@ const useTransaction = () => {
   };
 };
 
-export { useTransaction };
+export { useTransaction, TRANSACTION_CATEGORY_OTHER };
