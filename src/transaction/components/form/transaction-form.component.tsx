@@ -84,10 +84,13 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
         <Controller
           name={"amount"}
           control={control}
-          rules={{ required: "Введите сумму" }}
+          rules={{
+            required: "Введите сумму",
+            min: { value: 1, message: "Введите положительное число" },
+          }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputNumber {...field} label={"Сумма"} />
+              <InputNumber {...field} min={1} label={"Сумма"} />
               {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
             </InputContainer>
           )}
