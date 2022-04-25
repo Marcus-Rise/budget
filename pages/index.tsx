@@ -15,14 +15,38 @@ import { TransactionListItem } from "../src/transaction/components/list-item";
 import type { DateGroupedListItem } from "../src/components/date-grouped-list";
 import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
-import styled from "styled-components";
-import { TransactionPrice } from "../src/transaction/components/price";
+import styled, { css } from "styled-components";
+import { Price } from "../src/components/price";
 
 const ProfitContainer = styled(Container)`
   display: flex;
   justify-content: flex-end;
   padding-right: 1rem;
   align-items: center;
+`;
+
+const ProfitPrice = styled(Price)`
+  font-size: 1.1rem;
+
+  ${(props) => {
+    if (props.amount < 0) {
+      return css`
+        color: red;
+
+        &::before {
+          content: "- ";
+        }
+      `;
+    } else if (props.amount > 0) {
+      return css`
+        color: green;
+
+        &::before {
+          content: "+ ";
+        }
+      `;
+    }
+  }}
 `;
 
 const Home: NextPage = () => {
@@ -81,10 +105,7 @@ const Home: NextPage = () => {
           <br />
           <ProfitContainer>
             Остаток:{"\u00A0"}
-            <TransactionPrice
-              type={profit > 0 ? TransactionType.DEBIT : TransactionType.CREDIT}
-              amount={profit}
-            />
+            <ProfitPrice amount={profit} />
           </ProfitContainer>
           <Container>
             <DateGroupedList

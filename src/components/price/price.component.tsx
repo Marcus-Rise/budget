@@ -5,7 +5,7 @@ type PriceProps = HtmlHTMLAttributes<HTMLSpanElement> & { amount: number };
 
 const Price = memo(
   forwardRef<HTMLSpanElement, PriceProps>(({ amount, ...props }, ref) => {
-    const str = amount.toLocaleString();
+    const str = Math.abs(amount).toLocaleString();
 
     return (
       <span {...props} ref={ref}>
