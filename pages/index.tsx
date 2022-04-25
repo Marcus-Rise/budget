@@ -16,10 +16,11 @@ import type { DateGroupedListItem } from "../src/components/date-grouped-list";
 import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
 
-const CATEGORIES = ["Другое"];
+const CATEGORY_OTHER = "Другое";
 
 const Home: NextPage = () => {
-  const { saveTransaction, transactions, deleteTransaction, profit } = useTransaction();
+  const { saveTransaction, transactions, deleteTransaction, profit, transactionCategories } =
+    useTransaction();
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
 
   const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
@@ -39,7 +40,7 @@ const Home: NextPage = () => {
       ...quickDto,
       type: TransactionType.CREDIT,
       date: new Date(),
-      category: CATEGORIES[0],
+      category: CATEGORY_OTHER,
     });
   }, []);
 
@@ -100,7 +101,7 @@ const Home: NextPage = () => {
                   <Container centered>
                     <TransactionForm
                       {...transactionDto}
-                      categories={CATEGORIES}
+                      categories={transactionCategories}
                       onCancel={clearTransactionFormDto}
                       onSubmit={saveTransactionAndClear}
                     />
@@ -117,8 +118,8 @@ const Home: NextPage = () => {
             amount={"" as unknown as number}
             type={TransactionType.CREDIT}
             date={new Date()}
-            category={CATEGORIES[0]}
-            categories={CATEGORIES}
+            category={CATEGORY_OTHER}
+            categories={transactionCategories}
             onCancel={clearTransactionFormDto}
             onSubmit={saveTransactionAndClear}
           />

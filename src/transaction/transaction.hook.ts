@@ -9,6 +9,16 @@ const LOCAL_STORAGE_KEY = "BUDGET_DATA";
 const useTransaction = () => {
   const [items, setItems] = useState<TransactionModel[]>([]);
 
+  const categories = useMemo(() => {
+    const transactionCategories = items.map((transaction) => transaction.category);
+
+    const uniqueCategories = new Set(transactionCategories);
+
+    uniqueCategories.add("Другое");
+
+    return Array.from(uniqueCategories);
+  }, [items]);
+
   const profit = useMemo(
     () =>
       items.reduce<number>((amount, transaction) => {
@@ -102,6 +112,7 @@ const useTransaction = () => {
     editTransaction: edit,
     saveTransaction: save,
     profit,
+    transactionCategories: categories,
   };
 };
 
