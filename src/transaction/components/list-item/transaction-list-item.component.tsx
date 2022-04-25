@@ -43,12 +43,6 @@ const StyledPrice = styled(Price)<{ type: TransactionType }>`
           content: "+ ";
         }
       `;
-    } else {
-      return css`
-        &::before {
-          content: "- ";
-        }
-      `;
     }
   }}
 `;
