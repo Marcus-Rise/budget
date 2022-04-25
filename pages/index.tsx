@@ -18,6 +18,11 @@ import { TitledList } from "../src/components/titled-list";
 import styled, { css } from "styled-components";
 import { Price } from "../src/components/price";
 
+const Logo = styled.h1`
+  font-size: 1.5rem;
+  padding-left: 1rem;
+`;
+
 const ProfitContainer = styled(Container)`
   display: flex;
   justify-content: flex-end;
@@ -93,7 +98,7 @@ const Home: NextPage = () => {
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
       <Container>
-        <h1>Бюджет</h1>
+        <Logo>Бюджет</Logo>
       </Container>
 
       {!!transactions.length ? (
