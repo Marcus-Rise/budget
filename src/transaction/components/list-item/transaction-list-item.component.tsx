@@ -1,8 +1,8 @@
 import type { FC, MouseEventHandler } from "react";
 import { useCallback } from "react";
-import { TransactionType } from "../../models";
-import styled, { css } from "styled-components";
-import { Price } from "../../../components/price";
+import type { TransactionType } from "../../models";
+import styled from "styled-components";
+import { TransactionPrice } from "../price";
 
 const Item = styled.li`
   padding: 1rem 0;
@@ -29,28 +29,6 @@ const CloseButton = styled.button`
     background-color: #868686;
     color: #eee;
   }
-`;
-
-const StyledPrice = styled(Price)<{ type: TransactionType }>`
-  font-size: 1.1rem;
-
-  ${(props) => {
-    if (props.type === TransactionType.DEBIT) {
-      return css`
-        color: green;
-
-        &::before {
-          content: "+ ";
-        }
-      `;
-    } else {
-      return css`
-        &::before {
-          content: "- ";
-        }
-      `;
-    }
-  }}
 `;
 
 const Title = styled.span`
@@ -109,7 +87,7 @@ const TransactionListItem: FC<TransactionListItemProps> = ({
         <Category>{category}</Category>
       </MetaLeft>
       <MetaRight>
-        <StyledPrice type={type} amount={amount} />
+        <TransactionPrice type={type} amount={amount} />
         <CloseButton type={"button"} onClick={remove}>
           x
         </CloseButton>

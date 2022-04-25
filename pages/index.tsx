@@ -10,16 +10,53 @@ import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
 import type { TransactionModel } from "../src/transaction/models";
 import { TransactionType } from "../src/transaction/models";
-import { useTransaction } from "../src/transaction/transaction.hook";
+import { TRANSACTION_CATEGORY_OTHER, useTransaction } from "../src/transaction/transaction.hook";
 import { TransactionListItem } from "../src/transaction/components/list-item";
 import type { DateGroupedListItem } from "../src/components/date-grouped-list";
 import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
+import styled, { css } from "styled-components";
+import { Price } from "../src/components/price";
 
-const CATEGORIES = ["Другое"];
+const Logo = styled.h1`
+  font-size: 1.5rem;
+  padding-left: 1rem;
+`;
+
+const ProfitContainer = styled(Container)`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  align-items: center;
+`;
+
+const ProfitPrice = styled(Price)`
+  font-size: 1.1rem;
+
+  ${(props) => {
+    if (props.amount < 0) {
+      return css`
+        color: red;
+
+        &::before {
+          content: "- ";
+        }
+      `;
+    } else if (props.amount > 0) {
+      return css`
+        color: green;
+
+        &::before {
+          content: "+ ";
+        }
+      `;
+    }
+  }}
+`;
 
 const Home: NextPage = () => {
-  const { saveTransaction, transactions, deleteTransaction } = useTransaction();
+  const { saveTransaction, transactions, deleteTransaction, profit, transactionCategories } =
+    useTransaction();
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
 
   const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
@@ -39,7 +76,7 @@ const Home: NextPage = () => {
       ...quickDto,
       type: TransactionType.CREDIT,
       date: new Date(),
-      category: CATEGORIES[0],
+      category: TRANSACTION_CATEGORY_OTHER,
     });
   }, []);
 
@@ -61,7 +98,7 @@ const Home: NextPage = () => {
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
       <Container>
-        <h1>Бюджет</h1>
+        <Logo>Бюджет</Logo>
       </Container>
 
       {!!transactions.length ? (
@@ -71,6 +108,10 @@ const Home: NextPage = () => {
             <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
           <br />
+          <ProfitContainer>
+            Остаток:{"\u00A0"}
+            <ProfitPrice amount={profit} />
+          </ProfitContainer>
           <Container>
             <DateGroupedList
               items={transactionListItems}
@@ -98,7 +139,7 @@ const Home: NextPage = () => {
                   <Container centered>
                     <TransactionForm
                       {...transactionDto}
-                      categories={CATEGORIES}
+                      categories={transactionCategories}
                       onCancel={clearTransactionFormDto}
                       onSubmit={saveTransactionAndClear}
                     />
@@ -115,8 +156,8 @@ const Home: NextPage = () => {
             amount={"" as unknown as number}
             type={TransactionType.CREDIT}
             date={new Date()}
-            category={CATEGORIES[0]}
-            categories={CATEGORIES}
+            category={TRANSACTION_CATEGORY_OTHER}
+            categories={transactionCategories}
             onCancel={clearTransactionFormDto}
             onSubmit={saveTransactionAndClear}
           />
