@@ -19,7 +19,7 @@ import { TitledList } from "../src/components/titled-list";
 const CATEGORIES = ["Другое"];
 
 const Home: NextPage = () => {
-  const { saveTransaction, transactions, deleteTransaction } = useTransaction();
+  const { saveTransaction, transactions, deleteTransaction, profit } = useTransaction();
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
 
   const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
@@ -70,6 +70,8 @@ const Home: NextPage = () => {
           <Container centered>
             <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
+          <br />
+          <Container>Profit: {profit}</Container>
           <br />
           <Container>
             <DateGroupedList
