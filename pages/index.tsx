@@ -10,11 +10,20 @@ import { Overlay } from "../src/components/overlay";
 import { Modal } from "../src/components/modal";
 import type { TransactionModel } from "../src/transaction/models";
 import { TransactionType } from "../src/transaction/models";
-import { useTransaction, TRANSACTION_CATEGORY_OTHER } from "../src/transaction/transaction.hook";
+import { TRANSACTION_CATEGORY_OTHER, useTransaction } from "../src/transaction/transaction.hook";
 import { TransactionListItem } from "../src/transaction/components/list-item";
 import type { DateGroupedListItem } from "../src/components/date-grouped-list";
 import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
+import styled from "styled-components";
+import { TransactionPrice } from "../src/transaction/components/price";
+
+const ProfitContainer = styled(Container)`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  align-items: center;
+`;
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction, profit, transactionCategories } =
@@ -70,8 +79,13 @@ const Home: NextPage = () => {
             <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
           <br />
-          <Container>Profit: {profit}</Container>
-          <br />
+          <ProfitContainer>
+            Остаток:{"\u00A0"}
+            <TransactionPrice
+              type={profit > 0 ? TransactionType.DEBIT : TransactionType.CREDIT}
+              amount={profit}
+            />
+          </ProfitContainer>
           <Container>
             <DateGroupedList
               items={transactionListItems}
