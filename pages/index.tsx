@@ -17,15 +17,21 @@ import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
 import styled, { css } from "styled-components";
 import { Price } from "../src/components/price";
+import type { ChartPieData } from "../src/components/chart-pie";
+import { ChartPie } from "../src/components/chart-pie";
 
 const Logo = styled.h1`
   font-size: 1.5rem;
   padding-left: 1rem;
 `;
 
-const ProfitContainer = styled(Container)`
+const ChartCreditWrapper = styled.div`
+  width: 300px;
+`;
+
+const StatisticContainer = styled(Container)`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding-right: 1rem;
   align-items: center;
 `;
@@ -71,6 +77,17 @@ const Home: NextPage = () => {
       [transactions],
     );
 
+  const transactionCreditChartData: ChartPieData = useMemo(
+    () =>
+      transactions
+        .filter((i) => i.type === TransactionType.CREDIT)
+        .map((transaction) => ({
+          title: transaction.category,
+          value: transaction.amount,
+        })),
+    [transactions],
+  );
+
   const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
     setTransactionDto({
       ...quickDto,
@@ -108,10 +125,16 @@ const Home: NextPage = () => {
             <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
           <br />
-          <ProfitContainer>
-            Остаток:{"\u00A0"}
-            <ProfitPrice amount={profit} />
-          </ProfitContainer>
+          <StatisticContainer>
+            <ChartCreditWrapper>
+              <ChartPie data={transactionCreditChartData} />
+            </ChartCreditWrapper>
+
+            <div>
+              Остаток:{"\u00A0"}
+              <ProfitPrice amount={profit} />
+            </div>
+          </StatisticContainer>
           <Container>
             <DateGroupedList
               items={transactionListItems}
