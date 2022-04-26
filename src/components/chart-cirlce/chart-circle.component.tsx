@@ -1,19 +1,19 @@
 import type { ComponentProps, FC } from "react";
 import React, { useMemo } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Pie } from "react-chartjs-2";
-import { generateArrayOfColors } from "./chart-pie.helper";
+import { Doughnut } from "react-chartjs-2";
+import { generateArrayOfColors } from "./chart-circle.helper";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-type ChartPieDataItem = { title: string; value: number };
-type ChartPieData = Array<ChartPieDataItem>;
+type ChartCircleDataItem = { title: string; value: number };
+type ChartCircleData = Array<ChartCircleDataItem>;
 
 /**
  *
  * @return unique array of items with sum
  */
-const aggregateData = (data: ChartPieData): ChartPieData => {
+const aggregateData = (data: ChartCircleData): ChartCircleData => {
   const groups = Array.from(new Set(data.map((i) => i.title)));
 
   return groups.map((groupTitle) => {
@@ -28,15 +28,15 @@ const aggregateData = (data: ChartPieData): ChartPieData => {
   });
 };
 
-type ChartPieProps = {
-  data: ChartPieData;
+type ChartCircleProps = {
+  data: ChartCircleData;
   title?: string;
   borderWidth?: number;
 };
 
-type Data = ComponentProps<typeof Pie>["data"];
+type Data = ComponentProps<typeof Doughnut>["data"];
 
-const ChartPie: FC<ChartPieProps> = ({ data, title, borderWidth = 2 }) => {
+const ChartCircle: FC<ChartCircleProps> = ({ data, title, borderWidth = 2 }) => {
   const pieData: Data = useMemo(() => {
     const groupedData = aggregateData(data);
     const labels = groupedData.map((i) => i.title);
@@ -56,8 +56,8 @@ const ChartPie: FC<ChartPieProps> = ({ data, title, borderWidth = 2 }) => {
     };
   }, [borderWidth, data, title]);
 
-  return <Pie data={pieData} />;
+  return <Doughnut data={pieData} />;
 };
 
-export { ChartPie };
-export type { ChartPieData };
+export { ChartCircle };
+export type { ChartCircleData };

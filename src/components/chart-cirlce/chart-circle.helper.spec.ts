@@ -1,6 +1,6 @@
-import { generateArrayOfColors, generateColor } from "./chart-pie.helper";
+import { generateArrayOfColors, generateColor } from "./chart-circle.helper";
 
-describe("ChartPieHelper", () => {
+describe("ChartCircleHelper", () => {
   describe("generateColor", () => {
     it("should generate color", () => {
       expect(generateColor()).toHaveLength(7);

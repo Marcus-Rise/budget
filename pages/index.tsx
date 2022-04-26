@@ -17,8 +17,8 @@ import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
 import styled, { css } from "styled-components";
 import { Price } from "../src/components/price";
-import type { ChartPieData } from "../src/components/chart-pie";
-import { ChartPie } from "../src/components/chart-pie";
+import type { ChartCircleData } from "../src/components/chart-cirlce";
+import { ChartCircle } from "../src/components/chart-cirlce";
 
 const Logo = styled.h1`
   font-size: 1.5rem;
@@ -77,7 +77,7 @@ const Home: NextPage = () => {
       [transactions],
     );
 
-  const transactionCreditChartData: ChartPieData = useMemo(
+  const transactionCreditChartData: ChartCircleData = useMemo(
     () =>
       transactions
         .filter((i) => i.type === TransactionType.CREDIT)
@@ -128,10 +128,9 @@ const Home: NextPage = () => {
           <StatisticContainer>
             {!!transactionCreditChartData.length && (
               <ChartCreditWrapper>
-                <ChartPie data={transactionCreditChartData} />
+                <ChartCircle data={transactionCreditChartData} />
               </ChartCreditWrapper>
             )}
-
             <div>
               Остаток:{"\u00A0"}
               <ProfitPrice amount={profit} />
