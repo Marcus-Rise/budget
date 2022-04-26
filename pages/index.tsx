@@ -126,9 +126,11 @@ const Home: NextPage = () => {
           </Container>
           <br />
           <StatisticContainer>
-            <ChartCreditWrapper>
-              <ChartPie data={transactionCreditChartData} />
-            </ChartCreditWrapper>
+            {!!transactionCreditChartData.length && (
+              <ChartCreditWrapper>
+                <ChartPie data={transactionCreditChartData} />
+              </ChartCreditWrapper>
+            )}
 
             <div>
               Остаток:{"\u00A0"}
