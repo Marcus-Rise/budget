@@ -19,6 +19,7 @@ import styled, { css } from "styled-components";
 import { Price } from "../src/components/price";
 import type { ChartCircleData } from "../src/components/chart-cirlce";
 import { ChartCircle } from "../src/components/chart-cirlce";
+import { media } from "../styles/grid";
 
 const Logo = styled.h1`
   font-size: 1.5rem;
@@ -26,7 +27,11 @@ const Logo = styled.h1`
 `;
 
 const ChartCreditWrapper = styled.div`
-  width: 300px;
+  width: 200px;
+
+  ${media.md} {
+    width: 300px;
+  }
 `;
 
 const StatisticContainer = styled(Container)`
@@ -37,7 +42,7 @@ const StatisticContainer = styled(Container)`
 `;
 
 const ProfitPrice = styled(Price)`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 
   ${(props) => {
     if (props.amount < 0) {
@@ -45,7 +50,7 @@ const ProfitPrice = styled(Price)`
         color: red;
 
         &::before {
-          content: "- ";
+          content: "-\u00A0";
         }
       `;
     } else if (props.amount > 0) {
@@ -53,7 +58,7 @@ const ProfitPrice = styled(Price)`
         color: green;
 
         &::before {
-          content: "+ ";
+          content: "+\u00A0";
         }
       `;
     }
@@ -121,10 +126,6 @@ const Home: NextPage = () => {
       {!!transactions.length ? (
         <>
           <br />
-          <Container centered>
-            <TransactionFormQuick onSubmit={prepareTransaction} />
-          </Container>
-          <br />
           <StatisticContainer>
             {!!transactionCreditChartData.length && (
               <ChartCreditWrapper>
@@ -132,10 +133,14 @@ const Home: NextPage = () => {
               </ChartCreditWrapper>
             )}
             <div>
-              Остаток:{"\u00A0"}
-              <ProfitPrice amount={profit} />
+              Остаток: <ProfitPrice amount={profit} />
             </div>
           </StatisticContainer>
+          <br />
+          <Container centered>
+            <TransactionFormQuick onSubmit={prepareTransaction} />
+          </Container>
+          <br />
           <Container>
             <DateGroupedList
               items={transactionListItems}
@@ -155,7 +160,6 @@ const Home: NextPage = () => {
               )}
             />
           </Container>
-
           {transactionDto && (
             <Overlay>
               <Container centered>
