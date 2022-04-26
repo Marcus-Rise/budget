@@ -17,21 +17,32 @@ import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
 import styled, { css } from "styled-components";
 import { Price } from "../src/components/price";
+import type { ChartCircleData } from "../src/components/chart-cirlce";
+import { ChartCircle } from "../src/components/chart-cirlce";
+import { media } from "../styles/grid";
 
 const Logo = styled.h1`
   font-size: 1.5rem;
   padding-left: 1rem;
 `;
 
-const ProfitContainer = styled(Container)`
+const ChartCreditWrapper = styled.div`
+  width: 200px;
+
+  ${media.md} {
+    width: 300px;
+  }
+`;
+
+const StatisticContainer = styled(Container)`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding-right: 1rem;
   align-items: center;
 `;
 
 const ProfitPrice = styled(Price)`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
 
   ${(props) => {
     if (props.amount < 0) {
@@ -39,7 +50,7 @@ const ProfitPrice = styled(Price)`
         color: red;
 
         &::before {
-          content: "- ";
+          content: "-\u00A0";
         }
       `;
     } else if (props.amount > 0) {
@@ -47,7 +58,7 @@ const ProfitPrice = styled(Price)`
         color: green;
 
         &::before {
-          content: "+ ";
+          content: "+\u00A0";
         }
       `;
     }
@@ -70,6 +81,17 @@ const Home: NextPage = () => {
         }),
       [transactions],
     );
+
+  const transactionCreditChartData: ChartCircleData = useMemo(
+    () =>
+      transactions
+        .filter((i) => i.type === TransactionType.CREDIT)
+        .map((transaction) => ({
+          title: transaction.category,
+          value: transaction.amount,
+        })),
+    [transactions],
+  );
 
   const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
     setTransactionDto({
@@ -104,14 +126,21 @@ const Home: NextPage = () => {
       {!!transactions.length ? (
         <>
           <br />
+          <StatisticContainer>
+            {!!transactionCreditChartData.length && (
+              <ChartCreditWrapper>
+                <ChartCircle data={transactionCreditChartData} />
+              </ChartCreditWrapper>
+            )}
+            <div>
+              Остаток: <ProfitPrice amount={profit} />
+            </div>
+          </StatisticContainer>
+          <br />
           <Container centered>
             <TransactionFormQuick onSubmit={prepareTransaction} />
           </Container>
           <br />
-          <ProfitContainer>
-            Остаток:{"\u00A0"}
-            <ProfitPrice amount={profit} />
-          </ProfitContainer>
           <Container>
             <DateGroupedList
               items={transactionListItems}
@@ -131,7 +160,6 @@ const Home: NextPage = () => {
               )}
             />
           </Container>
-
           {transactionDto && (
             <Overlay>
               <Container centered>
