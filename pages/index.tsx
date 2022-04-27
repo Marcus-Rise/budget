@@ -65,6 +65,21 @@ const ProfitPrice = styled(Price)`
   }}
 `;
 
+const ModalContainer = styled(Container)`
+  height: 100vh;
+  align-items: center;
+`;
+
+const ModalFormContainer = styled(Container)`
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const FormTitle = styled.h2`
+  text-align: center;
+  font-size: 1.1rem;
+`;
+
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction, profit, transactionCategories } =
     useTransaction();
@@ -162,18 +177,19 @@ const Home: NextPage = () => {
           </Container>
           {transactionDto && (
             <Overlay>
-              <Container centered>
+              <ModalContainer centered>
                 <Modal>
-                  <Container centered>
+                  <ModalFormContainer centered>
+                    <FormTitle>Редактор транзакции</FormTitle>
                     <TransactionForm
                       {...transactionDto}
                       categories={transactionCategories}
                       onCancel={clearTransactionFormDto}
                       onSubmit={saveTransactionAndClear}
                     />
-                  </Container>
+                  </ModalFormContainer>
                 </Modal>
-              </Container>
+              </ModalContainer>
             </Overlay>
           )}
         </>
