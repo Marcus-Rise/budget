@@ -12,7 +12,7 @@ const StyledHeader = styled.header`
 `;
 
 const Logo = styled.h1`
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin: 0;
 `;
 
