@@ -1,24 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { TransactionModel } from "./models";
 import { TransactionModelFactory } from "./models";
 import type { ITransactionFormDto } from "./components/form";
 import type { ITransactionRepositoryDto } from "./dto";
 
 const LOCAL_STORAGE_KEY = "BUDGET_DATA";
-const TRANSACTION_CATEGORY_OTHER = "Другое";
 
 const useTransaction = () => {
   const [items, setItems] = useState<TransactionModel[]>([]);
-
-  const categories = useMemo(() => {
-    const transactionCategories = items.map((transaction) => transaction.category);
-
-    const uniqueCategories = new Set(transactionCategories);
-
-    uniqueCategories.add(TRANSACTION_CATEGORY_OTHER);
-
-    return Array.from(uniqueCategories);
-  }, [items]);
 
   useEffect(() => {
     const data = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -102,8 +91,7 @@ const useTransaction = () => {
     deleteTransaction: remove,
     editTransaction: edit,
     saveTransaction: save,
-    transactionCategories: categories,
   };
 };
 
-export { useTransaction, TRANSACTION_CATEGORY_OTHER };
+export { useTransaction };

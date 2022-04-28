@@ -1,75 +1,15 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { Container } from "../src/components/container";
-import type { ITransactionFormQuickDto } from "../src/transaction/components/form-quick";
-import { TransactionFormQuick } from "../src/transaction/components/form-quick";
-import { useCallback, useMemo, useState } from "react";
-import type { ITransactionFormDto } from "../src/transaction/components/form";
 import { TransactionForm } from "../src/transaction/components/form";
-import { Overlay } from "../src/components/overlay";
-import { Modal } from "../src/components/modal";
-import type { TransactionModel } from "../src/transaction/models";
-import { TransactionType } from "../src/transaction/models";
-import { TRANSACTION_CATEGORY_OTHER, useTransaction } from "../src/transaction/transaction.hook";
-import { TransactionListItem } from "../src/transaction/components/list-item";
-import type { DateGroupedListItem } from "../src/components/date-grouped-list";
-import { DateGroupedList } from "../src/components/date-grouped-list";
-import { TitledList } from "../src/components/titled-list";
-import styled from "styled-components";
+import { TRANSACTION_CATEGORY_OTHER, TransactionType } from "../src/transaction/models";
+import { useTransaction } from "../src/transaction/transaction.hook";
 import { Layout } from "../src/components/layout";
 import { TransactionStatistic } from "../src/transaction/components/statistic";
-
-const ModalContainer = styled(Container)`
-  height: 100vh;
-  align-items: center;
-`;
-
-const ModalFormContainer = styled(Container)`
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-const FormTitle = styled.h2`
-  text-align: center;
-  font-size: 1.1rem;
-`;
+import { TransactionList } from "../src/transaction/components/list";
 
 const Home: NextPage = () => {
-  const { saveTransaction, transactions, deleteTransaction, transactionCategories } =
-    useTransaction();
-  const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
-
-  const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
-    useMemo(
-      () =>
-        transactions.map((i) => {
-          return {
-            ...i,
-            id: i.uuid,
-          };
-        }),
-      [transactions],
-    );
-
-  const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
-    setTransactionDto({
-      ...quickDto,
-      type: TransactionType.CREDIT,
-      date: new Date(),
-      category: TRANSACTION_CATEGORY_OTHER,
-    });
-  }, []);
-
-  const clearTransactionFormDto = useCallback(() => setTransactionDto(undefined), []);
-
-  const saveTransactionAndClear = useCallback(
-    (dto: ITransactionFormDto) => {
-      saveTransaction(dto);
-
-      clearTransactionFormDto();
-    },
-    [clearTransactionFormDto, saveTransaction],
-  );
+  const { saveTransaction, transactions, deleteTransaction } = useTransaction();
 
   return (
     <>
@@ -83,48 +23,11 @@ const Home: NextPage = () => {
             <br />
             <TransactionStatistic transactions={transactions} />
             <br />
-            <Container centered>
-              <TransactionFormQuick onSubmit={prepareTransaction} />
-            </Container>
-            <br />
-            <Container>
-              <DateGroupedList
-                items={transactionListItems}
-                renderGroup={TitledList}
-                renderItem={(props) => (
-                  <TransactionListItem
-                    {...props}
-                    onClick={() => setTransactionDto(props)}
-                    onRemove={() => {
-                      if (
-                        confirm(
-                          `Вы действительно хотите удалить "${props.title}, ${props.category}"`,
-                        )
-                      ) {
-                        deleteTransaction(props.uuid);
-                      }
-                    }}
-                  />
-                )}
-              />
-            </Container>
-            {transactionDto && (
-              <Overlay>
-                <ModalContainer centered>
-                  <Modal>
-                    <ModalFormContainer centered>
-                      <FormTitle>Редактор транзакции</FormTitle>
-                      <TransactionForm
-                        {...transactionDto}
-                        categories={transactionCategories}
-                        onCancel={clearTransactionFormDto}
-                        onSubmit={saveTransactionAndClear}
-                      />
-                    </ModalFormContainer>
-                  </Modal>
-                </ModalContainer>
-              </Overlay>
-            )}
+            <TransactionList
+              transactions={transactions}
+              onDelete={deleteTransaction}
+              onSave={saveTransaction}
+            />
           </>
         ) : (
           <Container centered>
@@ -134,9 +37,9 @@ const Home: NextPage = () => {
               type={TransactionType.CREDIT}
               date={new Date()}
               category={TRANSACTION_CATEGORY_OTHER}
-              categories={transactionCategories}
-              onCancel={clearTransactionFormDto}
-              onSubmit={saveTransactionAndClear}
+              categories={[]}
+              onCancel={() => {}}
+              onSubmit={saveTransaction}
             />
           </Container>
         )}

@@ -14,4 +14,6 @@ class TransactionModel {
   ) {}
 }
 
-export { TransactionType, TransactionModel };
+const TRANSACTION_CATEGORY_OTHER = "Другое";
+
+export { TransactionType, TransactionModel, TRANSACTION_CATEGORY_OTHER };
