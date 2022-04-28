@@ -1,12 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { Container } from "../src/components/container";
-import { TransactionForm } from "../src/transaction/components/form";
-import { TRANSACTION_CATEGORY_OTHER, TransactionType } from "../src/transaction/models";
 import { useTransaction } from "../src/transaction/transaction.hook";
 import { Layout } from "../src/components/layout";
 import { TransactionStatistic } from "../src/transaction/components/statistic";
 import { TransactionList } from "../src/transaction/components/list";
+import { TransactionWelcomeForm } from "../src/transaction/components/welcome-form";
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
@@ -30,18 +29,12 @@ const Home: NextPage = () => {
             />
           </>
         ) : (
-          <Container centered>
-            <TransactionForm
-              title={""}
-              amount={"" as unknown as number}
-              type={TransactionType.CREDIT}
-              date={new Date()}
-              category={TRANSACTION_CATEGORY_OTHER}
-              categories={[]}
-              onCancel={() => {}}
-              onSubmit={saveTransaction}
-            />
-          </Container>
+          <>
+            <br />
+            <Container centered>
+              <TransactionWelcomeForm onSubmit={saveTransaction} />
+            </Container>
+          </>
         )}
       </Layout>
     </>
