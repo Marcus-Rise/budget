@@ -7,7 +7,7 @@ const Wrapper = styled.div`
 `;
 
 const Config: ComponentMeta<typeof Header> = {
-  title: "layout/components/Header",
+  title: "components/Layout/Header",
   component: Header,
   decorators: [
     (Story) => (
