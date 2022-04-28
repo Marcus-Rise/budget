@@ -15,55 +15,9 @@ import { TransactionListItem } from "../src/transaction/components/list-item";
 import type { DateGroupedListItem } from "../src/components/date-grouped-list";
 import { DateGroupedList } from "../src/components/date-grouped-list";
 import { TitledList } from "../src/components/titled-list";
-import styled, { css } from "styled-components";
-import { Price } from "../src/components/price";
-import type { ChartCircleData } from "../src/components/chart-cirlce";
-import { ChartCircle } from "../src/components/chart-cirlce";
-import { media } from "../styles/grid";
-
-const Logo = styled.h1`
-  font-size: 1.5rem;
-  padding-left: 1rem;
-`;
-
-const ChartCreditWrapper = styled.div`
-  width: 200px;
-
-  ${media.md} {
-    width: 300px;
-  }
-`;
-
-const StatisticContainer = styled(Container)`
-  display: flex;
-  justify-content: center;
-  padding-right: 1rem;
-  align-items: center;
-`;
-
-const ProfitPrice = styled(Price)`
-  font-size: 1.2rem;
-
-  ${(props) => {
-    if (props.amount < 0) {
-      return css`
-        color: red;
-
-        &::before {
-          content: "-\u00A0";
-        }
-      `;
-    } else if (props.amount > 0) {
-      return css`
-        color: green;
-
-        &::before {
-          content: "+\u00A0";
-        }
-      `;
-    }
-  }}
-`;
+import styled from "styled-components";
+import { Layout } from "../src/components/layout";
+import { TransactionStatistic } from "../src/transaction/components/statistic";
 
 const ModalContainer = styled(Container)`
   height: 100vh;
@@ -81,7 +35,7 @@ const FormTitle = styled.h2`
 `;
 
 const Home: NextPage = () => {
-  const { saveTransaction, transactions, deleteTransaction, profit, transactionCategories } =
+  const { saveTransaction, transactions, deleteTransaction, transactionCategories } =
     useTransaction();
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
 
@@ -96,17 +50,6 @@ const Home: NextPage = () => {
         }),
       [transactions],
     );
-
-  const transactionCreditChartData: ChartCircleData = useMemo(
-    () =>
-      transactions
-        .filter((i) => i.type === TransactionType.CREDIT)
-        .map((transaction) => ({
-          title: transaction.category,
-          value: transaction.amount,
-        })),
-    [transactions],
-  );
 
   const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
     setTransactionDto({
@@ -134,79 +77,70 @@ const Home: NextPage = () => {
         <title>Бюджет</title>
         <meta name={"description"} content={"Учет бюджета"} />
       </Head>
-      <Container>
-        <Logo>Бюджет</Logo>
-      </Container>
-
-      {!!transactions.length ? (
-        <>
-          <br />
-          <StatisticContainer>
-            {!!transactionCreditChartData.length && (
-              <ChartCreditWrapper>
-                <ChartCircle data={transactionCreditChartData} />
-              </ChartCreditWrapper>
+      <Layout>
+        {!!transactions.length ? (
+          <>
+            <br />
+            <TransactionStatistic transactions={transactions} />
+            <br />
+            <Container centered>
+              <TransactionFormQuick onSubmit={prepareTransaction} />
+            </Container>
+            <br />
+            <Container>
+              <DateGroupedList
+                items={transactionListItems}
+                renderGroup={TitledList}
+                renderItem={(props) => (
+                  <TransactionListItem
+                    {...props}
+                    onClick={() => setTransactionDto(props)}
+                    onRemove={() => {
+                      if (
+                        confirm(
+                          `Вы действительно хотите удалить "${props.title}, ${props.category}"`,
+                        )
+                      ) {
+                        deleteTransaction(props.uuid);
+                      }
+                    }}
+                  />
+                )}
+              />
+            </Container>
+            {transactionDto && (
+              <Overlay>
+                <ModalContainer centered>
+                  <Modal>
+                    <ModalFormContainer centered>
+                      <FormTitle>Редактор транзакции</FormTitle>
+                      <TransactionForm
+                        {...transactionDto}
+                        categories={transactionCategories}
+                        onCancel={clearTransactionFormDto}
+                        onSubmit={saveTransactionAndClear}
+                      />
+                    </ModalFormContainer>
+                  </Modal>
+                </ModalContainer>
+              </Overlay>
             )}
-            <div>
-              Остаток: <ProfitPrice amount={profit} />
-            </div>
-          </StatisticContainer>
-          <br />
+          </>
+        ) : (
           <Container centered>
-            <TransactionFormQuick onSubmit={prepareTransaction} />
-          </Container>
-          <br />
-          <Container>
-            <DateGroupedList
-              items={transactionListItems}
-              renderGroup={TitledList}
-              renderItem={(props) => (
-                <TransactionListItem
-                  {...props}
-                  onClick={() => setTransactionDto(props)}
-                  onRemove={() => {
-                    if (
-                      confirm(`Вы действительно хотите удалить "${props.title}, ${props.category}"`)
-                    ) {
-                      deleteTransaction(props.uuid);
-                    }
-                  }}
-                />
-              )}
+            <TransactionForm
+              title={""}
+              amount={"" as unknown as number}
+              type={TransactionType.CREDIT}
+              date={new Date()}
+              category={TRANSACTION_CATEGORY_OTHER}
+              categories={transactionCategories}
+              onCancel={clearTransactionFormDto}
+              onSubmit={saveTransactionAndClear}
             />
           </Container>
-          {transactionDto && (
-            <Overlay>
-              <ModalContainer centered>
-                <Modal>
-                  <ModalFormContainer centered>
-                    <FormTitle>Редактор транзакции</FormTitle>
-                    <TransactionForm
-                      {...transactionDto}
-                      categories={transactionCategories}
-                      onCancel={clearTransactionFormDto}
-                      onSubmit={saveTransactionAndClear}
-                    />
-                  </ModalFormContainer>
-                </Modal>
-              </ModalContainer>
-            </Overlay>
-          )}
-        </>
-      ) : (
-        <Container centered>
-          <TransactionForm
-            title={""}
-            amount={"" as unknown as number}
-            type={TransactionType.CREDIT}
-            date={new Date()}
-            category={TRANSACTION_CATEGORY_OTHER}
-            categories={transactionCategories}
-            onCancel={clearTransactionFormDto}
-            onSubmit={saveTransactionAndClear}
-          />
-        </Container>
-      )}
+        )}
+      </Layout>
     </>
   );
 };
