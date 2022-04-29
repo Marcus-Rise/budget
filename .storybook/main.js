@@ -15,6 +15,14 @@ module.exports = {
       `;
     }
   },
+  babel: async (options) => {
+    return {
+      ...options,
+      plugins: options.plugins.filter(
+        (x) => !(typeof x === "string" && x.includes("plugin-transform-classes")),
+      ),
+    };
+  },
   core: {
     builder: "webpack5",
   },
