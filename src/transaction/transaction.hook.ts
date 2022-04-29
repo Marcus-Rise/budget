@@ -4,13 +4,13 @@ import { TransactionModelFactory } from "./models";
 import type { ITransactionFormDto } from "./components/form";
 import type { ITransactionRepositoryDto } from "./dto";
 
-const LOCAL_STORAGE_KEY = "BUDGET_DATA";
+const TRANSACTION_LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
 const useTransaction = () => {
   const [items, setItems] = useState<TransactionModel[]>([]);
 
   useEffect(() => {
-    const data = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const data = localStorage.getItem(TRANSACTION_LOCAL_STORAGE_KEY);
 
     if (data) {
       setItems(
@@ -27,7 +27,7 @@ const useTransaction = () => {
     setItems((transactions) => {
       const data = [transaction, ...transactions];
 
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+      localStorage.setItem(TRANSACTION_LOCAL_STORAGE_KEY, JSON.stringify(data));
 
       return data;
     });
@@ -46,7 +46,7 @@ const useTransaction = () => {
         ...transactions.slice(transactionIndex + 1),
       ];
 
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+      localStorage.setItem(TRANSACTION_LOCAL_STORAGE_KEY, JSON.stringify(data));
 
       return data;
     });
@@ -68,7 +68,7 @@ const useTransaction = () => {
         ...transactions.slice(transactionIndex + 1),
       ];
 
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+      localStorage.setItem(TRANSACTION_LOCAL_STORAGE_KEY, JSON.stringify(data));
 
       return data;
     });
