@@ -94,4 +94,4 @@ const useTransaction = () => {
   };
 };
 
-export { useTransaction };
+export { useTransaction, TRANSACTION_LOCAL_STORAGE_KEY };

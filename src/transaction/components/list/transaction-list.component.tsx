@@ -30,6 +30,8 @@ const FormTitle = styled.h2`
   font-size: 1.1rem;
 `;
 
+type TransactionListItem = Omit<TransactionModel, "toJson"> & { id: string };
+
 type TransactionListProps = {
   transactions: TransactionModel[];
   onDelete: (uuid: string) => void;
@@ -49,17 +51,16 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
     return Array.from(uniqueCategories);
   }, [transactions]);
 
-  const transactionListItems: Array<DateGroupedListItem<TransactionModel & { id: string }>> =
-    useMemo(
-      () =>
-        transactions.map((i) => {
-          return {
-            ...i,
-            id: i.uuid,
-          };
-        }),
-      [transactions],
-    );
+  const transactionListItems: Array<DateGroupedListItem<TransactionListItem>> = useMemo(
+    () =>
+      transactions.map((i) => {
+        return {
+          ...i,
+          id: i.uuid,
+        };
+      }),
+    [transactions],
+  );
 
   const prepareTransaction = useCallback((quickDto: ITransactionFormQuickDto) => {
     setTransactionDto({
