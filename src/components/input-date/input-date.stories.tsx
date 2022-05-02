@@ -11,7 +11,18 @@ const Config: ComponentMeta<typeof InputDate> = {
   },
 };
 
-const Template: ComponentStory<typeof InputDate> = (args) => <InputDate {...args} />;
+const Template: ComponentStory<typeof InputDate> = (args) => {
+  return (
+    <>
+      <InputDate {...args} />
+      <InputDate {...args} />
+      <InputDate {...args} />
+      <InputDate {...args} />
+      <InputDate {...args} />
+      <InputDate {...args} />
+    </>
+  );
+};
 
 const Default = Template.bind({});
 
