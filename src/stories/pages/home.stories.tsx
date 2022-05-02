@@ -27,16 +27,16 @@ const Default: ComponentStory<typeof Home> = (args) => {
 };
 
 const WithData: ComponentStory<typeof Home> = (args) => {
-  const [isDataExists, setIsDataExists] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    if (!isDataExists) {
+    if (!isInitialized) {
       localStorage.setItem(TRANSACTION_LOCAL_STORAGE_KEY, JSON.stringify(TRANSACTION_DATA_MOCK));
-      setIsDataExists(true);
+      setIsInitialized(true);
     }
-  }, [isDataExists]);
+  }, [isInitialized]);
 
-  return isDataExists ? <Home {...args} /> : <></>;
+  return isInitialized ? <Home {...args} /> : <></>;
 };
 
 export default Config;
