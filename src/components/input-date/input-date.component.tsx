@@ -10,7 +10,10 @@ import styled from "styled-components";
 
 registerLocale("ru", locale);
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(Input).attrs(() => ({
+  type: "date",
+  readOnly: true,
+}))`
   width: 100%;
 `;
 
