@@ -40,14 +40,6 @@ const ProfitPrice = styled(Price)`
           content: "-\u00A0";
         }
       `;
-    } else if (props.amount > 0) {
-      return css`
-        color: green;
-
-        &::before {
-          content: "+\u00A0";
-        }
-      `;
     }
   }}
 `;
