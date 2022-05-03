@@ -1,5 +1,4 @@
 import { createGlobalStyle } from "styled-components";
-import "react-datepicker/dist/react-datepicker.min.css";
 
 const GlobalStyles = createGlobalStyle`
   html,

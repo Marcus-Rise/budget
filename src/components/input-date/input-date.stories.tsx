@@ -1,5 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { InputDate } from "./input-date.component";
+import { useMemo } from "react";
 
 const Config: ComponentMeta<typeof InputDate> = {
   title: "components/InputDate",
@@ -12,16 +13,12 @@ const Config: ComponentMeta<typeof InputDate> = {
 };
 
 const Template: ComponentStory<typeof InputDate> = (args) => {
-  return (
-    <>
-      <InputDate {...args} />
-      <InputDate {...args} />
-      <InputDate {...args} />
-      <InputDate {...args} />
-      <InputDate {...args} />
-      <InputDate {...args} />
-    </>
+  const inputs = useMemo(
+    () => new Array(100).map((_, index) => <InputDate {...args} key={index} />),
+    [args],
   );
+
+  return <>{inputs}</>;
 };
 
 const Default = Template.bind({});
