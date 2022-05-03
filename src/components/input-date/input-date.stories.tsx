@@ -12,7 +12,11 @@ const Config: ComponentMeta<typeof InputDate> = {
   },
 };
 
-const Template: ComponentStory<typeof InputDate> = (args) => {
+const Template: ComponentStory<typeof InputDate> = (args) => <InputDate {...args} />;
+
+const Default = Template.bind({});
+
+const Perf: ComponentStory<typeof InputDate> = (args) => {
   const inputs = useMemo(
     () => new Array(100).map((_, index) => <InputDate {...args} key={index} />),
     [args],
@@ -21,7 +25,5 @@ const Template: ComponentStory<typeof InputDate> = (args) => {
   return <>{inputs}</>;
 };
 
-const Default = Template.bind({});
-
 export default Config;
-export { Default };
+export { Default, Perf };
