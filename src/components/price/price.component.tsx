@@ -1,19 +1,19 @@
-import type { HtmlHTMLAttributes } from "react";
-import { forwardRef, memo } from "react";
+import styled from "styled-components";
+import { useMemo } from "react";
 
-type PriceProps = HtmlHTMLAttributes<HTMLSpanElement> & { amount: number };
+type PriceProps = { amount: number };
 
-const Price = memo(
-  forwardRef<HTMLSpanElement, PriceProps>(({ amount, ...props }, ref) => {
-    const str = Math.abs(amount).toLocaleString();
+const Price = styled.span.attrs<PriceProps, PriceProps>(({ amount }) => {
+  const str = useMemo(() => Math.abs(amount).toLocaleString(), [amount]);
 
-    return (
-      <span {...props} ref={ref}>
-        {str}
-        {"\u00A0"}₽
-      </span>
-    );
-  }),
-);
+  return {
+    children: str,
+    amount,
+  };
+})`
+  &::after {
+    content: "\u00A0₽";
+  }
+`;
 
 export { Price };

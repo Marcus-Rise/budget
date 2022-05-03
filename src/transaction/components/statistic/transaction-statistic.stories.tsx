@@ -1,6 +1,7 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { TransactionStatistic } from "./transaction-statistic.component";
 import { TRANSACTION_DATA_MOCK } from "../../transactions-data.mock";
+import { TransactionModel, TransactionType } from "../../models";
 
 const Config: ComponentMeta<typeof TransactionStatistic> = {
   title: "transaction/Statistic",
@@ -16,5 +17,13 @@ Default.args = {
   transactions: TRANSACTION_DATA_MOCK,
 };
 
+const Credit = Template.bind({});
+Credit.args = {
+  transactions: [
+    new TransactionModel("22", "aawdaw", "dddddd", 100000, TransactionType.CREDIT),
+    ...TRANSACTION_DATA_MOCK,
+  ],
+};
+
 export default Config;
-export { Default };
+export { Default, Credit };
