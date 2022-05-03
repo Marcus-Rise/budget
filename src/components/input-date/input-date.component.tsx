@@ -1,7 +1,6 @@
 import { forwardRef, useCallback, useMemo } from "react";
 import type { ReactDatePickerProps } from "react-datepicker";
 import DatePicker, { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.min.css";
 import format from "date-fns/format";
 import locale from "date-fns/locale/ru";
 import type { Merge } from "../../types/merge";
