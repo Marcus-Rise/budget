@@ -18,7 +18,7 @@ const Default = Template.bind({});
 
 const Perf: ComponentStory<typeof InputDate> = (args) => {
   const inputs = useMemo(
-    () => new Array(100).map((_, index) => <InputDate {...args} key={index} />),
+    () => new Array(100).fill(1).map((_, index) => <InputDate {...args} key={index} />),
     [args],
   );
 
