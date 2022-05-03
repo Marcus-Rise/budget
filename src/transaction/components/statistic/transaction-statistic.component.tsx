@@ -24,10 +24,6 @@ const ChartCreditWrapper = styled.div`
   }
 `;
 
-type TransactionStatisticProps = {
-  transactions: TransactionModel[];
-};
-
 const ProfitPrice = styled(Price)`
   font-size: 1.2rem;
 
@@ -43,6 +39,10 @@ const ProfitPrice = styled(Price)`
     }
   }}
 `;
+
+type TransactionStatisticProps = {
+  transactions: TransactionModel[];
+};
 
 const TransactionStatistic: FC<TransactionStatisticProps> = ({ transactions }) => {
   const transactionCreditChartData: ChartCircleData = useMemo(
