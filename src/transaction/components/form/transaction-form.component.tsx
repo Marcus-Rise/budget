@@ -153,7 +153,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           </Button>
         </InputContainer>
         <InputContainer>
-          <Button type={"submit"}>Добавить</Button>
+          <Button type={"submit"}>Сохранить</Button>
         </InputContainer>
       </Row>
     </Form>
