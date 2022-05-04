@@ -1,6 +1,6 @@
 import type { FC, MouseEventHandler } from "react";
 import { useCallback } from "react";
-import type { TransactionType } from "../../models";
+import { TransactionType } from "../../models";
 import styled from "styled-components";
 import { TransactionPrice } from "../price";
 
@@ -87,7 +87,10 @@ const TransactionListItem: FC<TransactionListItemProps> = ({
         <Category>{category}</Category>
       </MetaLeft>
       <MetaRight>
-        <TransactionPrice type={type} amount={amount} />
+        <TransactionPrice
+          type={type === TransactionType.DEBIT ? type : undefined}
+          amount={amount}
+        />
         <CloseButton type={"button"} onClick={remove}>
           x
         </CloseButton>

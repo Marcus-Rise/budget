@@ -1,19 +1,27 @@
-import type { FC } from "react";
+import type { ComponentProps, FC } from "react";
 import { useMemo } from "react";
 import type { TransactionModel } from "../../models";
 import { TransactionType } from "../../models";
 import type { ChartCircleData } from "../../../components/chart-cirlce";
 import { ChartCircle } from "../../../components/chart-cirlce";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { Container } from "../../../components/container";
 import { media } from "../../../../styles/grid";
-import { Price } from "../../../components/price";
+import { TransactionPrice } from "../price";
 
 const StatisticContainer = styled(Container)`
   display: flex;
   justify-content: center;
   padding-right: 1rem;
   align-items: center;
+`;
+
+const StatisticMetaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
 `;
 
 const ChartCreditWrapper = styled.div`
@@ -24,33 +32,25 @@ const ChartCreditWrapper = styled.div`
   }
 `;
 
+const ProfitPrice = styled(TransactionPrice).attrs<
+  Omit<ComponentProps<typeof TransactionPrice>, "type">,
+  ComponentProps<typeof TransactionPrice>
+>(({ amount }) => {
+  return {
+    amount,
+    type: amount < 0 ? TransactionType.CREDIT : undefined,
+  };
+})``;
+
+const sumTransactionByType = (transactions: TransactionModel[], type: TransactionType): number =>
+  transactions.reduce<number>(
+    (amount, transaction) => (transaction.type === type ? amount + transaction.amount : amount),
+    0,
+  );
+
 type TransactionStatisticProps = {
   transactions: TransactionModel[];
 };
-
-const ProfitPrice = styled(Price)`
-  font-size: 1.2rem;
-
-  ${(props) => {
-    if (props.amount < 0) {
-      return css`
-        color: red;
-
-        &::before {
-          content: "-\u00A0";
-        }
-      `;
-    } else if (props.amount > 0) {
-      return css`
-        color: green;
-
-        &::before {
-          content: "+\u00A0";
-        }
-      `;
-    }
-  }}
-`;
 
 const TransactionStatistic: FC<TransactionStatisticProps> = ({ transactions }) => {
   const transactionCreditChartData: ChartCircleData = useMemo(
@@ -64,15 +64,17 @@ const TransactionStatistic: FC<TransactionStatisticProps> = ({ transactions }) =
     [transactions],
   );
 
-  const profit = useMemo(
-    () =>
-      transactions.reduce<number>((amount, transaction) => {
-        return transaction.type === TransactionType.DEBIT
-          ? amount + transaction.amount
-          : amount - transaction.amount;
-      }, 0),
+  const debit = useMemo(
+    () => sumTransactionByType(transactions, TransactionType.DEBIT),
     [transactions],
   );
+
+  const credit = useMemo(
+    () => sumTransactionByType(transactions, TransactionType.CREDIT),
+    [transactions],
+  );
+
+  const profit = useMemo(() => debit - credit, [credit, debit]);
 
   return (
     <StatisticContainer>
@@ -81,9 +83,17 @@ const TransactionStatistic: FC<TransactionStatisticProps> = ({ transactions }) =
           <ChartCircle data={transactionCreditChartData} />
         </ChartCreditWrapper>
       )}
-      <div>
-        Остаток: <ProfitPrice amount={profit} />
-      </div>
+      <StatisticMetaContainer>
+        <span>
+          Доход: <TransactionPrice type={TransactionType.DEBIT} amount={debit} />
+        </span>
+        <span>
+          Расход: <TransactionPrice type={TransactionType.CREDIT} amount={credit} />
+        </span>
+        <span>
+          Остаток: <ProfitPrice amount={profit} />
+        </span>
+      </StatisticMetaContainer>
     </StatisticContainer>
   );
 };
