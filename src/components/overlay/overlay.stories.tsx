@@ -1,16 +1,21 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Overlay } from "./overlay.component";
 import { Modal } from "../modal";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  min-height: 200vh;
+`;
 
 const Config: ComponentMeta<typeof Overlay> = {
   title: "components/Overlay",
   component: Overlay,
   decorators: [
     (Story) => (
-      <div>
+      <Wrapper>
         <button>button</button>
         <Story />
-      </div>
+      </Wrapper>
     ),
   ],
 };
