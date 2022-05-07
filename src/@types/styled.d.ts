@@ -11,9 +11,9 @@ declare module "styled-components" {
     warning: Color;
     warningLight: Color;
     warningLighter: Color;
-    error: Color;
-    errorLight: Color;
-    errorLighter: Color;
+    danger: Color;
+    dangerLight: Color;
+    dangerLighter: Color;
     success: Color;
     successLight: Color;
     successLighter: Color;

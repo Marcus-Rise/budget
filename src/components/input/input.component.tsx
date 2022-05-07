@@ -51,7 +51,7 @@ const InputError = styled.small`
   position: absolute;
   bottom: -0.3rem;
   left: 1rem;
-  color: ${(props) => props.theme.error};
+  color: ${(props) => props.theme.danger};
   font-size: 0.75rem;
   z-index: 1;
 
