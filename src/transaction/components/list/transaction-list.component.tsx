@@ -31,6 +31,11 @@ const FormTitle = styled.h2`
   font-size: 1.1rem;
 `;
 
+const ListGroupPrice = styled(TransactionPrice)`
+  opacity: 0.75;
+  font-size: 0.9rem;
+`;
+
 type TransactionListItem = Omit<TransactionModel, "toJson"> & { id: string };
 
 type TransactionListProps = {
@@ -110,7 +115,7 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
             const type = sum < 0 ? TransactionType.CREDIT : TransactionType.DEBIT;
 
             return (
-              <TitledList title={title} meta={<TransactionPrice amount={sum} type={type} />}>
+              <TitledList title={title} meta={<ListGroupPrice amount={sum} type={type} />}>
                 {children}
               </TitledList>
             );
