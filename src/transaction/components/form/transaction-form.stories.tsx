@@ -8,6 +8,13 @@ const Config: ComponentMeta<typeof TransactionForm> = {
   argTypes: {
     date: { control: "date" },
   },
+  decorators: [
+    (Story) => (
+      <div style={{ padding: "1rem" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof TransactionForm> = (args) => <TransactionForm {...args} />;

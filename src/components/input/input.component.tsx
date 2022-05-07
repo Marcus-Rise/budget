@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import type { InputHTMLAttributes } from "react";
 import { forwardRef, useMemo } from "react";
-import { InputError } from "../input-error";
 
 const InputWrapper = styled.div`
   position: relative;
@@ -10,15 +9,9 @@ const InputWrapper = styled.div`
   width: 100%;
 `;
 
-const InputErrorStyled = styled(InputError)`
-  position: absolute;
-  bottom: -1.1rem;
-  left: 0.5rem;
-`;
-
 const StyledInput = styled.input`
-  border-radius: 1rem;
-  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
   background-color: ${(props) => props.theme.lightest};
   border: 0.14rem solid ${(props) => props.theme.neutralLighter};
   transition: 0.4s;
@@ -36,9 +29,42 @@ const StyledInput = styled.input`
 
 const Label = styled.label`
   position: absolute;
-  top: -1rem;
+  top: -0.4rem;
   left: 1rem;
   font-size: 0.75rem;
+  z-index: 1;
+  color: ${(props) => props.theme.primary};
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 45%;
+    left: -0.2rem;
+    width: calc(100% + 0.4rem);
+    height: 0.14rem;
+    background-color: ${(props) => props.theme.lightest};
+    z-index: -1;
+  }
+`;
+
+const InputError = styled.small`
+  position: absolute;
+  bottom: -0.3rem;
+  left: 1rem;
+  color: ${(props) => props.theme.error};
+  font-size: 0.75rem;
+  z-index: 1;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -0.2rem;
+    width: calc(100% + 0.4rem);
+    height: 0.14rem;
+    background-color: ${(props) => props.theme.lightest};
+    z-index: -1;
+  }
 `;
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
@@ -57,7 +83,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, error, ...props
     <InputWrapper>
       {isShowLabel && <Label htmlFor={props.id}>{label}</Label>}
       <StyledInput {...props} ref={ref} placeholder={placeholder} data-testid={"input"} />
-      {!!error && <InputErrorStyled>{error}</InputErrorStyled>}
+      {!!error && <InputError>{error}</InputError>}
     </InputWrapper>
   );
 });
