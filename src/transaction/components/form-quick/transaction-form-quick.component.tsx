@@ -13,11 +13,10 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
 
   ${media.md} {
     flex-direction: row;
-    gap: 1rem;
   }
 `;
 
