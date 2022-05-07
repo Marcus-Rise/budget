@@ -13,26 +13,11 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 2rem;
 
   ${media.md} {
     flex-direction: row;
-  }
-`;
-
-const InputContainer = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-
-  ${media.sm} {
-    &:not(:last-child) {
-      margin-bottom: 1rem;
-    }
-  }
-
-  ${media.md} {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
+    gap: 1rem;
   }
 `;
 
@@ -64,9 +49,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         control={control}
         rules={{ required: "Введите название" }}
         render={({ field, fieldState }) => (
-          <InputContainer>
-            <InputText {...field} label={"Название"} error={fieldState.error?.message} />
-          </InputContainer>
+          <InputText {...field} label={"Название"} error={fieldState.error?.message} />
         )}
       />
       <Controller
@@ -77,9 +60,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
           min: { value: 1, message: "Введите положительное число" },
         }}
         render={({ field, fieldState }) => (
-          <InputContainer>
-            <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
-          </InputContainer>
+          <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
         )}
       />
       <Button type={"submit"}>Добавить</Button>
