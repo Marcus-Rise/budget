@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { Container } from "../src/components/container";
 import { useTransaction } from "../src/transaction/transaction.hook";
 import { Layout } from "../src/components/layout";
@@ -11,33 +10,27 @@ const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
 
   return (
-    <>
-      <Head>
-        <title>Бюджет</title>
-        <meta name={"description"} content={"Учет бюджета"} />
-      </Head>
-      <Layout>
-        {!!transactions.length ? (
-          <>
-            <br />
-            <TransactionStatistic transactions={transactions} />
-            <br />
-            <TransactionList
-              transactions={transactions}
-              onDelete={deleteTransaction}
-              onSave={saveTransaction}
-            />
-          </>
-        ) : (
-          <>
-            <br />
-            <Container centered>
-              <TransactionWelcomeForm onSubmit={saveTransaction} />
-            </Container>
-          </>
-        )}
-      </Layout>
-    </>
+    <Layout>
+      {!!transactions.length ? (
+        <>
+          <br />
+          <TransactionStatistic transactions={transactions} />
+          <br />
+          <TransactionList
+            transactions={transactions}
+            onDelete={deleteTransaction}
+            onSave={saveTransaction}
+          />
+        </>
+      ) : (
+        <>
+          <br />
+          <Container centered>
+            <TransactionWelcomeForm onSubmit={saveTransaction} />
+          </Container>
+        </>
+      )}
+    </Layout>
   );
 };
 
