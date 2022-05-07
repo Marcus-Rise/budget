@@ -5,8 +5,9 @@ import { InputError } from "../input-error";
 
 const InputWrapper = styled.div`
   position: relative;
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
+  width: 100%;
 `;
 
 const InputErrorStyled = styled(InputError)`
