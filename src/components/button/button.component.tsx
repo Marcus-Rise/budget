@@ -7,8 +7,7 @@ const Button = styled.button`
   background-color: ${(props) => props.theme.primary};
   color: ${(props) => props.theme.lightest};
 
-  &:hover,
-  &:focus {
+  &:hover {
     opacity: 0.9;
     outline: none;
     cursor: pointer;

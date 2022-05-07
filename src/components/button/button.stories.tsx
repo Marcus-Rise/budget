@@ -4,6 +4,13 @@ import { Button } from "./button.component";
 const Config: ComponentMeta<typeof Button> = {
   title: "components/Button",
   component: Button,
+  decorators: [
+    (Story) => (
+      <div style={{ padding: "1rem" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args}>Button</Button>;
