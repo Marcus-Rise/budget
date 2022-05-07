@@ -38,10 +38,9 @@ const Label = styled.label`
   &::after {
     content: "";
     position: absolute;
-    top: 45%;
     left: -0.2rem;
     width: calc(100% + 0.4rem);
-    height: 0.14rem;
+    height: 1rem;
     background-color: ${(props) => props.theme.lightest};
     z-index: -1;
   }
@@ -58,10 +57,9 @@ const InputError = styled.small`
   &::after {
     content: "";
     position: absolute;
-    top: 50%;
     left: -0.2rem;
     width: calc(100% + 0.4rem);
-    height: 0.14rem;
+    height: 1rem;
     background-color: ${(props) => props.theme.lightest};
     z-index: -1;
   }
