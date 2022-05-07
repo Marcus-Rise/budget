@@ -1,18 +1,23 @@
 import styled from "styled-components";
 
 const Button = styled.button`
+  border: none;
   border-radius: 1rem;
-  padding: 0.5rem 1rem;
-  background-color: #eeeeee;
-  border: 0.1rem solid black;
+  padding: 0.7rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.8rem;
+  background-color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.lightest};
 
-  &:hover {
+  &:hover,
+  &:focus {
+    opacity: 0.9;
+    outline: none;
     cursor: pointer;
-    background-color: white;
   }
 
   &:active {
-    background-color: #c2c2c2;
+    opacity: 0.7;
   }
 `;
 
