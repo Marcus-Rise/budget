@@ -1,6 +1,6 @@
 import { themes } from "@storybook/theming";
 import React from "react";
-import { GlobalStyles } from "../styles/global";
+import { LayoutGlobal } from "../src/components/layout-global";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -17,9 +17,8 @@ export const parameters = {
 
 export const decorators = [
   (Story) => (
-    <>
-      <GlobalStyles />
+    <LayoutGlobal>
       <Story />
-    </>
+    </LayoutGlobal>
   ),
 ];

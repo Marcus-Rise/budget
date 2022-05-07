@@ -13,22 +13,40 @@ import { TitledList } from "../../../components/titled-list";
 import { TransactionListItem } from "../list-item";
 import { Overlay } from "../../../components/overlay";
 import { Modal } from "../../../components/modal";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { TransactionPrice } from "../price";
+import { Button, ButtonVariant } from "../../../components/button";
+import { media } from "../../../../styles/grid";
 
 const ModalContainer = styled(Container)`
   height: 100vh;
   align-items: center;
 `;
 
-const ModalFormContainer = styled(Container)`
+const ModalFormWrapper = styled.div`
+  display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 1rem;
 `;
 
 const FormTitle = styled.h2`
   text-align: center;
   font-size: 1.1rem;
+`;
+
+const FormButtonsWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
+
+  ${media.md} {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
 `;
 
 const ListGroupPrice = styled(TransactionPrice)`
@@ -46,6 +64,7 @@ type TransactionListProps = {
 
 const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onSave }) => {
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
+  const theme = useTheme();
 
   const categories = useMemo(() => {
     const transactionCategories = transactions.map((transaction) => transaction.category);
@@ -133,15 +152,26 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
         <Overlay>
           <ModalContainer centered>
             <Modal>
-              <ModalFormContainer centered>
+              <ModalFormWrapper>
                 <FormTitle>Редактор транзакции</FormTitle>
                 <TransactionForm
                   {...transactionDto}
                   categories={categories}
-                  onCancel={clearTransactionFormDto}
                   onSubmit={saveTransactionAndClear}
-                />
-              </ModalFormContainer>
+                >
+                  <FormButtonsWrapper>
+                    <Button type={"submit"}>Сохранить</Button>
+                    <Button
+                      type={"button"}
+                      variant={ButtonVariant.TEXT}
+                      color={theme.neutral}
+                      onClick={clearTransactionFormDto}
+                    >
+                      Отменить
+                    </Button>
+                  </FormButtonsWrapper>
+                </TransactionForm>
+              </ModalFormWrapper>
             </Modal>
           </ModalContainer>
         </Overlay>

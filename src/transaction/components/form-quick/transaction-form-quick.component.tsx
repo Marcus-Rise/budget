@@ -6,7 +6,6 @@ import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import type { ITransactionFormQuickDto } from "./transaction-form-quick.dto";
-import { InputError } from "../../../components/input-error";
 import styled from "styled-components";
 import { media } from "../../../../styles/grid";
 
@@ -14,26 +13,10 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 1rem;
 
   ${media.md} {
     flex-direction: row;
-  }
-`;
-
-const InputContainer = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-
-  ${media.sm} {
-    &:not(:last-child) {
-      margin-bottom: 1rem;
-    }
-  }
-
-  ${media.md} {
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
   }
 `;
 
@@ -65,10 +48,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         control={control}
         rules={{ required: "Введите название" }}
         render={({ field, fieldState }) => (
-          <InputContainer>
-            <InputText {...field} label={"Название"} />
-            {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
-          </InputContainer>
+          <InputText {...field} label={"Название"} error={fieldState.error?.message} />
         )}
       />
       <Controller
@@ -79,10 +59,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
           min: { value: 1, message: "Введите положительное число" },
         }}
         render={({ field, fieldState }) => (
-          <InputContainer>
-            <InputNumber {...field} min={1} label={"Сумма"} />
-            {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
-          </InputContainer>
+          <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
         )}
       />
       <Button type={"submit"}>Добавить</Button>

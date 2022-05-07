@@ -7,6 +7,7 @@ import type { Merge } from "../../types/merge";
 const Root = styled.div`
   position: relative;
   display: inline-block;
+  width: 100%;
 `;
 
 const Input = styled(InputText)`

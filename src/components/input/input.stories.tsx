@@ -2,10 +2,22 @@ import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Input } from "./input.component";
 import { userEvent, within } from "@storybook/testing-library";
 import { useState } from "react";
+import styled from "styled-components";
+
+const Wrapper = styled.div`
+  padding: 2rem;
+`;
 
 const Config: ComponentMeta<typeof Input> = {
   title: "components/Input",
   component: Input,
+  decorators: [
+    (Story) => (
+      <Wrapper>
+        <Story />
+      </Wrapper>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof Input> = ({ value: val, onChange, ...args }) => {
@@ -57,5 +69,11 @@ LabeledWithPlaceholder.args = {
   placeholder: "Placeholder",
 };
 
+const Error = Template.bind({});
+Error.args = {
+  ...Default.args,
+  error: "Error message",
+};
+
 export default Config;
-export { Default, Labeled, LabeledWithPlaceholder };
+export { Default, Labeled, LabeledWithPlaceholder, Error };
