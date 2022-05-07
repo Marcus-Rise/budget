@@ -1,8 +1,7 @@
-import type { FC } from "react";
+import type { FC, PropsWithChildren } from "react";
 import { useCallback } from "react";
 import { InputText } from "../../../components/input-text";
 import { InputNumber } from "../../../components/input-number";
-import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -39,13 +38,14 @@ const Row = styled.div`
   }
 `;
 
-type TransactionFormProps = ITransactionFormDto & {
-  onSubmit: (dto: ITransactionFormDto) => void;
-  onCancel: () => void;
-  categories: string[];
-};
+type TransactionFormProps = PropsWithChildren<
+  Partial<ITransactionFormDto> & {
+    onSubmit: (dto: ITransactionFormDto) => void;
+    categories: string[];
+  }
+>;
 
-const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categories, ...dto }) => {
+const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, categories, children, ...dto }) => {
   const { handleSubmit, control } = useForm<ITransactionFormDto>({
     defaultValues: dto,
   });
@@ -130,12 +130,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
         />
       </Row>
 
-      <Row>
-        <Button type={"button"} onClick={onCancel}>
-          Отменить
-        </Button>
-        <Button type={"submit"}>Сохранить</Button>
-      </Row>
+      <Row>{children}</Row>
     </Form>
   );
 };

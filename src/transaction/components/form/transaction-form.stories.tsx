@@ -20,6 +20,7 @@ Default.args = {
   date: new Date(),
   category: "",
   categories: ["Другое", "Дом", "Хозяйство"],
+  children: <button type={"submit"}>submit</button>,
 };
 
 export default Config;

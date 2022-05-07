@@ -4,7 +4,9 @@ import { useTransaction } from "../src/transaction/transaction.hook";
 import { Layout } from "../src/components/layout";
 import { TransactionStatistic } from "../src/transaction/components/statistic";
 import { TransactionList } from "../src/transaction/components/list";
-import { TransactionWelcomeForm } from "../src/transaction/components/welcome-form";
+import { TransactionForm } from "../src/transaction/components/form";
+import { Button } from "../src/components/button";
+import { TRANSACTION_CATEGORY_OTHER } from "../src/transaction/models";
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
@@ -26,7 +28,9 @@ const Home: NextPage = () => {
         <>
           <br />
           <Container centered>
-            <TransactionWelcomeForm onSubmit={saveTransaction} />
+            <TransactionForm onSubmit={saveTransaction} categories={[TRANSACTION_CATEGORY_OTHER]}>
+              <Button type={"submit"}>Сохранить</Button>
+            </TransactionForm>
           </Container>
         </>
       )}

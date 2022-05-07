@@ -15,6 +15,7 @@ import { Overlay } from "../../../components/overlay";
 import { Modal } from "../../../components/modal";
 import styled from "styled-components";
 import { TransactionPrice } from "../price";
+import { Button } from "../../../components/button";
 
 const ModalContainer = styled(Container)`
   height: 100vh;
@@ -141,9 +142,13 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
                 <TransactionForm
                   {...transactionDto}
                   categories={categories}
-                  onCancel={clearTransactionFormDto}
                   onSubmit={saveTransactionAndClear}
-                />
+                >
+                  <Button type={"button"} onClick={clearTransactionFormDto}>
+                    Отменить
+                  </Button>
+                  <Button type={"submit"}>Сохранить</Button>
+                </TransactionForm>
               </ModalFormWrapper>
             </Modal>
           </ModalContainer>
