@@ -18,17 +18,6 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-const InputContainer = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-
-  ${media.sm} {
-    &:not(:last-child) {
-      margin-bottom: 2rem;
-    }
-  }
-`;
-
 const InputRadioContainer = styled.div`
   display: inline-flex;
 `;
@@ -37,6 +26,7 @@ const Row = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 2rem;
 
   &:not(:last-child) {
     margin-bottom: 2rem;
@@ -45,6 +35,7 @@ const Row = styled.div`
   ${media.md} {
     flex-direction: row;
     justify-content: space-between;
+    gap: 1rem;
   }
 `;
 
@@ -74,9 +65,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           control={control}
           rules={{ required: "Введите название" }}
           render={({ field, fieldState }) => (
-            <InputContainer>
-              <InputText {...field} label={"Название"} error={fieldState.error?.message} />
-            </InputContainer>
+            <InputText {...field} label={"Название"} error={fieldState.error?.message} />
           )}
         />
         <Controller
@@ -87,9 +76,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
             min: { value: 1, message: "Введите положительное число" },
           }}
           render={({ field, fieldState }) => (
-            <InputContainer>
-              <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
-            </InputContainer>
+            <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
           )}
         />
       </Row>
@@ -123,9 +110,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           control={control}
           rules={{ required: "Введите дату" }}
           render={({ field, fieldState }) => (
-            <InputContainer>
-              <InputDate {...field} label={"Дата"} error={fieldState.error?.message} />
-            </InputContainer>
+            <InputDate {...field} label={"Дата"} error={fieldState.error?.message} />
           )}
         />
 
@@ -134,28 +119,22 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           control={control}
           rules={{ required: "Введите категорию" }}
           render={({ field, fieldState }) => (
-            <InputContainer>
-              <InputAutocomplete
-                {...field}
-                variants={categories}
-                label={"Категория"}
-                autoFocus
-                error={fieldState.error?.message}
-              />
-            </InputContainer>
+            <InputAutocomplete
+              {...field}
+              variants={categories}
+              label={"Категория"}
+              autoFocus
+              error={fieldState.error?.message}
+            />
           )}
         />
       </Row>
 
       <Row>
-        <InputContainer>
-          <Button type={"button"} onClick={onCancel}>
-            Отменить
-          </Button>
-        </InputContainer>
-        <InputContainer>
-          <Button type={"submit"}>Сохранить</Button>
-        </InputContainer>
+        <Button type={"button"} onClick={onCancel}>
+          Отменить
+        </Button>
+        <Button type={"submit"}>Сохранить</Button>
       </Row>
     </Form>
   );
