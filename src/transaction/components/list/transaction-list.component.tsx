@@ -13,9 +13,9 @@ import { TitledList } from "../../../components/titled-list";
 import { TransactionListItem } from "../list-item";
 import { Overlay } from "../../../components/overlay";
 import { Modal } from "../../../components/modal";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { TransactionPrice } from "../price";
-import { Button } from "../../../components/button";
+import { Button, ButtonVariant } from "../../../components/button";
 import { media } from "../../../../styles/grid";
 
 const ModalContainer = styled(Container)`
@@ -64,6 +64,7 @@ type TransactionListProps = {
 
 const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onSave }) => {
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
+  const theme = useTheme();
 
   const categories = useMemo(() => {
     const transactionCategories = transactions.map((transaction) => transaction.category);
@@ -160,7 +161,12 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
                 >
                   <FormButtonsWrapper>
                     <Button type={"submit"}>Сохранить</Button>
-                    <Button type={"button"} onClick={clearTransactionFormDto}>
+                    <Button
+                      type={"button"}
+                      variant={ButtonVariant.TEXT}
+                      color={theme.neutral}
+                      onClick={clearTransactionFormDto}
+                    >
                       Отменить
                     </Button>
                   </FormButtonsWrapper>
