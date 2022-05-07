@@ -11,7 +11,7 @@ const InputWrapper = styled.div`
 
 const InputErrorStyled = styled(InputError)`
   position: absolute;
-  bottom: -1.5rem;
+  bottom: -1.1rem;
   left: 0.5rem;
 `;
 
