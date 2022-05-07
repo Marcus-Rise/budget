@@ -21,9 +21,12 @@ const ModalContainer = styled(Container)`
   align-items: center;
 `;
 
-const ModalFormContainer = styled(Container)`
+const ModalFormWrapper = styled.div`
+  display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
 `;
 
 const FormTitle = styled.h2`
@@ -133,7 +136,7 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
         <Overlay>
           <ModalContainer centered>
             <Modal>
-              <ModalFormContainer centered>
+              <ModalFormWrapper>
                 <FormTitle>Редактор транзакции</FormTitle>
                 <TransactionForm
                   {...transactionDto}
@@ -141,7 +144,7 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
                   onCancel={clearTransactionFormDto}
                   onSubmit={saveTransactionAndClear}
                 />
-              </ModalFormContainer>
+              </ModalFormWrapper>
             </Modal>
           </ModalContainer>
         </Overlay>
