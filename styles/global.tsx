@@ -4,8 +4,8 @@ import "react-datepicker/dist/react-datepicker.min.css";
 const GlobalStyles = createGlobalStyle`
   html,
   body {
-    padding: 0;
-    margin: 0;
+    padding: 0 !important;
+    margin: 0 !important;
     height: 100%;
     background-color: ${(props) => props.theme.primaryBackground};
   }
