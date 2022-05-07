@@ -1,15 +1,20 @@
-import type { FC } from "react";
+import type { FC, ReactElement } from "react";
 import styled from "styled-components";
 
 const Root = styled.div`
   padding: 1rem 0;
 `;
 
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
 const Title = styled.span`
   display: block;
   font-weight: bold;
   font-size: 1rem;
-  margin-bottom: 1rem;
   padding: 0 1rem;
 `;
 
@@ -24,11 +29,14 @@ const List = styled.ul`
   }
 `;
 
-type TitledListProps = { title: string };
+type TitledListProps = { title: string; meta?: ReactElement };
 
-const TitledList: FC<TitledListProps> = ({ title, children }) => (
+const TitledList: FC<TitledListProps> = ({ title, meta, children }) => (
   <Root>
-    <Title>{title}</Title>
+    <Header>
+      <Title>{title}</Title>
+      {meta}
+    </Header>
     <List>{children}</List>
   </Root>
 );
