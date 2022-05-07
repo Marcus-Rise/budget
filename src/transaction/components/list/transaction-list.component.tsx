@@ -41,7 +41,7 @@ const FormButtonsWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 
   ${media.md} {
     flex-direction: row-reverse;
