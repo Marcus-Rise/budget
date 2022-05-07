@@ -5,12 +5,18 @@ import { forwardRef, useMemo } from "react";
 const StyledInput = styled.input`
   border-radius: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #eeeeee;
-  border: 0.1rem solid black;
+  background-color: ${(props) => props.theme.lightest};
+  border: 0.14rem solid ${(props) => props.theme.neutralLighter};
+  transition: 0.4s;
 
   &:focus {
-    background-color: white;
     outline: none;
+  }
+
+  &:hover,
+  &:focus-within {
+    border-color: ${(props) => props.theme.primary};
+    transition: 0.4s;
   }
 `;
 
