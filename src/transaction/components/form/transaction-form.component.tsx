@@ -5,7 +5,6 @@ import { InputNumber } from "../../../components/input-number";
 import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
-import { InputError } from "../../../components/input-error";
 import styled from "styled-components";
 import { InputRadio } from "../../../components/input-radio";
 import { InputDate } from "../../../components/input-date";
@@ -25,7 +24,7 @@ const InputContainer = styled.div`
 
   ${media.sm} {
     &:not(:last-child) {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
   }
 `;
@@ -40,7 +39,7 @@ const Row = styled.div`
   justify-content: center;
 
   &:not(:last-child) {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   ${media.md} {
@@ -76,8 +75,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите название" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputText {...field} label={"Название"} />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputText {...field} label={"Название"} error={fieldState.error?.message} />
             </InputContainer>
           )}
         />
@@ -90,8 +88,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputNumber {...field} min={1} label={"Сумма"} />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
             </InputContainer>
           )}
         />
@@ -127,8 +124,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите дату" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputDate {...field} label={"Дата"} />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputDate {...field} label={"Дата"} error={fieldState.error?.message} />
             </InputContainer>
           )}
         />
@@ -139,8 +135,13 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, onCancel, categor
           rules={{ required: "Введите категорию" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputAutocomplete {...field} variants={categories} label={"Категория"} autoFocus />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputAutocomplete
+                {...field}
+                variants={categories}
+                label={"Категория"}
+                autoFocus
+                error={fieldState.error?.message}
+              />
             </InputContainer>
           )}
         />

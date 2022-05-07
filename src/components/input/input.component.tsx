@@ -1,6 +1,19 @@
 import styled from "styled-components";
 import type { InputHTMLAttributes } from "react";
 import { forwardRef, useMemo } from "react";
+import { InputError } from "../input-error";
+
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+`;
+
+const InputErrorStyled = styled(InputError)`
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0.5rem;
+`;
 
 const StyledInput = styled.input`
   border-radius: 1rem;
@@ -27,17 +40,12 @@ const Label = styled.label`
   font-size: 0.75rem;
 `;
 
-const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-`;
-
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
+  error?: string;
 };
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref) => {
+const Input = forwardRef<HTMLInputElement, InputProps>(({ label, error, ...props }, ref) => {
   const isShowLabel = useMemo(() => {
     return !!label && (!!props.value || !!props.placeholder);
   }, [label, props.placeholder, props.value]);
@@ -48,6 +56,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ label, ...props }, ref
     <InputWrapper>
       {isShowLabel && <Label htmlFor={props.id}>{label}</Label>}
       <StyledInput {...props} ref={ref} placeholder={placeholder} data-testid={"input"} />
+      {!!error && <InputErrorStyled>{error}</InputErrorStyled>}
     </InputWrapper>
   );
 });

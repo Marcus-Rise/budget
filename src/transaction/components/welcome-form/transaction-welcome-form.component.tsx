@@ -5,7 +5,6 @@ import type { ITransactionFormDto } from "../form";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { InputText } from "../../../components/input-text";
-import { InputError } from "../../../components/input-error";
 import { InputNumber } from "../../../components/input-number";
 import { InputRadio } from "../../../components/input-radio";
 import { InputDate } from "../../../components/input-date";
@@ -25,7 +24,7 @@ const InputContainer = styled.div`
 
   ${media.sm} {
     &:not(:last-child) {
-      margin-bottom: 1rem;
+      margin-bottom: 2rem;
     }
   }
 `;
@@ -40,7 +39,7 @@ const Row = styled.div`
   justify-content: center;
 
   &:not(:last-child) {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   ${media.md} {
@@ -80,8 +79,12 @@ const TransactionWelcomeForm: FC<TransactionWelcomeFormProps> = ({ onSubmit }) =
           rules={{ required: "Введите название" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputText {...field} label={"Название"} autoFocus />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputText
+                {...field}
+                label={"Название"}
+                autoFocus
+                error={fieldState.error?.message}
+              />
             </InputContainer>
           )}
         />
@@ -94,8 +97,7 @@ const TransactionWelcomeForm: FC<TransactionWelcomeFormProps> = ({ onSubmit }) =
           }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputNumber {...field} min={1} label={"Сумма"} />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
             </InputContainer>
           )}
         />
@@ -131,8 +133,7 @@ const TransactionWelcomeForm: FC<TransactionWelcomeFormProps> = ({ onSubmit }) =
           rules={{ required: "Введите дату" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputDate {...field} label={"Дата"} />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputDate {...field} label={"Дата"} error={fieldState.error?.message} />
             </InputContainer>
           )}
         />
@@ -143,8 +144,7 @@ const TransactionWelcomeForm: FC<TransactionWelcomeFormProps> = ({ onSubmit }) =
           rules={{ required: "Введите категорию" }}
           render={({ field, fieldState }) => (
             <InputContainer>
-              <InputText {...field} label={"Категория"} />
-              {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+              <InputText {...field} label={"Категория"} error={fieldState.error?.message} />
             </InputContainer>
           )}
         />

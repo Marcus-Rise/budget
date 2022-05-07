@@ -69,5 +69,11 @@ LabeledWithPlaceholder.args = {
   placeholder: "Placeholder",
 };
 
+const Error = Template.bind({});
+Error.args = {
+  ...Default.args,
+  error: "Error message",
+};
+
 export default Config;
-export { Default, Labeled, LabeledWithPlaceholder };
+export { Default, Labeled, LabeledWithPlaceholder, Error };

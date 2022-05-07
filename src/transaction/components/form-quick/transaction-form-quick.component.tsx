@@ -6,7 +6,6 @@ import { Button } from "../../../components/button";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import type { ITransactionFormQuickDto } from "./transaction-form-quick.dto";
-import { InputError } from "../../../components/input-error";
 import styled from "styled-components";
 import { media } from "../../../../styles/grid";
 
@@ -66,8 +65,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         rules={{ required: "Введите название" }}
         render={({ field, fieldState }) => (
           <InputContainer>
-            <InputText {...field} label={"Название"} />
-            {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+            <InputText {...field} label={"Название"} error={fieldState.error?.message} />
           </InputContainer>
         )}
       />
@@ -80,8 +78,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         }}
         render={({ field, fieldState }) => (
           <InputContainer>
-            <InputNumber {...field} min={1} label={"Сумма"} />
-            {!!fieldState.error?.message && <InputError>{fieldState.error.message}</InputError>}
+            <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
           </InputContainer>
         )}
       />
