@@ -14,6 +14,7 @@ import { TransactionListItem } from "../list-item";
 import { Overlay } from "../../../components/overlay";
 import { Modal } from "../../../components/modal";
 import styled from "styled-components";
+import { TransactionPrice } from "../price";
 
 const ModalContainer = styled(Container)`
   height: 100vh;
@@ -100,7 +101,20 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
       <Container>
         <DateGroupedList
           items={transactionListItems}
-          renderGroup={TitledList}
+          renderGroup={({ items, children, title }) => {
+            const sum = items.reduce(
+              (sum, item) =>
+                item.type === TransactionType.DEBIT ? sum + item.amount : sum - item.amount,
+              0,
+            );
+            const type = sum < 0 ? TransactionType.CREDIT : TransactionType.DEBIT;
+
+            return (
+              <TitledList title={title} meta={<TransactionPrice amount={sum} type={type} />}>
+                {children}
+              </TitledList>
+            );
+          }}
           renderItem={(props) => (
             <TransactionListItem
               {...props}
