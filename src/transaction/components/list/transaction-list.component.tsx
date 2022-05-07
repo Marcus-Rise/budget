@@ -16,6 +16,7 @@ import { Modal } from "../../../components/modal";
 import styled from "styled-components";
 import { TransactionPrice } from "../price";
 import { Button } from "../../../components/button";
+import { media } from "../../../../styles/grid";
 
 const ModalContainer = styled(Container)`
   height: 100vh;
@@ -27,12 +28,25 @@ const ModalFormWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
 `;
 
 const FormTitle = styled.h2`
   text-align: center;
   font-size: 1.1rem;
+`;
+
+const FormButtonsWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
+
+  ${media.md} {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+  }
 `;
 
 const ListGroupPrice = styled(TransactionPrice)`
@@ -144,10 +158,12 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
                   categories={categories}
                   onSubmit={saveTransactionAndClear}
                 >
-                  <Button type={"button"} onClick={clearTransactionFormDto}>
-                    Отменить
-                  </Button>
-                  <Button type={"submit"}>Сохранить</Button>
+                  <FormButtonsWrapper>
+                    <Button type={"submit"}>Сохранить</Button>
+                    <Button type={"button"} onClick={clearTransactionFormDto}>
+                      Отменить
+                    </Button>
+                  </FormButtonsWrapper>
                 </TransactionForm>
               </ModalFormWrapper>
             </Modal>

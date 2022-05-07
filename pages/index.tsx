@@ -7,6 +7,15 @@ import { TransactionList } from "../src/transaction/components/list";
 import { TransactionForm } from "../src/transaction/components/form";
 import { Button } from "../src/components/button";
 import { TRANSACTION_CATEGORY_OTHER } from "../src/transaction/models";
+import styled from "styled-components";
+
+const FormSubmitButton = styled(Button).attrs(() => {
+  return {
+    type: "submit",
+  };
+})`
+  width: 100%;
+`;
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
@@ -29,7 +38,7 @@ const Home: NextPage = () => {
           <br />
           <Container centered>
             <TransactionForm onSubmit={saveTransaction} categories={[TRANSACTION_CATEGORY_OTHER]}>
-              <Button type={"submit"}>Сохранить</Button>
+              <FormSubmitButton>Сохранить</FormSubmitButton>
             </TransactionForm>
           </Container>
         </>

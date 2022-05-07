@@ -15,6 +15,7 @@ import { media } from "../../../../styles/grid";
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 `;
 
 const InputRadioContainer = styled.div`
@@ -25,16 +26,11 @@ const Row = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2.3rem;
-
-  &:not(:last-child) {
-    margin-bottom: 2rem;
-  }
+  gap: 1rem;
 
   ${media.md} {
     flex-direction: row;
     justify-content: space-between;
-    gap: 1rem;
   }
 `;
 
