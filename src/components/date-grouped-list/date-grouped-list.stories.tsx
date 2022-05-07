@@ -36,5 +36,16 @@ Single.args = {
   ],
 };
 
+const GroupItems = Template.bind({});
+GroupItems.args = {
+  ...Default.args,
+  renderGroup: ({ items, title, children }) => (
+    <>
+      <span>{title}</span> {items.length}
+      <ul>{children}</ul>
+    </>
+  ),
+};
+
 export default Config;
-export { Default, Single };
+export { Default, Single, GroupItems };
