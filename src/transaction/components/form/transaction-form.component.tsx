@@ -25,7 +25,7 @@ const Row = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
+  gap: 2.3rem;
 
   &:not(:last-child) {
     margin-bottom: 2rem;
