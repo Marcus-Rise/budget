@@ -25,7 +25,12 @@ type AuthLoginFormProps = {
 };
 
 const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
-  const { control, handleSubmit } = useForm<IAuthLoginFormDto>();
+  const { control, handleSubmit } = useForm<IAuthLoginFormDto>({
+    defaultValues: {
+      login: "",
+      password: "",
+    },
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const toggleShowPassword = () => setShowPassword((show) => !show);
