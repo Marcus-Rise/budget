@@ -6,13 +6,18 @@ import { Card } from "../src/components/card";
 
 const Main = styled.main`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
 `;
 
-const Title = styled.h2`
-  font-size: 1.5rem;
+const Title = styled.h1`
+  font-size: 2rem;
+`;
+
+const CardTitle = styled.h2`
+  font-size: 1.25rem;
   text-align: center;
   margin: 0;
 `;
@@ -27,9 +32,10 @@ const LoginCard = styled(Card)`
 const Login: NextPage = () => {
   return (
     <Main>
+      <Title>Бюджет</Title>
       <Container>
         <LoginCard>
-          <Title>Вход</Title>
+          <CardTitle>Вход</CardTitle>
           <AuthLoginForm onSubmit={console.debug} />
         </LoginCard>
       </Container>
