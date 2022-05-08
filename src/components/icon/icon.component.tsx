@@ -7,7 +7,7 @@ const Icon = styled.svg.attrs<{ size?: string; color?: string }>((props) => {
   return {
     width: size,
     height: size,
-    fill: props.color ?? props.theme.primary,
+    fill: props.color,
     className: `icon icon-${props.name}${props.className}`,
     children: <use href={`/sprite.svg#${props.name}`} />,
   };

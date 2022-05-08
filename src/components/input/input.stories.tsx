@@ -3,6 +3,7 @@ import { Input } from "./input.component";
 import { userEvent, within } from "@storybook/testing-library";
 import { useState } from "react";
 import styled from "styled-components";
+import { Icon } from "../icon";
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -75,5 +76,13 @@ Error.args = {
   error: "Error message",
 };
 
+const StartIcon = Template.bind({});
+StartIcon.args = {
+  ...Default.args,
+  label: "Label",
+  error: "Error message",
+  startIcon: <Icon name={"account"} />,
+};
+
 export default Config;
-export { Default, Labeled, LabeledWithPlaceholder, Error };
+export { Default, Labeled, LabeledWithPlaceholder, Error, StartIcon };
