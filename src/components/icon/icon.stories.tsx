@@ -38,7 +38,7 @@ Default.args = {
   name: "account",
 };
 
-const icons: string[] = ["account", "lock", "eye", "eye-off"];
+const icons: string[] = ["account", "lock", "eye", "eye-off", "success", "info", "close"];
 
 const IconWrapper = styled.div`
   display: flex;

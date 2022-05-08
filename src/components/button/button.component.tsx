@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 
 enum ButtonVariant {
   TEXT = "text",
+  ICON = "icon",
 }
 
 type ButtonProps = {
@@ -12,7 +13,6 @@ type ButtonProps = {
 const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
 
   &:hover {
     opacity: 0.9;
@@ -30,6 +30,7 @@ const Button = styled.button<ButtonProps>`
     switch (props.variant) {
       case ButtonVariant.TEXT: {
         return css`
+          padding: 0.75rem 1rem;
           color: ${color};
           background-color: transparent;
 
@@ -40,8 +41,19 @@ const Button = styled.button<ButtonProps>`
           }
         `;
       }
+      case ButtonVariant.ICON: {
+        return css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0.25rem;
+          background-color: transparent;
+          fill: ${color};
+        `;
+      }
       default: {
         return css`
+          padding: 0.75rem 1rem;
           background-color: ${color};
           color: ${(props) => props.theme.lightest};
         `;
