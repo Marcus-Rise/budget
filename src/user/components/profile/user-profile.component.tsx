@@ -5,7 +5,7 @@ const Label = styled.span`
   color: ${(props) => props.theme.lightest};
 `;
 
-const UserProfile = styled.div.attrs((props) => {
+const UserProfile = styled.div.attrs(() => {
   return {
     children: (
       <>
