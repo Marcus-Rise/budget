@@ -3,6 +3,7 @@ import { Container } from "../../../container";
 import styled from "styled-components";
 import { UserProfile } from "../../../../user/components/profile";
 import { Link } from "../../../link";
+import { useUser } from "../../../../user";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -27,12 +28,14 @@ const HeaderContainer = styled(Container)`
 `;
 
 const Header: FC = () => {
+  const { user } = useUser();
+
   return (
     <StyledHeader>
       <HeaderContainer>
         <Logo>Бюджет</Logo>
-        <Link href={"/login"}>
-          <UserProfile />
+        <Link href={!user ? "/login" : "/profile"}>
+          <UserProfile email={user?.email} />
         </Link>
       </HeaderContainer>
     </StyledHeader>
