@@ -15,7 +15,9 @@ const StyledInput = styled.input`
 const InputWrapper = styled.div`
   position: relative;
   display: inline-flex;
+  align-items: center;
   width: 100%;
+  height: 3.5rem;
 
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
@@ -67,10 +69,11 @@ type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   error?: string;
   startIcon?: ReactElement;
+  endIcon?: ReactElement;
 };
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, startIcon, error, ...props }, ref) => {
+  ({ label, startIcon, endIcon, error, ...props }, ref) => {
     const isShowLabel = useMemo(() => {
       return !!label && (!!props.value || !!props.placeholder);
     }, [label, props.placeholder, props.value]);
@@ -82,6 +85,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {isShowLabel && <Label htmlFor={props.id}>{label}</Label>}
         {startIcon}
         <StyledInput {...props} ref={ref} placeholder={placeholder} data-testid={"input"} />
+        {endIcon}
         {!!error && <InputError>{error}</InputError>}
       </InputWrapper>
     );

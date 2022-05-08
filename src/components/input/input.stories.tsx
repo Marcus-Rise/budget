@@ -84,5 +84,22 @@ StartIcon.args = {
   startIcon: <Icon name={"account"} />,
 };
 
+const EndIcon = Template.bind({});
+EndIcon.args = {
+  ...Default.args,
+  label: "Label",
+  error: "Error message",
+  endIcon: <Icon name={"account"} />,
+};
+
+const StartEndIcons = Template.bind({});
+StartEndIcons.args = {
+  ...Default.args,
+  label: "Label",
+  error: "Error message",
+  startIcon: <Icon name={"lock"} />,
+  endIcon: <Icon name={"eye"} />,
+};
+
 export default Config;
-export { Default, Labeled, LabeledWithPlaceholder, Error, StartIcon };
+export { Default, Labeled, LabeledWithPlaceholder, Error, StartIcon, EndIcon, StartEndIcons };
