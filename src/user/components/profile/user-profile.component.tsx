@@ -1,15 +1,11 @@
 import { Icon } from "../../../components/icon";
 import styled from "styled-components";
 
-const Label = styled.span`
-  color: ${(props) => props.theme.lightest};
-`;
-
 const UserProfile = styled.div.attrs(() => {
   return {
     children: (
       <>
-        <Icon name={"account"} /> <Label>Profile</Label>
+        <Icon name={"account"} /> <span>Войти</span>
       </>
     ),
   };
@@ -17,11 +13,6 @@ const UserProfile = styled.div.attrs(() => {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-
-  padding: 0.5rem 1rem 0.5rem 0.6rem;
-  border-radius: 1rem;
-
-  background-color: ${(props) => props.theme.primaryLighter};
 
   &:hover {
     opacity: 0.7;
