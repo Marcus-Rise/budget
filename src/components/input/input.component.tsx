@@ -7,14 +7,17 @@ const InputWrapper = styled.div`
   display: inline-flex;
   flex-direction: column;
   width: 100%;
-`;
 
-const StyledInput = styled.input`
   border-radius: 0.5rem;
   padding: 0.75rem 1rem;
   background-color: ${(props) => props.theme.lightest};
   border: 0.14rem solid ${(props) => props.theme.neutralLighter};
   transition: 0.4s;
+`;
+
+const StyledInput = styled.input`
+  border: none;
+  background-color: transparent;
 
   &:focus {
     outline: none;
@@ -29,7 +32,7 @@ const StyledInput = styled.input`
 
 const Label = styled.label`
   position: absolute;
-  top: -0.4rem;
+  top: -0.5rem;
   left: 1rem;
   font-size: 0.75rem;
   z-index: 1;
@@ -48,7 +51,7 @@ const Label = styled.label`
 
 const InputError = styled.small`
   position: absolute;
-  bottom: -0.3rem;
+  bottom: -0.5rem;
   left: 1rem;
   color: ${(props) => props.theme.danger};
   font-size: 0.75rem;
