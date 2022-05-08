@@ -31,7 +31,7 @@ const Header: FC = () => {
     <StyledHeader>
       <HeaderContainer>
         <Logo>Бюджет</Logo>
-        <Link href={"#"}>
+        <Link href={"/login"}>
           <UserProfile />
         </Link>
       </HeaderContainer>

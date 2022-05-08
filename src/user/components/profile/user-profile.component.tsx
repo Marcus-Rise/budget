@@ -1,11 +1,13 @@
 import { Icon } from "../../../components/icon";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 const UserProfile = styled.div.attrs(() => {
+  const theme = useTheme();
+
   return {
     children: (
       <>
-        <Icon name={"account"} /> <span>Войти</span>
+        <Icon name={"account"} color={theme.primary} /> <span>Войти</span>
       </>
     ),
   };
