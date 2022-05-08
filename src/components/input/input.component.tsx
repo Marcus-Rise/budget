@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import type { InputHTMLAttributes } from "react";
 import { forwardRef, useMemo } from "react";
 
@@ -30,14 +30,7 @@ const StyledInput = styled.input`
   }
 `;
 
-const Label = styled.label`
-  position: absolute;
-  top: -0.5rem;
-  left: 1rem;
-  font-size: 0.75rem;
-  z-index: 1;
-  color: ${(props) => props.theme.primary};
-
+const After = css`
   &::after {
     content: "";
     position: absolute;
@@ -49,6 +42,17 @@ const Label = styled.label`
   }
 `;
 
+const Label = styled.label`
+  position: absolute;
+  top: -0.5rem;
+  left: 1rem;
+  font-size: 0.75rem;
+  z-index: 1;
+  color: ${(props) => props.theme.primary};
+
+  ${After}
+`;
+
 const InputError = styled.small`
   position: absolute;
   bottom: -0.5rem;
@@ -57,15 +61,7 @@ const InputError = styled.small`
   font-size: 0.75rem;
   z-index: 1;
 
-  &::after {
-    content: "";
-    position: absolute;
-    left: -0.2rem;
-    width: calc(100% + 0.4rem);
-    height: 1rem;
-    background-color: ${(props) => props.theme.lightest};
-    z-index: -1;
-  }
+  ${After}
 `;
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
