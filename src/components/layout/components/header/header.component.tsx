@@ -1,6 +1,8 @@
 import type { FC } from "react";
 import { Container } from "../../../container";
 import styled from "styled-components";
+import { UserProfile } from "../../../../user/components/profile";
+import { Link } from "../../../link";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -17,12 +19,22 @@ const Logo = styled.h1`
   margin: 0;
 `;
 
+const HeaderContainer = styled(Container)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
 const Header: FC = () => {
   return (
     <StyledHeader>
-      <Container>
+      <HeaderContainer>
         <Logo>Бюджет</Logo>
-      </Container>
+        <Link href={"#"}>
+          <UserProfile />
+        </Link>
+      </HeaderContainer>
     </StyledHeader>
   );
 };
