@@ -5,11 +5,19 @@ import type { IAuthLoginFormDto } from "./auth-login-form.dto";
 import styled from "styled-components";
 import { InputText } from "../../../components/input-text";
 import { Button } from "../../../components/button";
+import { useState } from "react";
+import { Icon } from "../../../components/icon";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+`;
+
+const ActiveIcon = styled(Icon)`
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 type AuthLoginFormProps = {
@@ -18,6 +26,9 @@ type AuthLoginFormProps = {
 
 const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
   const { control, handleSubmit } = useForm<IAuthLoginFormDto>();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => setShowPassword((show) => !show);
 
   const submit: SubmitHandler<IAuthLoginFormDto> = (dto) => {
     onSubmit(dto);
@@ -30,7 +41,12 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
         name={"login"}
         rules={{ required: "Введите логин" }}
         render={({ field, fieldState }) => (
-          <InputText {...field} label={"Логин"} error={fieldState.error?.message} />
+          <InputText
+            {...field}
+            label={"Логин"}
+            startIcon={<Icon name={"account"} />}
+            error={fieldState.error?.message}
+          />
         )}
       />
       <Controller
@@ -38,7 +54,16 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
         name={"password"}
         rules={{ required: "Введите пароль" }}
         render={({ field, fieldState }) => (
-          <InputText {...field} label={"Пароль"} password error={fieldState.error?.message} />
+          <InputText
+            {...field}
+            label={"Пароль"}
+            password={!showPassword}
+            startIcon={<Icon name={"lock"} />}
+            endIcon={
+              <ActiveIcon name={showPassword ? "eye-off" : "eye"} onClick={toggleShowPassword} />
+            }
+            error={fieldState.error?.message}
+          />
         )}
       />
       <Button type={"submit"}>Войти</Button>

@@ -6,6 +6,7 @@ const StyledInput = styled.input`
   border: none;
   background-color: transparent;
   width: 100%;
+  height: 100%;
 
   &:focus {
     outline: none;
@@ -16,6 +17,8 @@ const InputWrapper = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
+
   width: 100%;
   height: 3.5rem;
 
