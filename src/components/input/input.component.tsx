@@ -30,7 +30,12 @@ const StyledInput = styled.input`
   }
 `;
 
-const After = css`
+const Meta = css`
+  position: absolute;
+  left: 1rem;
+  font-size: 0.75rem;
+  z-index: 1;
+
   &::after {
     content: "";
     position: absolute;
@@ -43,25 +48,17 @@ const After = css`
 `;
 
 const Label = styled.label`
-  position: absolute;
   top: -0.5rem;
-  left: 1rem;
-  font-size: 0.75rem;
-  z-index: 1;
   color: ${(props) => props.theme.primary};
 
-  ${After}
+  ${Meta}
 `;
 
 const InputError = styled.small`
-  position: absolute;
   bottom: -0.5rem;
-  left: 1rem;
   color: ${(props) => props.theme.danger};
-  font-size: 0.75rem;
-  z-index: 1;
 
-  ${After}
+  ${Meta}
 `;
 
 type InputProps = InputHTMLAttributes<HTMLInputElement> & {
