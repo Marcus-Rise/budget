@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook --quiet -o public/storybook",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook --quiet -s public -o public/storybook",
     "ci": "yarn lint && yarn test --silent && yarn build && yarn build-storybook"
   },
   "dependencies": {
