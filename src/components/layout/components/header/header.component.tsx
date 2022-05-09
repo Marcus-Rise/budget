@@ -29,13 +29,15 @@ const HeaderContainer = styled(Container)`
 
 const Header: FC = () => {
   const { user, isLoading } = useUser();
+  const userProfileLabel = isLoading ? "Загрузка..." : user?.email ?? "Войти";
+  const userProfileLink = !user ? "/login" : "/profile";
 
   return (
     <StyledHeader>
       <HeaderContainer>
         <Logo>Бюджет</Logo>
-        <Link href={!user ? "/login" : "/profile"}>
-          <UserProfile label={isLoading ? "Загрузка..." : user?.email ?? "Войти"} />
+        <Link href={userProfileLink}>
+          <UserProfile label={userProfileLabel} />
         </Link>
       </HeaderContainer>
     </StyledHeader>
