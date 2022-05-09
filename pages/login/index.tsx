@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
-import { AuthLoginForm } from "../src/auth/components/login-form";
-import { Container } from "../src/components/container";
+import { AuthLoginForm } from "../../src/auth/components/login-form";
+import { Container } from "../../src/components/container";
 import styled from "styled-components";
-import { Card } from "../src/components/card";
-import { useAuth } from "../src/auth";
-import type { IAuthLoginFormDto } from "../src/auth/components/login-form/auth-login-form.dto";
-import { PopupType, usePopup } from "../src/components/popup";
+import { Card } from "../../src/components/card";
+import { useAuth } from "../../src/auth";
+import type { IAuthLoginFormDto } from "../../src/auth/components/login-form/auth-login-form.dto";
+import { PopupType, usePopup } from "../../src/components/popup";
 
 const Main = styled.main`
   display: flex;
