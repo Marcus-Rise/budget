@@ -9,8 +9,8 @@
     "lint": "next lint",
     "test": "jest",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook --quiet -s public -o public/storybook",
-    "ci": "yarn lint && yarn test --silent && yarn build && yarn build-storybook"
+    "build-storybook": "build-storybook --quiet -s public",
+    "ci": "yarn lint && yarn test --silent && yarn build && yarn build-storybook && mv -r storybook-static public/storybook"
   },
   "dependencies": {
     "chart.js": "^3.7.1",
