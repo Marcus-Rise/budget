@@ -6,7 +6,7 @@ const Config: ComponentMeta<typeof Popup> = {
   component: Popup,
   decorators: [
     (Story) => (
-      <div style={{ padding: "1rem" }}>
+      <div style={{ padding: "1rem", margin: "1rem", position: "relative" }}>
         <Story />
       </div>
     ),
@@ -17,7 +17,7 @@ const Template: ComponentStory<typeof Popup> = (args) => <Popup {...args} />;
 
 const Default = Template.bind({});
 Default.args = {
-  children: <>awdawdawdawdaw adwadadada</>,
+  title: "awdawdawdawdaw adwadadada",
 };
 
 const Success = Template.bind({});

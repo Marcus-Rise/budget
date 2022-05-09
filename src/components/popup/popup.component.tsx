@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { ReactElement } from "react";
+import type { FC, ReactElement } from "react";
 import { Icon } from "../icon";
 import { Button, ButtonVariant } from "../button";
 
@@ -20,7 +20,7 @@ const ButtonClose = styled(Button).attrs(() => ({
   color: "inherit",
 }))``;
 
-const Popup = styled.div.attrs<
+const PopupStyled = styled.div.attrs<
   { onClose?: () => void; type: PopupType; children: ReactElement },
   { type?: PopupType; onClose?: () => void }
 >(({ children, onClose, type }) => {
@@ -70,5 +70,27 @@ const Popup = styled.div.attrs<
     fill: ${(props) => props.theme.lightest};
   }
 `;
+
+const Wrapper = styled.div`
+  position: fixed;
+  top: 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const Popup: FC<{ title: string; type: PopupType; onClose: () => void }> = ({
+  type,
+  title,
+  onClose,
+}) => {
+  return (
+    <Wrapper>
+      <PopupStyled type={type} onClose={onClose}>
+        {title}
+      </PopupStyled>
+    </Wrapper>
+  );
+};
 
 export { Popup, PopupType };

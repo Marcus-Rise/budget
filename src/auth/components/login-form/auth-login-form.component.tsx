@@ -1,11 +1,11 @@
 import type { FC } from "react";
+import { useState } from "react";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import type { IAuthLoginFormDto } from "./auth-login-form.dto";
 import styled from "styled-components";
 import { InputText } from "../../../components/input-text";
-import { Button } from "../../../components/button";
-import { useState } from "react";
+import { Button, ButtonVariant } from "../../../components/button";
 import { Icon } from "../../../components/icon";
 
 const Form = styled.form`
@@ -65,7 +65,9 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
             password={!showPassword}
             startIcon={<Icon name={"lock"} />}
             endIcon={
-              <ActiveIcon name={showPassword ? "eye-off" : "eye"} onClick={toggleShowPassword} />
+              <Button variant={ButtonVariant.ICON} color={"inherit"} onClick={toggleShowPassword}>
+                <ActiveIcon name={showPassword ? "eye-off" : "eye"} />
+              </Button>
             }
             error={fieldState.error?.message}
           />
