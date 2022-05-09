@@ -41,9 +41,7 @@ const Login: NextPage = () => {
   const auth = (dto: IAuthLoginFormDto) =>
     login(dto)
       .then(() => router.push("/"))
-      .catch(() => {
-        popup.open("Не удалось выполнить вход", PopupType.DANGER);
-      });
+      .catch(() => popup.open("Не удалось выполнить вход", PopupType.DANGER));
 
   return (
     <>
