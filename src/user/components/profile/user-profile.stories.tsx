@@ -9,6 +9,9 @@ const Config: ComponentMeta<typeof UserProfile> = {
 const Template: ComponentStory<typeof UserProfile> = (args) => <UserProfile {...args} />;
 
 const Default = Template.bind({});
+Default.args = {
+  label: "Label",
+};
 
 export default Config;
 export { Default };

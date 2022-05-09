@@ -39,27 +39,5 @@ const WithData: ComponentStory<typeof Home> = (args) => {
   return isInitialized ? <Home {...args} /> : <></>;
 };
 
-const WithUser: ComponentStory<typeof Home> = (args) => {
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    if (!isInitialized) {
-      localStorage.removeItem(TRANSACTION_LOCAL_STORAGE_KEY);
-      setIsInitialized(true);
-    }
-  }, [isInitialized]);
-
-  if (!isInitialized) {
-    return <></>;
-  }
-
-  return <Home {...args} />;
-};
-WithUser.args = {
-  user: {
-    email: "some@somes.com",
-  },
-};
-
 export default Config;
-export { Default, WithData, WithUser };
+export { Default, WithData };

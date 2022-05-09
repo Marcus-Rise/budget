@@ -28,14 +28,14 @@ const HeaderContainer = styled(Container)`
 `;
 
 const Header: FC = () => {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
 
   return (
     <StyledHeader>
       <HeaderContainer>
         <Logo>Бюджет</Logo>
         <Link href={!user ? "/login" : "/profile"}>
-          <UserProfile email={user?.email} />
+          <UserProfile label={isLoading ? "Загрузка..." : user?.email ?? "Войти"} />
         </Link>
       </HeaderContainer>
     </StyledHeader>

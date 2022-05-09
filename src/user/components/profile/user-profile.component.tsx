@@ -1,21 +1,8 @@
 import { Icon } from "../../../components/icon";
 import styled, { useTheme } from "styled-components";
-import type { ReactElement } from "react";
+import type { FC } from "react";
 
-const UserProfile = styled.div.attrs<
-  { email?: string },
-  { email?: string; children?: ReactElement }
->((props) => {
-  const theme = useTheme();
-
-  return {
-    children: (
-      <>
-        <Icon name={"account"} color={theme.primary} /> <span>{props.email ?? "Войти"}</span>
-      </>
-    ),
-  };
-})`
+const Profile = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -24,5 +11,15 @@ const UserProfile = styled.div.attrs<
     opacity: 0.7;
   }
 `;
+
+const UserProfile: FC<{ label: string }> = ({ label }) => {
+  const theme = useTheme();
+
+  return (
+    <Profile>
+      <Icon name={"account"} color={theme.primary} /> <span>{label}</span>
+    </Profile>
+  );
+};
 
 export { UserProfile };
