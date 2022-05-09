@@ -6,6 +6,7 @@ import { Card } from "../../src/components/card";
 import { useAuth } from "../../src/auth";
 import type { IAuthLoginFormDto } from "../../src/auth/components/login-form/auth-login-form.dto";
 import { PopupType, usePopup } from "../../src/components/popup";
+import { useRouter } from "next/router";
 
 const Main = styled.main`
   display: flex;
@@ -33,14 +34,16 @@ const LoginCard = styled(Card)`
 `;
 
 const Login: NextPage = () => {
+  const router = useRouter();
   const { login } = useAuth();
   const popup = usePopup();
 
-  const auth = (dto: IAuthLoginFormDto) => {
-    login(dto).catch(() => {
-      popup.open("Не удалось выполнить вход", PopupType.DANGER);
-    });
-  };
+  const auth = (dto: IAuthLoginFormDto) =>
+    login(dto)
+      .then(() => router.push("/"))
+      .catch(() => {
+        popup.open("Не удалось выполнить вход", PopupType.DANGER);
+      });
 
   return (
     <>
