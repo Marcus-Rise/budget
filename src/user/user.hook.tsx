@@ -13,12 +13,15 @@ const useUser = () => {
       .then((user) => {
         dispatch({ type: UserReducerActionsEnum.SET_USER, payload: user });
       })
+      .catch(() => {
+        dispatch({ type: UserReducerActionsEnum.SET_USER, payload: null });
+      })
       .finally(() => {
         dispatch({ type: UserReducerActionsEnum.SET_LOADING, payload: false });
       });
   };
 
-  return { user: state.user, isLoading: state.isLoading, updateUser };
+  return { ...state, updateUser };
 };
 
 export { useUser };

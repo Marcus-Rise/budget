@@ -1,23 +1,28 @@
-import type { ComponentProps, FC } from "react";
+import type { ComponentProps } from "react";
+import { forwardRef } from "react";
 import NextLink from "next/link";
 import styled from "styled-components";
 
 const LinkStyled = styled.a`
   &:hover,
   &:focus {
-    display: block;
     cursor: pointer;
   }
 `;
 
-type LinkProps = ComponentProps<typeof NextLink> & {
+type LinkProps = Omit<ComponentProps<typeof NextLink>, "as"> & {
   target?: string;
+  className?: string;
 };
 
-const Link: FC<LinkProps> = ({ children, target, ...props }) => (
-  <NextLink {...props} passHref>
-    <LinkStyled target={target}>{children}</LinkStyled>
-  </NextLink>
+const Link = forwardRef<HTMLAnchorElement, LinkProps>(
+  ({ children, className, target, ...props }, ref) => (
+    <NextLink {...props} passHref>
+      <LinkStyled ref={ref} className={className} target={target}>
+        {children}
+      </LinkStyled>
+    </NextLink>
+  ),
 );
 
 export { Link };

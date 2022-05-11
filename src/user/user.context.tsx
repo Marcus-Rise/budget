@@ -28,6 +28,7 @@ const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
         .then((user) => {
           dispatch({ type: UserReducerActionsEnum.SET_USER, payload: user });
         })
+        .catch(console.error)
         .finally(() => {
           dispatch({ type: UserReducerActionsEnum.SET_LOADING, payload: false });
           setIsInitialized(true);

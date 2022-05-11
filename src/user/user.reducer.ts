@@ -2,11 +2,12 @@ import type { Reducer } from "react";
 import type { IUser } from "./user";
 
 type UserReducerState = {
-  user?: IUser;
+  user: IUser | null;
   isLoading: boolean;
 };
 const userReducerInitialState: UserReducerState = {
   isLoading: false,
+  user: null,
 };
 
 enum UserReducerActionsEnum {
@@ -16,7 +17,7 @@ enum UserReducerActionsEnum {
 
 type ReducerActionSetUser = {
   type: UserReducerActionsEnum.SET_USER;
-  payload: IUser;
+  payload: IUser | null;
 };
 type ReducerActionSetLoading = {
   type: UserReducerActionsEnum.SET_LOADING;

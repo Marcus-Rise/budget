@@ -20,7 +20,7 @@ const setCookie = (
 };
 
 const removeCookie = (res: NextApiResponse, name: string) => {
-  setCookie(res, name, "0", {
+  setCookie(res, name, "", {
     path: "/",
     maxAge: 1,
   });

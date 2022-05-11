@@ -7,6 +7,7 @@ import { useAuth } from "../../src/auth";
 import type { IAuthLoginFormDto } from "../../src/auth/components/login-form/auth-login-form.dto";
 import { PopupType, usePopup } from "../../src/components/popup";
 import { useRouter } from "next/router";
+import { useUser } from "../../src/user";
 
 const Main = styled.main`
   display: flex;
@@ -37,10 +38,15 @@ const Login: NextPage = () => {
   const router = useRouter();
   const { login } = useAuth();
   const popup = usePopup();
+  const user = useUser();
 
   const auth = (dto: IAuthLoginFormDto) =>
     login(dto)
-      .then(() => router.push("/"))
+      .then(async () => {
+        await user.updateUser();
+
+        return router.push("/");
+      })
       .catch(() => popup.open("Не удалось выполнить вход", PopupType.DANGER));
 
   return (
