@@ -5,6 +5,17 @@ import { Card } from "../../src/components/card";
 import { Container } from "../../src/components/container";
 import { Button } from "../../src/components/button";
 import { useRouter } from "next/router";
+import styled from "styled-components";
+
+const ProfileContainer = styled(Container)`
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+`;
+
+const Title = styled.h2`
+  font-size: 1.3rem;
+`;
 
 const Profile: NextPage = () => {
   const { user, isLoading, updateUser } = useUser();
@@ -20,8 +31,9 @@ const Profile: NextPage = () => {
 
   return (
     <Layout>
-      <Container>
+      <ProfileContainer>
         <Card>
+          <Title>Профиль</Title>
           {!user || isLoading ? (
             "Loading..."
           ) : (
@@ -33,7 +45,7 @@ const Profile: NextPage = () => {
             </>
           )}
         </Card>
-      </Container>
+      </ProfileContainer>
     </Layout>
   );
 };

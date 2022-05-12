@@ -3,6 +3,7 @@ import { createContext, useEffect, useMemo, useReducer, useState } from "react";
 import type { UserReducerActions, UserReducerState } from "./user.reducer";
 import { userReducer, UserReducerActionsEnum, userReducerInitialState } from "./user.reducer";
 import { getUser } from "./user.service";
+import type { IUser } from "./user";
 
 const UserContext = createContext<{
   state: UserReducerState;
@@ -12,8 +13,8 @@ const UserContext = createContext<{
   dispatch: () => null,
 });
 
-const UserProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
-  const [state, dispatch] = useReducer(userReducer, userReducerInitialState);
+const UserProvider: FC<PropsWithChildren<{ user?: IUser }>> = ({ children, user = null }) => {
+  const [state, dispatch] = useReducer(userReducer, { ...userReducerInitialState, user });
   const [isInitialized, setIsInitialized] = useState(false);
   const shouldInitialize = useMemo(
     () => !isInitialized && !state.isLoading,

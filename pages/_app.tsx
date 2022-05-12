@@ -1,12 +1,14 @@
 import type { AppProps } from "next/app";
 import { LayoutGlobal } from "../src/components/layout-global";
+import { UserProvider } from "../src/user";
+import type { FC } from "react";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return (
+const MyApp: FC<AppProps> = ({ Component, pageProps }) => (
+  <UserProvider>
     <LayoutGlobal>
       <Component {...pageProps} />
     </LayoutGlobal>
-  );
-}
+  </UserProvider>
+);
 
 export default MyApp;
