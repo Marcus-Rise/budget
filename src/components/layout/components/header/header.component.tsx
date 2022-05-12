@@ -35,7 +35,9 @@ const Header: FC = () => {
   return (
     <StyledHeader>
       <HeaderContainer>
-        <Logo>Бюджет</Logo>
+        <Link href={"/"}>
+          <Logo>Бюджет</Logo>
+        </Link>
         <Link href={userProfileLink}>
           <UserProfile label={userProfileLabel} />
         </Link>
