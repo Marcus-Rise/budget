@@ -38,10 +38,17 @@ type TransactionFormProps = PropsWithChildren<
   Partial<ITransactionFormDto> & {
     onSubmit: (dto: ITransactionFormDto) => void;
     categories: string[];
+    focus?: keyof ITransactionFormDto;
   }
 >;
 
-const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, categories, children, ...dto }) => {
+const TransactionForm: FC<TransactionFormProps> = ({
+  onSubmit,
+  categories,
+  children,
+  focus,
+  ...dto
+}) => {
   const { handleSubmit, control } = useForm<ITransactionFormDto>({
     defaultValues: dto,
   });
@@ -61,7 +68,12 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, categories, child
           control={control}
           rules={{ required: "Введите название" }}
           render={({ field, fieldState }) => (
-            <InputText {...field} label={"Название"} error={fieldState.error?.message} />
+            <InputText
+              {...field}
+              label={"Название"}
+              autoFocus={focus === "title"}
+              error={fieldState.error?.message}
+            />
           )}
         />
         <Controller
@@ -72,7 +84,13 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, categories, child
             min: { value: 1, message: "Введите положительное число" },
           }}
           render={({ field, fieldState }) => (
-            <InputNumber {...field} min={1} label={"Сумма"} error={fieldState.error?.message} />
+            <InputNumber
+              {...field}
+              min={1}
+              label={"Сумма"}
+              autoFocus={focus === "amount"}
+              error={fieldState.error?.message}
+            />
           )}
         />
       </Row>
@@ -106,7 +124,12 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, categories, child
           control={control}
           rules={{ required: "Введите дату" }}
           render={({ field, fieldState }) => (
-            <InputDate {...field} label={"Дата"} error={fieldState.error?.message} />
+            <InputDate
+              {...field}
+              label={"Дата"}
+              autoFocus={focus === "date"}
+              error={fieldState.error?.message}
+            />
           )}
         />
 
@@ -119,7 +142,7 @@ const TransactionForm: FC<TransactionFormProps> = ({ onSubmit, categories, child
               {...field}
               variants={categories}
               label={"Категория"}
-              autoFocus
+              autoFocus={focus === "category"}
               error={fieldState.error?.message}
             />
           )}

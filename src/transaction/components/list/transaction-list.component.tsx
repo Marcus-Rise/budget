@@ -158,6 +158,7 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
                   {...transactionDto}
                   categories={categories}
                   onSubmit={saveTransactionAndClear}
+                  focus={!!transactionDto.uuid ? "amount" : "category"}
                 >
                   <FormButtonsWrapper>
                     <Button type={"submit"}>Сохранить</Button>
