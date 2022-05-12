@@ -2,7 +2,7 @@ import type { Dispatch, FC, PropsWithChildren } from "react";
 import { createContext, useEffect, useMemo, useReducer, useState } from "react";
 import type { UserReducerActions, UserReducerState } from "./user.reducer";
 import { userReducer, UserReducerActionsEnum, userReducerInitialState } from "./user.reducer";
-import { getUser } from "./user.service";
+import { UserService } from "./user.service";
 import type { IUser } from "./user";
 
 const UserContext = createContext<{
@@ -25,7 +25,7 @@ const UserProvider: FC<PropsWithChildren<{ user?: IUser }>> = ({ children, user 
     if (shouldInitialize) {
       dispatch({ type: UserReducerActionsEnum.SET_LOADING, payload: true });
 
-      getUser()
+      UserService.get()
         .then((user) => {
           dispatch({ type: UserReducerActionsEnum.SET_USER, payload: user });
         })

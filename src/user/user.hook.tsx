@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { UserContext } from "./user.context";
-import { getUser } from "./user.service";
+import { UserService } from "./user.service";
 import { UserReducerActionsEnum } from "./user.reducer";
 
 const useUser = () => {
@@ -9,7 +9,7 @@ const useUser = () => {
   const updateUser = () => {
     dispatch({ type: UserReducerActionsEnum.SET_LOADING, payload: true });
 
-    return getUser()
+    return UserService.get()
       .then((user) => {
         dispatch({ type: UserReducerActionsEnum.SET_USER, payload: user });
       })
@@ -21,7 +21,12 @@ const useUser = () => {
       });
   };
 
-  return { ...state, updateUser };
+  const deleteUser = () =>
+    UserService.remove().then(() => {
+      dispatch({ type: UserReducerActionsEnum.SET_USER, payload: null });
+    });
+
+  return { ...state, updateUser, deleteUser };
 };
 
 export { useUser };

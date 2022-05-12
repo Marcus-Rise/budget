@@ -10,6 +10,8 @@ const useAuth = () => {
     }
   };
 
+  const logout = () => fetch("/api/auth/logout");
+
   const register = async (dto: { login: string; password: string }) => {
     const res = await fetch("/api/auth/register", {
       method: "POST",
@@ -23,6 +25,7 @@ const useAuth = () => {
 
   return {
     login,
+    logout,
     register,
   };
 };
