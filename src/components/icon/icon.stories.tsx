@@ -37,6 +37,11 @@ const Default = Template.bind({});
 Default.args = {
   name: "account",
 };
+const Hoverable = Template.bind({});
+Hoverable.args = {
+  ...Default.args,
+  hoverable: true,
+};
 
 const icons: string[] = ["account", "lock", "eye", "eye-off", "success", "info", "close"];
 
@@ -69,4 +74,4 @@ All.args = {
 };
 
 export default Config;
-export { Default, All };
+export { Default, All, Hoverable };

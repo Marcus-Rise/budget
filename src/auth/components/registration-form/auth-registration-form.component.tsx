@@ -1,25 +1,26 @@
 import type { FC } from "react";
 import { useState } from "react";
+import styled from "styled-components";
+import type { IAuthRegistrationFormDto } from "./auth-registration-form.dto";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
-import type { IAuthLoginFormDto } from "./auth-login-form.dto";
-import styled from "styled-components";
 import { InputText } from "../../../components/input-text";
-import { Button, ButtonVariant } from "../../../components/button";
 import { Icon } from "../../../components/icon";
+import { Button, ButtonVariant } from "../../../components/button";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 1rem;
 `;
 
-type AuthLoginFormProps = {
-  onSubmit: (dto: IAuthLoginFormDto) => void;
+type AuthRegistrationFormProps = {
+  onSubmit: (dto: IAuthRegistrationFormDto) => void;
 };
 
-const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
-  const { control, handleSubmit } = useForm<IAuthLoginFormDto>({
+const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit }) => {
+  const { control, handleSubmit } = useForm<IAuthRegistrationFormDto>({
     defaultValues: {
       login: "",
       password: "",
@@ -29,7 +30,7 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
 
   const toggleShowPassword = () => setShowPassword((show) => !show);
 
-  const submit: SubmitHandler<IAuthLoginFormDto> = (dto) => {
+  const submit: SubmitHandler<IAuthRegistrationFormDto> = (dto) => {
     onSubmit(dto);
   };
 
@@ -67,9 +68,9 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
           />
         )}
       />
-      <Button type={"submit"}>Войти</Button>
+      <Button type={"submit"}>Зарегистрироваться</Button>
     </Form>
   );
 };
 
-export { AuthLoginForm };
+export { AuthRegistrationForm };

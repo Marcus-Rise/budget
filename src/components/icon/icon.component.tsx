@@ -1,7 +1,10 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-const Icon = styled.svg.attrs<{ size?: string; color?: string }, { size?: string }>((props) => {
+const Icon = styled.svg.attrs<
+  { hoverable?: boolean; size?: string; color?: string },
+  { size?: string; hoverable?: boolean }
+>((props) => {
   const size = props.size ?? "2rem";
 
   return {
@@ -12,6 +15,16 @@ const Icon = styled.svg.attrs<{ size?: string; color?: string }, { size?: string
     className: `icon icon-${props.name}${props.className}`,
     children: <use href={`/sprite.svg#${props.name}`} />,
   };
-})``;
+})`
+  ${(props) => {
+    if (props.hoverable) {
+      return css`
+        &:hover {
+          cursor: pointer;
+        }
+      `;
+    }
+  }}
+`;
 
 export { Icon };
