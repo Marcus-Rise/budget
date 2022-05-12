@@ -59,7 +59,12 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
             password={!showPassword}
             startIcon={<Icon name={"lock"} />}
             endIcon={
-              <Button variant={ButtonVariant.ICON} color={"inherit"} onClick={toggleShowPassword}>
+              <Button
+                type={"button"}
+                variant={ButtonVariant.ICON}
+                color={"inherit"}
+                onClick={toggleShowPassword}
+              >
                 <Icon hoverable name={showPassword ? "eye-off" : "eye"} />
               </Button>
             }
