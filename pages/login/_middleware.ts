@@ -1,15 +1,15 @@
 import type { NextMiddleware } from "next/server";
 import { NextResponse } from "next/server";
 
-const ProfileMiddleware: NextMiddleware = (request) => {
+const LoginMiddleware: NextMiddleware = (request) => {
   const { auth } = request.cookies;
 
-  if (!auth) {
+  if (auth) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = "/profile";
 
     return NextResponse.redirect(url);
   }
 };
 
-export { ProfileMiddleware as middleware };
+export { LoginMiddleware as middleware };

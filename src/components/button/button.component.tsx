@@ -13,6 +13,7 @@ type ButtonProps = {
 const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: 0.5rem;
+  text-align: center;
 
   &:hover {
     opacity: 0.9;
