@@ -48,7 +48,7 @@ const TransactionFormQuick: FC<TransactionFormProps> = ({ onSubmit }) => {
         control={control}
         rules={{ required: "Введите название" }}
         render={({ field, fieldState }) => (
-          <InputText {...field} label={"Название"} error={fieldState.error?.message} />
+          <InputText {...field} label={"Название"} autoFocus error={fieldState.error?.message} />
         )}
       />
       <Controller

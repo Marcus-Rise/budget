@@ -7,19 +7,22 @@ import { Input } from "../input";
 type BaseInputProps = Omit<InputProps, "type">;
 type Props = {
   onChange: (val: string) => void;
+  password?: boolean;
 };
 type InputTextProps = Merge<[BaseInputProps, Props]>;
 
-const InputText = forwardRef<HTMLInputElement, InputTextProps>(({ onChange, ...props }, ref) => {
-  const change: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      onChange(e.target.value);
-    },
-    [onChange],
-  );
+const InputText = forwardRef<HTMLInputElement, InputTextProps>(
+  ({ onChange, password, ...props }, ref) => {
+    const change: ChangeEventHandler<HTMLInputElement> = useCallback(
+      (e) => {
+        onChange(e.target.value);
+      },
+      [onChange],
+    );
 
-  return <Input {...props} onChange={change} type={"text"} ref={ref} />;
-});
+    return <Input {...props} onChange={change} type={password ? "password" : "text"} ref={ref} />;
+  },
+);
 
 export { InputText };
 export type { InputTextProps };

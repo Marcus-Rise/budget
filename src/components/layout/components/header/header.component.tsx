@@ -1,6 +1,9 @@
 import type { FC } from "react";
 import { Container } from "../../../container";
 import styled from "styled-components";
+import { UserProfile } from "../../../../user/components/profile";
+import { Link } from "../../../link";
+import { useUser } from "../../../../user";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -17,12 +20,28 @@ const Logo = styled.h1`
   margin: 0;
 `;
 
+const HeaderContainer = styled(Container)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
 const Header: FC = () => {
+  const { user, isLoading } = useUser();
+  const userProfileLabel = isLoading ? "Загрузка..." : user?.email ?? "Войти";
+  const userProfileLink = !user ? "/login" : "/profile";
+
   return (
     <StyledHeader>
-      <Container>
-        <Logo>Бюджет</Logo>
-      </Container>
+      <HeaderContainer>
+        <Link href={"/"}>
+          <Logo>Бюджет</Logo>
+        </Link>
+        <Link href={userProfileLink}>
+          <UserProfile label={userProfileLabel} />
+        </Link>
+      </HeaderContainer>
     </StyledHeader>
   );
 };

@@ -37,7 +37,11 @@ const Home: NextPage = () => {
         <>
           <br />
           <Container centered>
-            <TransactionForm onSubmit={saveTransaction} categories={[TRANSACTION_CATEGORY_OTHER]}>
+            <TransactionForm
+              onSubmit={saveTransaction}
+              categories={[TRANSACTION_CATEGORY_OTHER]}
+              focus={"title"}
+            >
               <FormSubmitButton>Сохранить</FormSubmitButton>
             </TransactionForm>
           </Container>

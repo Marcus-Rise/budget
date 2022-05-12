@@ -30,5 +30,11 @@ Default.args = {
   children: <button type={"submit"}>submit</button>,
 };
 
+const AutoFocus = Template.bind({});
+AutoFocus.args = {
+  ...Default.args,
+  focus: "category",
+};
+
 export default Config;
-export { Default };
+export { Default, AutoFocus };

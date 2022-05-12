@@ -3,6 +3,7 @@ import { Input } from "./input.component";
 import { userEvent, within } from "@storybook/testing-library";
 import { useState } from "react";
 import styled from "styled-components";
+import { Icon } from "../icon";
 
 const Wrapper = styled.div`
   padding: 2rem;
@@ -75,5 +76,30 @@ Error.args = {
   error: "Error message",
 };
 
+const StartIcon = Template.bind({});
+StartIcon.args = {
+  ...Default.args,
+  label: "Label",
+  error: "Error message",
+  startIcon: <Icon name={"account"} />,
+};
+
+const EndIcon = Template.bind({});
+EndIcon.args = {
+  ...Default.args,
+  label: "Label",
+  error: "Error message",
+  endIcon: <Icon name={"account"} />,
+};
+
+const StartEndIcons = Template.bind({});
+StartEndIcons.args = {
+  ...Default.args,
+  label: "Label",
+  error: "Error message",
+  startIcon: <Icon name={"lock"} />,
+  endIcon: <Icon name={"eye"} />,
+};
+
 export default Config;
-export { Default, Labeled, LabeledWithPlaceholder, Error };
+export { Default, Labeled, LabeledWithPlaceholder, Error, StartIcon, EndIcon, StartEndIcons };
