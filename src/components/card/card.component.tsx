@@ -9,9 +9,9 @@ const Card = styled.div.attrs<
   };
 })`
   border-radius: 0.5rem;
-  max-width: 100%;
   padding: 1rem;
   overflow-wrap: break-word;
+  width: 100%;
 
   ${(props) => css`
     background: ${props.theme.lightest};
