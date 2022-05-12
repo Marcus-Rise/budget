@@ -1,12 +1,27 @@
 import type { IUser } from "./user";
 
-const getUser = (): Promise<IUser> =>
-  fetch("/api/user").then((res) => {
-    if (!res.ok) {
-      throw new Error();
-    }
+class UserService {
+  static get(): Promise<IUser> {
+    return fetch("/api/user").then((res) => {
+      if (!res.ok) {
+        throw new Error();
+      }
 
-    return res.json();
-  });
+      return res.json();
+    });
+  }
 
-export { getUser };
+  static remove() {
+    return fetch("/api/user", {
+      method: "DELETE",
+    }).then((res) => {
+      if (!res.ok) {
+        throw new Error();
+      }
+
+      return res.json();
+    });
+  }
+}
+
+export { UserService };
