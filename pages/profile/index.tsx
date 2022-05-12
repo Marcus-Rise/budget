@@ -6,6 +6,7 @@ import { Container } from "../../src/components/container";
 import { Button, ButtonVariant } from "../../src/components/button";
 import { useRouter } from "next/router";
 import styled, { useTheme } from "styled-components";
+import { useAuth } from "../../src/auth";
 
 const ProfileContainer = styled(Container)`
   padding-top: 1rem;
@@ -24,11 +25,12 @@ const ActionsContainer = styled.div`
 
 const Profile: NextPage = () => {
   const { user, isLoading, updateUser, deleteUser } = useUser();
+  const auth = useAuth();
   const router = useRouter();
   const theme = useTheme();
 
   const logout = async () => {
-    await fetch("/api/auth/logout");
+    await auth.logout();
 
     await updateUser();
 
@@ -40,6 +42,8 @@ const Profile: NextPage = () => {
 
     if (agree) {
       await deleteUser();
+
+      await auth.logout();
 
       return router.push("/");
     }
