@@ -9,7 +9,7 @@ const generateColor = (): Color => {
   return color;
 };
 
-const generateArrayOfColors = (length: number): Array<Color> => {
+const generateChartColorArray = (length: number): Array<Color> => {
   const arr: Color[] = [];
 
   for (let i = 0; i < length; i++) {
@@ -19,4 +19,4 @@ const generateArrayOfColors = (length: number): Array<Color> => {
   return arr;
 };
 
-export { generateArrayOfColors, generateColor };
+export { generateChartColorArray, generateColor };

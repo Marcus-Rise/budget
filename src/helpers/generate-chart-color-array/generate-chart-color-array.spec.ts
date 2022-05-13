@@ -1,6 +1,6 @@
-import { generateArrayOfColors, generateColor } from "./chart-circle.helper";
+import { generateChartColorArray, generateColor } from "./generate-chart-color-array.helper";
 
-describe("ChartCircleHelper", () => {
+describe("GenerateChartColorArrayHelper", () => {
   describe("generateColor", () => {
     it("should generate color", () => {
       expect(generateColor()).toHaveLength(7);
@@ -14,7 +14,7 @@ describe("ChartCircleHelper", () => {
   describe("generateArrayOfColors", () => {
     it("should generate array of different colors", () => {
       const length = 5;
-      const arr = generateArrayOfColors(length);
+      const arr = generateChartColorArray(length);
       const unique = new Set(arr);
 
       expect(unique.size).toBe(length);

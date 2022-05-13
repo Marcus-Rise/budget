@@ -1,32 +1,14 @@
 import type { ComponentProps, FC } from "react";
 import React, { useMemo } from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-import { generateArrayOfColors } from "./chart-circle.helper";
+import { aggregateChartData } from "../../helpers/aggregate-chart-data";
+import { generateChartColorArray } from "../../helpers/generate-chart-color-array";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type ChartCircleDataItem = { title: string; value: number };
 type ChartCircleData = Array<ChartCircleDataItem>;
-
-/**
- *
- * @return unique array of items with sum
- */
-const aggregateData = (data: ChartCircleData): ChartCircleData => {
-  const groups = Array.from(new Set(data.map((i) => i.title)));
-
-  return groups.map((groupTitle) => {
-    const sum = data.reduce((sum, group) => {
-      return group.title === groupTitle ? sum + group.value : sum;
-    }, 0);
-
-    return {
-      title: groupTitle,
-      value: sum,
-    };
-  });
-};
 
 type ChartCircleProps = {
   data: ChartCircleData;
@@ -38,9 +20,9 @@ type Data = ComponentProps<typeof Doughnut>["data"];
 
 const ChartCircle: FC<ChartCircleProps> = ({ data, title, borderWidth = 2 }) => {
   const pieData: Data = useMemo(() => {
-    const groupedData = aggregateData(data);
+    const groupedData = aggregateChartData(data);
     const labels = groupedData.map((i) => i.title);
-    const colors = generateArrayOfColors(labels.length);
+    const colors = generateChartColorArray(labels.length);
 
     return {
       labels,
