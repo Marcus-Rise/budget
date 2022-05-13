@@ -8,24 +8,29 @@ import { TransactionForm } from "../src/transaction/components/form";
 import { Button } from "../src/components/button";
 import { TRANSACTION_CATEGORY_OTHER } from "../src/transaction/models";
 import styled from "styled-components";
+import { useState } from "react";
 
-const FormSubmitButton = styled(Button).attrs(() => {
-  return {
-    type: "submit",
-  };
-})`
+const FormSubmitButton = styled(Button).attrs(() => ({
+  type: "submit",
+}))`
   width: 100%;
 `;
 
 const Home: NextPage = () => {
   const { saveTransaction, transactions, deleteTransaction } = useTransaction();
+  const [statisticFullView, setStatisticFullView] = useState(false);
+  const toggleStatisticFullView = () => setStatisticFullView((full) => !full);
 
   return (
     <Layout>
       {!!transactions.length ? (
         <>
           <br />
-          <TransactionStatistic transactions={transactions} />
+          <TransactionStatistic
+            transactions={transactions}
+            onToggleView={toggleStatisticFullView}
+            fullView={statisticFullView}
+          />
           <br />
           <TransactionList
             transactions={transactions}

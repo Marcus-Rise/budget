@@ -10,12 +10,8 @@ const Template: ComponentStory<typeof ChartSlim> = (args) => <ChartSlim {...args
 
 const Default = Template.bind({});
 Default.args = {
-  data: [
-    { title: "Item", value: 10 },
-    { title: "Item", value: 10 },
-    { title: "Item 2", value: 40 },
-    { title: "Item 3", value: 40 },
-  ],
+  credit: 70,
+  profit: 30,
 };
 
 const Height = Template.bind({});
