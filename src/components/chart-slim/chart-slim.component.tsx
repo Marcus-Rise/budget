@@ -8,6 +8,8 @@ type ChartSlimDataItem = { title: string; value: number };
 type ChartSlimData = Array<ChartSlimDataItem>;
 
 const DataContainer = styled.div<{ height?: number }>`
+  min-width: 3rem;
+  width: 100%;
   height: ${(props) => props.height ?? 1}rem;
   display: flex;
 `;
