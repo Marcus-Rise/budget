@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { UserProfile } from "../../../../user/components/profile";
 import { Link } from "../../../link";
 import { useUser } from "../../../../user";
+import { media } from "../../../../../styles/grid";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -13,6 +14,10 @@ const StyledHeader = styled.header`
   box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.75);
   padding: 1rem;
   background-color: white;
+
+  ${media.md} {
+    padding: 1rem 0;
+  }
 `;
 
 const Logo = styled.h1`
