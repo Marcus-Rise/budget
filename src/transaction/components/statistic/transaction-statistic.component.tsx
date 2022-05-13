@@ -8,20 +8,38 @@ import styled from "styled-components";
 import { Container } from "../../../components/container";
 import { media } from "../../../../styles/grid";
 import { TransactionPrice } from "../price";
+import { ChartSlim } from "../../../components/chart-slim";
+import { getDateMonthHelper } from "../../../helpers/get-date-month";
 
-const StatisticContainer = styled(Container)`
-  display: flex;
-  justify-content: center;
-  padding-right: 1rem;
-  align-items: center;
+const Month = styled.span`
+  font-weight: bold;
+  text-transform: capitalize;
 `;
 
-const StatisticMetaContainer = styled.div`
+const StatisticContainer = styled(Container)<{ row?: boolean; reverse?: boolean }>`
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+
+  flex-direction: ${(props) =>
+    props.row
+      ? props.reverse
+        ? "row-reverse"
+        : "row"
+      : props.reverse
+      ? "column-reverse"
+      : "column"};
+`;
+
+const StatisticMetaContainer = styled.div<{ row?: boolean }>`
+  display: flex;
   gap: 1rem;
   align-items: center;
-  justify-content: center;
+  justify-content: ${(props) => (props.row ? "space-between" : "center")};
+  flex-direction: ${(props) => (props.row ? "row" : "column")};
+  width: 100%;
 `;
 
 const ChartCreditWrapper = styled.div`
@@ -50,9 +68,11 @@ const sumTransactionByType = (transactions: TransactionModel[], type: Transactio
 
 type TransactionStatisticProps = {
   transactions: TransactionModel[];
+  fullView?: boolean;
 };
 
-const TransactionStatistic: FC<TransactionStatisticProps> = ({ transactions }) => {
+const TransactionStatistic: FC<TransactionStatisticProps> = ({ fullView, transactions }) => {
+  const month = getDateMonthHelper(transactions[0].date);
   const transactionCreditChartData: ChartCircleData = useMemo(
     () =>
       transactions
@@ -76,20 +96,37 @@ const TransactionStatistic: FC<TransactionStatisticProps> = ({ transactions }) =
 
   const profit = useMemo(() => debit - credit, [credit, debit]);
 
+  const fullChart = useMemo(
+    () => (
+      <ChartCreditWrapper>
+        <ChartCircle data={transactionCreditChartData} />
+      </ChartCreditWrapper>
+    ),
+    [transactionCreditChartData],
+  );
+
+  const slimChart = useMemo(
+    () => <ChartSlim data={transactionCreditChartData} />,
+    [transactionCreditChartData],
+  );
+
   return (
-    <StatisticContainer>
-      {!!transactionCreditChartData.length && (
-        <ChartCreditWrapper>
-          <ChartCircle data={transactionCreditChartData} />
-        </ChartCreditWrapper>
-      )}
-      <StatisticMetaContainer>
+    <StatisticContainer row={fullView} reverse={!fullView}>
+      {!!transactionCreditChartData.length && fullView ? fullChart : slimChart}
+      <StatisticMetaContainer row={!fullView}>
         <span>
-          Доход: <TransactionPrice type={TransactionType.DEBIT} amount={debit} />
+          Расчет за <Month>{month}</Month>
         </span>
-        <span>
-          Расход: <TransactionPrice type={TransactionType.CREDIT} amount={credit} />
-        </span>
+        {fullView && (
+          <span>
+            Доход: <TransactionPrice type={TransactionType.DEBIT} amount={debit} />
+          </span>
+        )}
+        {fullView && (
+          <span>
+            Расход: <TransactionPrice type={TransactionType.CREDIT} amount={credit} />
+          </span>
+        )}
         <span>
           Остаток: <ProfitPrice amount={profit} />
         </span>

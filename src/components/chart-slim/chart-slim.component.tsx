@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useMemo } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { generateColor } from "../../helpers/generate-chart-color-array";
 import { aggregateChartData } from "../../helpers/aggregate-chart-data";
 
@@ -17,6 +17,22 @@ const DataItem = styled.span<{ color: Color; width: number }>`
   background-color: ${(props) => props.color};
   height: 100%;
   width: ${(props) => props.width}%;
+
+  ${() => {
+    const borderRadius = "0.25rem";
+
+    return css`
+      &:first-child {
+        border-bottom-left-radius: ${borderRadius};
+        border-top-left-radius: ${borderRadius};
+      }
+
+      &:last-child {
+        border-bottom-right-radius: ${borderRadius};
+        border-top-right-radius: ${borderRadius};
+      }
+    `;
+  }}
 `;
 
 type ChartSlimProps = {

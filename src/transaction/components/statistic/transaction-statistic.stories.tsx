@@ -25,5 +25,11 @@ Credit.args = {
   ],
 };
 
+const FullView = Template.bind({});
+FullView.args = {
+  ...Default.args,
+  fullView: true,
+};
+
 export default Config;
-export { Default, Credit };
+export { Default, Credit, FullView };
