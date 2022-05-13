@@ -10,6 +10,8 @@ import { media } from "../../../../styles/grid";
 import { TransactionPrice } from "../price";
 import { ChartSlim } from "../../../components/chart-slim";
 import { getDateMonthHelper } from "../../../helpers/get-date-month";
+import { Button, ButtonVariant } from "../../../components/button";
+import { Icon } from "../../../components/icon";
 
 /**
  * @return 80 or 100 or 20
@@ -22,6 +24,15 @@ const getPercentOfTwoValues = (value: number, half: number): number =>
 const Month = styled.span`
   font-weight: bold;
   text-transform: capitalize;
+`;
+
+const ProfitWrapper = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const FullViewToggleIcon = styled(Icon)<{ fullView?: boolean }>`
+  transform: ${(props) => (props.fullView ? "none" : "rotate(180deg)")};
 `;
 
 const StatisticContainer = styled(Container)<{ row?: boolean; reverse?: boolean }>`
@@ -77,9 +88,14 @@ const sumTransactionByType = (transactions: TransactionModel[], type: Transactio
 type TransactionStatisticProps = {
   transactions: TransactionModel[];
   fullView?: boolean;
+  onToggleView?: () => void;
 };
 
-const TransactionStatistic: FC<TransactionStatisticProps> = ({ fullView, transactions }) => {
+const TransactionStatistic: FC<TransactionStatisticProps> = ({
+  fullView,
+  onToggleView,
+  transactions,
+}) => {
   const month = getDateMonthHelper(transactions[0].date);
   const transactionCreditChartData: ChartCircleData = useMemo(
     () =>
@@ -140,9 +156,13 @@ const TransactionStatistic: FC<TransactionStatisticProps> = ({ fullView, transac
             Расход: <TransactionPrice type={TransactionType.CREDIT} amount={credit} />
           </span>
         )}
-        <span>
-          Остаток: <ProfitPrice amount={profit} />
-        </span>
+        <ProfitWrapper>
+          Остаток:{"\u00A0"}
+          <ProfitPrice amount={profit} />
+          <Button variant={ButtonVariant.ICON} onClick={onToggleView}>
+            <FullViewToggleIcon fullView={fullView} name={"chevron-up"} />
+          </Button>
+        </ProfitWrapper>
       </StatisticMetaContainer>
     </StatisticContainer>
   );
