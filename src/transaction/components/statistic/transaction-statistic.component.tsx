@@ -11,6 +11,14 @@ import { TransactionPrice } from "../price";
 import { ChartSlim } from "../../../components/chart-slim";
 import { getDateMonthHelper } from "../../../helpers/get-date-month";
 
+/**
+ * @return 80 or 100 or 20
+ * @param value
+ * @param half
+ */
+const getPercentOfTwoValues = (value: number, half: number): number =>
+  (value / (value + half)) * 100;
+
 const Month = styled.span`
   font-weight: bold;
   text-transform: capitalize;
@@ -106,8 +114,13 @@ const TransactionStatistic: FC<TransactionStatisticProps> = ({ fullView, transac
   );
 
   const slimChart = useMemo(
-    () => <ChartSlim data={transactionCreditChartData} />,
-    [transactionCreditChartData],
+    () => (
+      <ChartSlim
+        credit={getPercentOfTwoValues(credit, profit)}
+        profit={getPercentOfTwoValues(profit, credit)}
+      />
+    ),
+    [credit, profit],
   );
 
   return (
