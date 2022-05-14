@@ -25,7 +25,7 @@ const Template: ComponentStory<typeof Overlay> = (args) => <Overlay {...args} />
 const Default = Template.bind({});
 Default.args = {
   children: (
-    <Modal>
+    <Modal show={true}>
       <button>button</button>
     </Modal>
   ),
