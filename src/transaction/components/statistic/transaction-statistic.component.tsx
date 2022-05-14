@@ -39,6 +39,7 @@ const StatisticContainer = styled.div<{ row?: boolean; reverse?: boolean }>`
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  flex-wrap: wrap;
 
   flex-direction: ${(props) =>
     props.row
