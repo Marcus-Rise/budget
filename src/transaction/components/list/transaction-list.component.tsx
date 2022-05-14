@@ -16,8 +16,11 @@ import { TransactionPrice } from "../price";
 import { Button, ButtonVariant } from "../../../components/button";
 import { media } from "../../../../styles/grid";
 
-const TransactionListContainer = styled.div`
+const MetaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
   padding: 0 1rem;
+  gap: 1rem;
 `;
 
 const ModalFormWrapper = styled.div`
@@ -123,11 +126,10 @@ const TransactionList: FC<TransactionListProps> = ({
 
   return (
     <>
-      <TransactionListContainer>
+      <MetaContainer>
         <TransactionFormQuick onSubmit={prepareTransaction} />
-        <br />
         {renderStatistic({ transactions })}
-      </TransactionListContainer>
+      </MetaContainer>
       <DateGroupedList
         items={transactionListItems}
         renderGroup={({ items, children, title }) => {
