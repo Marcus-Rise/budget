@@ -25,15 +25,15 @@ const FormSubmitButton = styled(Button).attrs(() => ({
 `;
 
 const HomePageContainer = styled(Container)`
-  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 `;
 
 const FilterActivator = styled(Button)`
   margin-left: auto;
-  margin-right: 1rem;
 `;
 
 const FilterCounter = styled.span`
@@ -73,6 +73,7 @@ const Home: NextPage = () => {
 
   return (
     <Layout>
+      <br />
       <HomePageContainer>
         <FilterActivator as={Badge} onClick={openTransactionFilterForm}>
           Фильтры
@@ -87,20 +88,23 @@ const Home: NextPage = () => {
             onSubmit={applyFilters}
           />
         </Modal>
-        {!!transactions.length ? (
-          <TransactionList
-            transactions={transactions}
-            onDelete={deleteTransaction}
-            onSave={saveTransaction}
-            renderStatistic={({ transactions }) => (
-              <TransactionStatistic
-                transactions={transactions}
-                onToggleView={toggleStatisticFullView}
-                fullView={statisticFullView}
-              />
-            )}
-          />
-        ) : (
+      </HomePageContainer>
+      <br />
+      {!!transactions.length ? (
+        <TransactionList
+          transactions={transactions}
+          onDelete={deleteTransaction}
+          onSave={saveTransaction}
+          renderStatistic={({ transactions }) => (
+            <TransactionStatistic
+              transactions={transactions}
+              onToggleView={toggleStatisticFullView}
+              fullView={statisticFullView}
+            />
+          )}
+        />
+      ) : (
+        <HomePageContainer>
           <TransactionForm
             onSubmit={saveTransaction}
             categories={[TRANSACTION_CATEGORY_OTHER]}
@@ -108,8 +112,8 @@ const Home: NextPage = () => {
           >
             <FormSubmitButton>Сохранить</FormSubmitButton>
           </TransactionForm>
-        )}
-      </HomePageContainer>
+        </HomePageContainer>
+      )}
     </Layout>
   );
 };
