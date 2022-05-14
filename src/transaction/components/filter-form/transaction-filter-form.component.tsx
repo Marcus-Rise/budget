@@ -66,7 +66,15 @@ const TransactionFilterForm: FC<TransactionFilterFormProps> = ({
             field.onChange(uniqueValues);
           };
 
-          return <InputCombobox {...field} onChange={change} variants={variants} />;
+          return (
+            <InputCombobox
+              {...field}
+              onChange={change}
+              variants={variants}
+              label={"Поиск фильтра"}
+              autoFocus
+            />
+          );
         }}
       />
       <Button type={"submit"}>Сохранить</Button>
