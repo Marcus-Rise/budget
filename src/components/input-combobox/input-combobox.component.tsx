@@ -99,3 +99,4 @@ const InputCombobox: FC<InputComboboxProps> = ({ value, onChange, variants }) =>
 };
 
 export { InputCombobox, InputComboboxItem };
+export type { InputComboboxValueItem };
