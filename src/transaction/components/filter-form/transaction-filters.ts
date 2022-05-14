@@ -1,4 +1,4 @@
-import { isThisMonth, isSameMonth, subMonths, addMonths } from "date-fns";
+import { addMonths, isSameMonth, isThisMonth, subMonths } from "date-fns";
 import type { TransactionModel } from "../../models";
 
 enum TransactionFilterNameEnum {
