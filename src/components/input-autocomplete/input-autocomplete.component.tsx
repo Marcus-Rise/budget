@@ -55,6 +55,7 @@ type InputAutocompleteProps = Merge<
     InputTextProps,
     {
       variants: string[];
+      onSelected?: (value: string) => void;
       value: string;
     },
   ]
@@ -70,39 +71,46 @@ const compareStrings = (str1: string, str2: string): boolean => {
   return (left.includes(right) || right.includes(left)) && left !== right;
 };
 
-const InputAutocomplete = forwardRef<HTMLInputElement, InputAutocompleteProps>((props, ref) => {
-  const filteredVariants: string[] = useMemo(
-    () =>
-      !!props.value ? props.variants.filter((i) => compareStrings(i, props.value)) : props.variants,
-    [props.value, props.variants],
-  );
+const InputAutocomplete = forwardRef<HTMLInputElement, InputAutocompleteProps>(
+  ({ onSelected, ...props }, ref) => {
+    const filteredVariants: string[] = useMemo(
+      () =>
+        !!props.value
+          ? props.variants.filter((i) => compareStrings(i, props.value))
+          : props.variants,
+      [props.value, props.variants],
+    );
 
-  const select = useCallback(
-    (val: string) => {
-      return () => {
-        props.onChange(val);
-      };
-    },
-    [props],
-  );
+    const select = useCallback(
+      (val: string) => {
+        return () => {
+          props.onChange(val);
+          if (onSelected) {
+            onSelected(val);
+          }
+        };
+      },
+      [onSelected, props],
+    );
 
-  const variants = useMemo(
-    () =>
-      filteredVariants.map((i) => (
-        <Variant key={i} onClick={select(i)}>
-          {i}
-        </Variant>
-      )),
-    [filteredVariants, select],
-  );
+    const variants = useMemo(
+      () =>
+        filteredVariants.map((i) => (
+          <Variant key={i} onClick={select(i)}>
+            {i}
+          </Variant>
+        )),
+      [filteredVariants, select],
+    );
 
-  return (
-    <Root>
-      <Input {...props} ref={ref} />
-      {!!variants.length && <VariantContainer>{variants}</VariantContainer>}
-    </Root>
-  );
-});
+    return (
+      <Root>
+        <Input {...props} ref={ref} />
+        {!!variants.length && <VariantContainer>{variants}</VariantContainer>}
+      </Root>
+    );
+  },
+);
 
 export { InputAutocomplete };
 export type { InputAutocompleteProps };
