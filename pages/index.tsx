@@ -25,6 +25,7 @@ const FormSubmitButton = styled(Button).attrs(() => ({
 `;
 
 const HomePageContainer = styled(Container)`
+  padding-top: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -57,22 +58,21 @@ const Home: NextPage = () => {
   const [showTransactionFilterForm, setShowTransactionFilterForm] = useState(false);
   const openTransactionFilterForm = () => setShowTransactionFilterForm(true);
   const closeTransactionFilterForm = () => setShowTransactionFilterForm(false);
-
   const [transactionFilters, setTransactionFilters] = useState<Array<TransactionFilter>>([
     isTransactionInSameMonthFilter,
   ]);
-  const { saveTransaction, transactions, deleteTransaction } = useTransaction(transactionFilters);
-  const [statisticFullView, setStatisticFullView] = useState(false);
-  const toggleStatisticFullView = () => setStatisticFullView((full) => !full);
-
   const applyFilters = (dto: ITransactionFilterFormDto) => {
     setTransactionFilters(dto.filters);
     closeTransactionFilterForm();
   };
 
+  const { saveTransaction, transactions, deleteTransaction } = useTransaction(transactionFilters);
+
+  const [statisticFullView, setStatisticFullView] = useState(false);
+  const toggleStatisticFullView = () => setStatisticFullView((full) => !full);
+
   return (
     <Layout>
-      <br />
       <HomePageContainer>
         <FilterActivator as={Badge} onClick={openTransactionFilterForm}>
           Фильтры
