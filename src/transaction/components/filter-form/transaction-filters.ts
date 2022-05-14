@@ -1,30 +1,24 @@
 import { addMonths, isSameMonth, isThisMonth, subMonths } from "date-fns";
 import type { TransactionModel } from "../../models";
 
-enum TransactionFilterNameEnum {
-  PREVIOUS_MONTH = "Предыдущий месяц",
-  CURRENT_MONTH = "Текущий месяц",
-  NEXT_MONTH = "Следующий месяц",
-}
-
 enum TransactionFilterCategoryEnum {
   DATE = "date",
 }
 
 type TransactionFilter = {
-  name: TransactionFilterNameEnum | string;
+  name: string;
   category: TransactionFilterCategoryEnum | string;
   filter: (transaction: TransactionModel) => boolean;
 };
 
 const isTransactionInSameMonthFilter: TransactionFilter = {
-  name: TransactionFilterNameEnum.CURRENT_MONTH,
+  name: "Текущий месяц",
   category: TransactionFilterCategoryEnum.DATE,
   filter: (transaction) => isThisMonth(transaction.date),
 };
 
 const isTransactionInPreviousMonthFilter: TransactionFilter = {
-  name: TransactionFilterNameEnum.PREVIOUS_MONTH,
+  name: "Предыдущий месяц",
   category: TransactionFilterCategoryEnum.DATE,
   filter: (transaction) => {
     const lastMonthDate = subMonths(new Date(), 1);
@@ -34,7 +28,7 @@ const isTransactionInPreviousMonthFilter: TransactionFilter = {
 };
 
 const isTransactionInNextMonthFilter: TransactionFilter = {
-  name: TransactionFilterNameEnum.NEXT_MONTH,
+  name: "Следующий месяц",
   category: TransactionFilterCategoryEnum.DATE,
   filter: (transaction) => {
     const nextMonthDate = addMonths(new Date(), 1);
@@ -50,7 +44,6 @@ const transactionFilters = [
 ];
 
 export {
-  TransactionFilterNameEnum,
   isTransactionInSameMonthFilter,
   isTransactionInPreviousMonthFilter,
   isTransactionInNextMonthFilter,
