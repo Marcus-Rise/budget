@@ -1,23 +1,20 @@
 import type { FC } from "react";
-import { useCallback, useMemo, useState } from "react";
+import { forwardRef, useCallback, useMemo, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { Button, ButtonVariant } from "../button";
 import { Icon } from "../icon";
+import type { InputAutocompleteProps } from "../input-autocomplete/input-autocomplete.component";
 import { InputAutocomplete } from "../input-autocomplete/input-autocomplete.component";
+import type { Merge } from "../../types/merge";
+import { Badge } from "../badge";
 
 const ItemsWrapper = styled.div`
   display: flex;
   gap: 1rem;
 `;
 
-const ItemStyled = styled.span`
-  background-color: ${(props) => props.theme.neutralLighter};
-  border-radius: 0.25rem;
+const ItemStyled = styled(Badge)`
   padding: 0.25rem 0.15rem 0.25rem 0.5rem;
-  display: inline-flex;
-  align-items: center;
-  font-size: 0.8rem;
-  color: ${(props) => props.theme.neutral};
 `;
 
 const ButtonRemove = styled(Button)`
@@ -48,55 +45,64 @@ type InputComboboxValueItem = {
   value: unknown;
 };
 
-type InputComboboxProps = {
-  value: Array<InputComboboxValueItem>;
-  variants: Array<InputComboboxValueItem>;
-  onChange: (value: Array<InputComboboxValueItem>) => void;
-};
-
-const InputCombobox: FC<InputComboboxProps> = ({ value, onChange, variants }) => {
-  const [query, setQuery] = useState("");
-  const clearQuery = () => setQuery("");
-
-  const removeVal = (val: string) => {
-    onChange(value.filter((valueItem) => valueItem.title !== val));
-  };
-
-  const items = value.map((i) => (
-    <InputComboboxItem key={i.title} name={i.title} onRemove={() => removeVal(i.title)} />
-  ));
-  const autocomleteVariants = useMemo(
-    () =>
-      variants
-        .filter((variant) => !value.find((valueItem) => valueItem.title === variant.title))
-        .map((variant) => variant.title),
-    [value, variants],
-  );
-
-  const change = useCallback(
-    (val: string) => {
-      const fullVal = variants.find((variant) => variant.title === val);
-
-      if (!!fullVal) {
-        onChange([fullVal, ...value]);
-        clearQuery();
-      }
+type InputComboboxProps = Merge<
+  [
+    InputAutocompleteProps,
+    {
+      value: Array<InputComboboxValueItem>;
+      variants: Array<InputComboboxValueItem>;
+      onChange: (value: Array<InputComboboxValueItem>) => void;
     },
-    [onChange, value, variants],
-  );
+  ]
+>;
 
-  return (
-    <Container>
-      <ItemsWrapper>{items}</ItemsWrapper>
-      <InputAutocomplete
-        variants={autocomleteVariants}
-        value={query}
-        onChange={setQuery}
-        onSelected={change}
-      />
-    </Container>
-  );
-};
+const InputCombobox = forwardRef<HTMLInputElement, InputComboboxProps>(
+  ({ value, onChange, variants, ...props }, ref) => {
+    const [query, setQuery] = useState("");
+    const clearQuery = () => setQuery("");
+
+    const removeVal = (val: string) => {
+      onChange(value.filter((valueItem) => valueItem.title !== val));
+    };
+
+    const items = value.map((i) => (
+      <InputComboboxItem key={i.title} name={i.title} onRemove={() => removeVal(i.title)} />
+    ));
+    const autocomleteVariants = useMemo(
+      () =>
+        variants
+          .filter((variant) => !value.find((valueItem) => valueItem.title === variant.title))
+          .map((variant) => variant.title),
+      [value, variants],
+    );
+
+    const change = useCallback(
+      (val: string) => {
+        const fullVal = variants.find((variant) => variant.title === val);
+
+        if (!!fullVal) {
+          onChange([fullVal, ...value]);
+          clearQuery();
+        }
+      },
+      [onChange, value, variants],
+    );
+
+    return (
+      <Container>
+        <ItemsWrapper>{items}</ItemsWrapper>
+        <InputAutocomplete
+          {...props}
+          ref={ref}
+          variants={autocomleteVariants}
+          value={query}
+          onChange={setQuery}
+          onSelected={change}
+        />
+      </Container>
+    );
+  },
+);
 
 export { InputCombobox, InputComboboxItem };
-export type { InputComboboxValueItem };
+export type { InputComboboxValueItem, InputComboboxProps };

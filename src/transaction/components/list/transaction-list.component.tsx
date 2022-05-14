@@ -6,21 +6,18 @@ import type { ITransactionFormDto } from "../form";
 import { TransactionForm } from "../form";
 import type { ITransactionFormQuickDto } from "../form-quick";
 import { TransactionFormQuick } from "../form-quick";
-import { Container } from "../../../components/container";
 import type { DateGroupedListItem } from "../../../components/date-grouped-list";
 import { DateGroupedList } from "../../../components/date-grouped-list";
 import { TitledList } from "../../../components/titled-list";
 import { TransactionListItem } from "../list-item";
-import { Overlay } from "../../../components/overlay";
 import { Modal } from "../../../components/modal";
 import styled, { useTheme } from "styled-components";
 import { TransactionPrice } from "../price";
 import { Button, ButtonVariant } from "../../../components/button";
 import { media } from "../../../../styles/grid";
 
-const ModalContainer = styled(Container)`
-  height: 100vh;
-  align-items: center;
+const TransactionListContainer = styled.div`
+  padding: 0 1rem;
 `;
 
 const ModalFormWrapper = styled.div`
@@ -56,13 +53,21 @@ const ListGroupPrice = styled(TransactionPrice)`
 
 type TransactionListItem = Omit<TransactionModel, "toJson"> & { id: string };
 
+type TransactionStatisticSlice = FC<{ transactions: TransactionModel[] }>;
+
 type TransactionListProps = {
   transactions: TransactionModel[];
   onDelete: (uuid: string) => void;
   onSave: (dto: ITransactionFormDto) => void;
+  renderStatistic?: TransactionStatisticSlice;
 };
 
-const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onSave }) => {
+const TransactionList: FC<TransactionListProps> = ({
+  transactions,
+  renderStatistic = () => null,
+  onDelete,
+  onSave,
+}) => {
   const [transactionDto, setTransactionDto] = useState<ITransactionFormDto>();
   const theme = useTheme();
 
@@ -118,65 +123,58 @@ const TransactionList: FC<TransactionListProps> = ({ transactions, onDelete, onS
 
   return (
     <>
-      <Container centered>
+      <TransactionListContainer>
         <TransactionFormQuick onSubmit={prepareTransaction} />
-      </Container>
-      <br />
-      <Container>
-        <DateGroupedList
-          items={transactionListItems}
-          renderGroup={({ items, children, title }) => {
-            const sum = items.reduce(
-              (sum, item) =>
-                item.type === TransactionType.DEBIT ? sum + item.amount : sum - item.amount,
-              0,
-            );
-            const type = sum < 0 ? TransactionType.CREDIT : TransactionType.DEBIT;
+        <br />
+        {renderStatistic({ transactions })}
+      </TransactionListContainer>
+      <DateGroupedList
+        items={transactionListItems}
+        renderGroup={({ items, children, title }) => {
+          const sum = items.reduce(
+            (sum, item) =>
+              item.type === TransactionType.DEBIT ? sum + item.amount : sum - item.amount,
+            0,
+          );
+          const type = sum < 0 ? TransactionType.CREDIT : TransactionType.DEBIT;
 
-            return (
-              <TitledList title={title} meta={<ListGroupPrice amount={sum} type={type} />}>
-                {children}
-              </TitledList>
-            );
-          }}
-          renderItem={(props) => (
-            <TransactionListItem
-              {...props}
-              onClick={() => setTransactionDto(props)}
-              onRemove={() => deleteTransaction(props.uuid, props.title, props.category)}
-            />
-          )}
-        />
-      </Container>
-      {transactionDto && (
-        <Overlay>
-          <ModalContainer centered>
-            <Modal>
-              <ModalFormWrapper>
-                <FormTitle>Редактор транзакции</FormTitle>
-                <TransactionForm
-                  {...transactionDto}
-                  categories={categories}
-                  onSubmit={saveTransactionAndClear}
-                  focus={!!transactionDto.uuid ? "amount" : "category"}
-                >
-                  <FormButtonsWrapper>
-                    <Button type={"submit"}>Сохранить</Button>
-                    <Button
-                      type={"button"}
-                      variant={ButtonVariant.TEXT}
-                      color={theme.neutral}
-                      onClick={clearTransactionFormDto}
-                    >
-                      Отменить
-                    </Button>
-                  </FormButtonsWrapper>
-                </TransactionForm>
-              </ModalFormWrapper>
-            </Modal>
-          </ModalContainer>
-        </Overlay>
-      )}
+          return (
+            <TitledList title={title} meta={<ListGroupPrice amount={sum} type={type} />}>
+              {children}
+            </TitledList>
+          );
+        }}
+        renderItem={(props) => (
+          <TransactionListItem
+            {...props}
+            onClick={() => setTransactionDto(props)}
+            onRemove={() => deleteTransaction(props.uuid, props.title, props.category)}
+          />
+        )}
+      />
+      <Modal show={!!transactionDto}>
+        <ModalFormWrapper>
+          <FormTitle>Редактор транзакции</FormTitle>
+          <TransactionForm
+            {...transactionDto}
+            categories={categories}
+            onSubmit={saveTransactionAndClear}
+            focus={!!transactionDto?.uuid ? "amount" : "category"}
+          >
+            <FormButtonsWrapper>
+              <Button type={"submit"}>Сохранить</Button>
+              <Button
+                type={"button"}
+                variant={ButtonVariant.TEXT}
+                color={theme.neutral}
+                onClick={clearTransactionFormDto}
+              >
+                Отменить
+              </Button>
+            </FormButtonsWrapper>
+          </TransactionForm>
+        </ModalFormWrapper>
+      </Modal>
     </>
   );
 };

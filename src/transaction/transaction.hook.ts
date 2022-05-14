@@ -3,8 +3,7 @@ import type { TransactionModel } from "./models";
 import { TransactionModelFactory } from "./models";
 import type { ITransactionFormDto } from "./components/form";
 import type { ITransactionRepositoryDto } from "./dto";
-
-type TransactionFilter = (transaction: TransactionModel) => boolean;
+import type { TransactionFilter } from "./components/filter-form";
 
 const TRANSACTION_LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
@@ -88,7 +87,7 @@ const useTransaction = (filters: Array<TransactionFilter> = []) => {
   );
 
   const filteredItems = useMemo(
-    () => items.filter((transaction) => filters.every((filter) => filter(transaction))),
+    () => items.filter((transaction) => filters.every(({ filter }) => filter(transaction))),
     [filters, items],
   );
 

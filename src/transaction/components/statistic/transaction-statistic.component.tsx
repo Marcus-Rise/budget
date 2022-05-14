@@ -5,7 +5,6 @@ import { TransactionType } from "../../models";
 import type { ChartCircleData } from "../../../components/chart-cirlce";
 import { ChartCircle } from "../../../components/chart-cirlce";
 import styled from "styled-components";
-import { Container } from "../../../components/container";
 import { media } from "../../../../styles/grid";
 import { TransactionPrice } from "../price";
 import { ChartSlim } from "../../../components/chart-slim";
@@ -35,12 +34,11 @@ const FullViewToggleIcon = styled(Icon)<{ fullView?: boolean }>`
   transform: ${(props) => (props.fullView ? "none" : "rotate(180deg)")};
 `;
 
-const StatisticContainer = styled(Container)<{ row?: boolean; reverse?: boolean }>`
+const StatisticContainer = styled.div<{ row?: boolean; reverse?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
-  padding: 0 1rem;
 
   flex-direction: ${(props) =>
     props.row

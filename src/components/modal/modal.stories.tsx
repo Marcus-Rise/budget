@@ -11,6 +11,7 @@ const Template: ComponentStory<typeof Modal> = (args) => <Modal {...args} />;
 const Default = Template.bind({});
 Default.args = {
   children: <button>button</button>,
+  show: true,
 };
 
 export default Config;
