@@ -5,6 +5,13 @@ import { TRANSACTION_DATA_MOCK } from "../../transactions-data.mock";
 const Config: ComponentMeta<typeof TransactionList> = {
   title: "transaction/List",
   component: TransactionList,
+  decorators: [
+    (Story) => (
+      <div style={{ padding: "1rem" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof TransactionList> = (args) => <TransactionList {...args} />;

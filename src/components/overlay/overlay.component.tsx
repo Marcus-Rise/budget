@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import type { FC } from "react";
+import type { ComponentProps, FC } from "react";
 import { useEffect } from "react";
 
 const Root = styled.div`
@@ -12,7 +12,9 @@ const Root = styled.div`
   z-index: 2;
 `;
 
-const Overlay: FC = ({ children }) => {
+type OverlayProps = ComponentProps<typeof Root>;
+
+const Overlay: FC<OverlayProps> = (props) => {
   useEffect(() => {
     const body = document.getElementsByTagName("body");
 
@@ -23,7 +25,7 @@ const Overlay: FC = ({ children }) => {
     };
   }, []);
 
-  return <Root>{children}</Root>;
+  return <Root {...props} />;
 };
 
 export { Overlay };

@@ -1,12 +1,13 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { TransactionModel } from "./models";
 import { TransactionModelFactory } from "./models";
 import type { ITransactionFormDto } from "./components/form";
 import type { ITransactionRepositoryDto } from "./dto";
+import type { TransactionFilter } from "./components/filter-form";
 
 const TRANSACTION_LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
-const useTransaction = () => {
+const useTransaction = (filters: Array<TransactionFilter> = []) => {
   const [items, setItems] = useState<TransactionModel[]>([]);
 
   useEffect(() => {
@@ -85,8 +86,13 @@ const useTransaction = () => {
     [create, edit],
   );
 
+  const filteredItems = useMemo(
+    () => items.filter((transaction) => filters.every(({ filter }) => filter(transaction))),
+    [filters, items],
+  );
+
   return {
-    transactions: items,
+    transactions: filteredItems,
     createTransaction: create,
     deleteTransaction: remove,
     editTransaction: edit,
@@ -95,3 +101,4 @@ const useTransaction = () => {
 };
 
 export { useTransaction, TRANSACTION_LOCAL_STORAGE_KEY };
+export type { TransactionFilter };
