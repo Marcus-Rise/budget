@@ -6,6 +6,13 @@ import { TransactionModel, TransactionType } from "../../models";
 const Config: ComponentMeta<typeof TransactionStatistic> = {
   title: "transaction/Statistic",
   component: TransactionStatistic,
+  decorators: [
+    (Story) => (
+      <div style={{ padding: "1rem" }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 const Template: ComponentStory<typeof TransactionStatistic> = (args) => (
