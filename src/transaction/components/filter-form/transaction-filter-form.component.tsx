@@ -9,7 +9,7 @@ import type {
   InputComboboxValueItem,
 } from "../../../components/input-combobox";
 import { InputCombobox } from "../../../components/input-combobox";
-import { mergeArrayByValueHelper } from "../../../helpers/merge-array-by-value";
+import { mergeArrayByObjectKeyHelper } from "../../../helpers/merge-array-by-object-key";
 import styled from "styled-components";
 import { Button } from "../../../components/button";
 
@@ -61,7 +61,7 @@ const TransactionFilterForm: FC<TransactionFilterFormProps> = ({
         name={"filters"}
         render={({ field }) => {
           const change: InputComboboxProps["onChange"] = (value) => {
-            const uniqueValues = mergeArrayByValueHelper(value);
+            const uniqueValues = mergeArrayByObjectKeyHelper(value, "value");
 
             field.onChange(uniqueValues);
           };

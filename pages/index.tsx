@@ -10,13 +10,8 @@ import { TRANSACTION_CATEGORY_OTHER } from "../src/transaction/models";
 import styled from "styled-components";
 import { useState } from "react";
 import type { TransactionFilter } from "../src/transaction/components/filter-form";
-import {
-  isTransactionInSameMonthFilter,
-  TransactionFilterForm,
-} from "../src/transaction/components/filter-form";
-import { Badge } from "../src/components/badge";
-import { Modal } from "../src/components/modal";
-import type { ITransactionFilterFormDto } from "../src/transaction/components/filter-form/transaction-filter-form.dto";
+import { isTransactionInSameMonthFilter } from "../src/transaction/components/filter-form";
+import { TransactionFilterController } from "../src/transaction/components/filter-controller";
 
 const FormSubmitButton = styled(Button).attrs(() => ({
   type: "submit",
@@ -24,47 +19,22 @@ const FormSubmitButton = styled(Button).attrs(() => ({
   width: 100%;
 `;
 
-const HomePageContainer = styled(Container)`
+const WelcomeFormContainer = styled(Container)`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding: 0 1rem;
 `;
 
-const FilterActivator = styled(Button)`
-  margin-left: auto;
-`;
-
-const FilterCounter = styled.span`
-  margin-left: 0.5rem;
-  color: ${(props) => props.theme.secondary};
-  background-color: ${(props) => props.theme.neutralLightest};
-  padding: 0.15rem;
-  border-radius: 1rem;
-  width: 1.25rem;
-  height: 1.25rem;
+const FilterContainer = styled(Container)`
   display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const FilterFormTitle = styled.h2`
-  text-align: center;
-  font-size: 1.25rem;
+  padding: 0 1rem;
+  flex-direction: column;
 `;
 
 const Home: NextPage = () => {
-  const [showTransactionFilterForm, setShowTransactionFilterForm] = useState(false);
-  const openTransactionFilterForm = () => setShowTransactionFilterForm(true);
-  const closeTransactionFilterForm = () => setShowTransactionFilterForm(false);
   const [transactionFilters, setTransactionFilters] = useState<Array<TransactionFilter>>([
     isTransactionInSameMonthFilter,
   ]);
-  const applyFilters = (dto: ITransactionFilterFormDto) => {
-    setTransactionFilters(dto.filters);
-    closeTransactionFilterForm();
-  };
 
   const { saveTransaction, transactions, deleteTransaction } = useTransaction(transactionFilters);
 
@@ -74,21 +44,12 @@ const Home: NextPage = () => {
   return (
     <Layout>
       <br />
-      <HomePageContainer>
-        <FilterActivator as={Badge} onClick={openTransactionFilterForm}>
-          Фильтры
-          {transactionFilters.length > 0 && (
-            <FilterCounter>{transactionFilters.length}</FilterCounter>
-          )}
-        </FilterActivator>
-        <Modal show={showTransactionFilterForm} onClose={closeTransactionFilterForm}>
-          <FilterFormTitle>Фильтры</FilterFormTitle>
-          <TransactionFilterForm
-            alreadyAppliedFilters={transactionFilters}
-            onSubmit={applyFilters}
-          />
-        </Modal>
-      </HomePageContainer>
+      <FilterContainer>
+        <TransactionFilterController
+          filters={transactionFilters}
+          onFilter={setTransactionFilters}
+        />
+      </FilterContainer>
       <br />
       {!!transactions.length ? (
         <TransactionList
@@ -104,7 +65,7 @@ const Home: NextPage = () => {
           )}
         />
       ) : (
-        <HomePageContainer>
+        <WelcomeFormContainer>
           <TransactionForm
             onSubmit={saveTransaction}
             categories={[TRANSACTION_CATEGORY_OTHER]}
@@ -112,7 +73,7 @@ const Home: NextPage = () => {
           >
             <FormSubmitButton>Сохранить</FormSubmitButton>
           </TransactionForm>
-        </HomePageContainer>
+        </WelcomeFormContainer>
       )}
     </Layout>
   );
