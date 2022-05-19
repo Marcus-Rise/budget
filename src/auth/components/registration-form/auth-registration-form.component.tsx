@@ -8,6 +8,9 @@ import { InputText } from "../../../components/input-text";
 import { Icon } from "../../../components/icon";
 import { Button, ButtonVariant } from "../../../components/button";
 
+const LOGIN_MIN_LENGTH = 4;
+const PASSWORD_MIN_LENGTH = 6;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -39,7 +42,12 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit }) => {
       <Controller
         control={control}
         name={"login"}
-        rules={{ required: "Введите логин" }}
+        rules={{
+          required: "Введите логин",
+          validate: (login) =>
+            login.length >= LOGIN_MIN_LENGTH ||
+            `Длинна логина должна быть не меньше ${LOGIN_MIN_LENGTH}`,
+        }}
         render={({ field, fieldState }) => (
           <InputText
             {...field}
@@ -52,7 +60,12 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit }) => {
       <Controller
         control={control}
         name={"password"}
-        rules={{ required: "Введите пароль" }}
+        rules={{
+          required: "Введите пароль",
+          validate: (password) =>
+            password.length >= PASSWORD_MIN_LENGTH ||
+            `Длинна логина должна быть не меньше ${PASSWORD_MIN_LENGTH}`,
+        }}
         render={({ field, fieldState }) => (
           <InputText
             {...field}
