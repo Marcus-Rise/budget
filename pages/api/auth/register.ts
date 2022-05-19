@@ -18,13 +18,11 @@ const RegisterHandler: NextApiHandler = async (req, response) => {
           return response.status(res.status).json(json);
         }
 
-        return json;
+        return response.status(200).json(json);
       })
       .catch((e) => {
         return response.status(500).json(e);
       });
-
-    response.status(200).end();
   }
 };
 
