@@ -27,7 +27,7 @@ const Default: ComponentStory<typeof Header> = (args) => (
 );
 
 const UserExist: ComponentStory<typeof Header> = (args) => (
-  <UserProvider user={{ email: "some@somes.com" }}>
+  <UserProvider user={{ login: "some@somes.com" }}>
     <Header {...args} />
   </UserProvider>
 );

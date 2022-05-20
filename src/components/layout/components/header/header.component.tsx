@@ -34,7 +34,7 @@ const HeaderContainer = styled(Container)`
 
 const Header: FC = () => {
   const { user, isLoading } = useUser();
-  const userProfileLabel = isLoading ? "Загрузка..." : user?.email ?? "Войти";
+  const userProfileLabel = isLoading ? "Загрузка..." : user?.login ?? "Войти";
   const userProfileLink = !user ? "/login" : "/profile";
 
   return (
