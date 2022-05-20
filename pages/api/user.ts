@@ -31,7 +31,7 @@ const UserHandler: NextApiHandler<IUser | { error: string }> = async (req, respo
       });
 
     response.json({
-      email: user.login,
+      login: user.login,
     });
   }
 };

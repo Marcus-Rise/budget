@@ -58,7 +58,7 @@ const Profile: NextPage = () => {
             "Loading..."
           ) : (
             <>
-              Email: {user.email}
+              Login: {user.login}
               <br />
               <br />
               <ActionsContainer>

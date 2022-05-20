@@ -10,7 +10,7 @@ const Config: ComponentMeta<typeof Profile> = {
 const Default: ComponentStory<typeof Profile> = (args) => <Profile {...args} />;
 
 const WithUser: ComponentStory<typeof Profile> = (args) => (
-  <UserProvider user={{ email: "some@some.com" }}>
+  <UserProvider user={{ login: "some@some.com" }}>
     <Profile {...args} />
   </UserProvider>
 );
