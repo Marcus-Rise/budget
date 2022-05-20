@@ -3,6 +3,9 @@ const useAuth = () => {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       body: JSON.stringify(dto),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     if (!res.ok) {
@@ -16,6 +19,9 @@ const useAuth = () => {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify(dto),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     if (!res.ok) {
