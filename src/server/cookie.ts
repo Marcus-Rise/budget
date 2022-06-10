@@ -1,14 +1,17 @@
 import type { NextApiResponse } from "next";
 import type { CookieSerializeOptions } from "cookie";
 import { serialize } from "cookie";
+import type { ServerResponse } from "http";
+
+type Handler = NextApiResponse | ServerResponse;
 
 const setCookie = (
-  res: NextApiResponse,
+  res: Handler,
   name: string,
   value: string,
   options: CookieSerializeOptions = {
     httpOnly: true,
-    maxAge: 2592000,
+    maxAge: parseInt(process.env.COOKIE_TTL ?? ""),
     path: "/",
     sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
@@ -19,7 +22,7 @@ const setCookie = (
   res.setHeader("Set-Cookie", serialize(name, stringValue, options));
 };
 
-const removeCookie = (res: NextApiResponse, name: string) => {
+const removeCookie = (res: Handler, name: string) => {
   setCookie(res, name, "", {
     path: "/",
     maxAge: 1,
