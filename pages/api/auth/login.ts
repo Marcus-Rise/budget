@@ -1,6 +1,6 @@
 import type { NextApiHandler } from "next";
 import { setCookie } from "../../../src/server/cookie";
-import { withMethodHandlers } from "../../../src/server/utils/interceptor/method-handlers.interceptor";
+import { withMethodHandlers } from "../../../src/server/utils/interceptor";
 
 const LoginHandler: NextApiHandler = async (req, response) =>
   fetch(process.env.API_URL + "/api/auth/login", {
