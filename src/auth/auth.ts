@@ -22,6 +22,7 @@ const useAuth = () => {
       headers: {
         "Content-Type": "application/json",
       },
+      keepalive: true,
     });
 
     if (!res.ok) {
