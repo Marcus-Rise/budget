@@ -1,6 +1,7 @@
 import type { NextApiHandler } from "next";
 import { setCookie } from "../../../src/server/cookie";
 import { withMethodHandlers } from "../../../src/server/utils/interceptor";
+import type { LoginResponseDto } from "../../../src/server/dto";
 
 const LoginHandler: NextApiHandler = async (req, response) =>
   fetch(process.env.API_URL + "/api/auth/login", {
@@ -10,7 +11,7 @@ const LoginHandler: NextApiHandler = async (req, response) =>
     },
     body: JSON.stringify(req.body),
   })
-    .then<{ type: "bearer" | string; access_token: string; refresh_token: string }>(async (res) => {
+    .then<LoginResponseDto>(async (res) => {
       const json = await res.json();
 
       if (!res.ok) {
