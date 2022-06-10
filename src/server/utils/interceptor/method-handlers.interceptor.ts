@@ -12,9 +12,9 @@ type MethodHandler<Handler extends NextApiHandler = NextApiHandler> = {
   handler: Handler;
 };
 
-const withMethodNotAllowed =
+const withMethodHandlers =
   (...allowedHandlers: Array<MethodHandler>): Interceptor =>
-  (handler: NextApiHandler) =>
+  (handler: NextApiHandler = () => {}) =>
   async (req, res) => {
     const allowedHandler = allowedHandlers.find((h) => h.method === req.method)?.handler;
 
@@ -27,4 +27,4 @@ const withMethodNotAllowed =
     return handler(req, res);
   };
 
-export { withMethodNotAllowed };
+export { withMethodHandlers };

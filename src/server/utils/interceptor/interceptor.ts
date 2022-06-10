@@ -10,7 +10,7 @@ import type { NextApiHandler } from "next";
  *   return handler(req, res);
  * }
  */
-type Interceptor<Handler extends NextApiHandler = NextApiHandler> = (handler: Handler) => Handler;
+type Interceptor<Handler extends NextApiHandler = NextApiHandler> = (handler?: Handler) => Handler;
 
 /**
  * Apply multiply interceptors
