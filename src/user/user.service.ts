@@ -12,7 +12,7 @@ class UserService {
   }
 
   static remove() {
-    return fetch("/api/user", {
+    return fetch("/api/proxy/user", {
       method: "DELETE",
     }).then((res) => {
       if (!res.ok) {
