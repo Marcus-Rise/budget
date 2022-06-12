@@ -7,9 +7,9 @@ import { Controller, useForm } from "react-hook-form";
 import { InputText } from "../../../components/input-text";
 import { Icon } from "../../../components/icon";
 import { Button, ButtonVariant } from "../../../components/button";
+import isEmailValidator from "validator/lib/isEmail";
 
-const LOGIN_MIN_LENGTH = 4;
-const PASSWORD_MIN_LENGTH = 6;
+const PASSWORD_MIN_LENGTH = 8;
 
 const Form = styled.form`
   display: flex;
@@ -43,15 +43,13 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit }) => {
         control={control}
         name={"login"}
         rules={{
-          required: "Введите логин",
-          validate: (login) =>
-            login.length >= LOGIN_MIN_LENGTH ||
-            `Длинна логина должна быть не меньше ${LOGIN_MIN_LENGTH}`,
+          required: "Введите email",
+          validate: (login) => isEmailValidator(login) || `Не валидный email`,
         }}
         render={({ field, fieldState }) => (
           <InputText
             {...field}
-            label={"Логин"}
+            label={"Email"}
             startIcon={<Icon name={"account"} />}
             error={fieldState.error?.message}
           />
