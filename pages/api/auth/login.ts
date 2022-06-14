@@ -21,9 +21,11 @@ const LoginHandler: NextApiHandler = async (req, response) =>
       return json;
     })
     .then((dto) => {
-      setCookie(response, "auth", JSON.stringify(dto));
+      if (dto) {
+        setCookie(response, "auth", JSON.stringify(dto));
 
-      response.status(200).end();
+        response.status(200).end();
+      }
     })
     .catch((e) => response.status(500).json(e));
 
