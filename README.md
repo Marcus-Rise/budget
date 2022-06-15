@@ -7,7 +7,7 @@
 ## Preparation
 
 - Copy `.env.example` as `.env`
-- Pass `API_URL` value
+- Pass `API_URL` value (project: https://github.com/Marcus-Rise/budget-api)
 
 ## Local run
 
