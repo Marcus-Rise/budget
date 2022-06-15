@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { Container } from "../src/components/container";
 import { useTransaction } from "../src/transaction/transaction.hook";
-import { Layout } from "../src/components/layout";
+import { LayoutPrivate } from "../src/components/layout-private";
 import { TransactionStatistic } from "../src/transaction/components/statistic";
 import { TransactionList } from "../src/transaction/components/list";
 import { TransactionForm } from "../src/transaction/components/form";
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
   const toggleStatisticFullView = () => setStatisticFullView((full) => !full);
 
   return (
-    <Layout>
+    <LayoutPrivate>
       <br />
       <FilterContainer>
         <TransactionFilterController
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
           </TransactionForm>
         </WelcomeFormContainer>
       )}
-    </Layout>
+    </LayoutPrivate>
   );
 };
 

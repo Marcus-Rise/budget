@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { Container } from "../../src/components/container";
 import styled from "styled-components";
 import { Card } from "../../src/components/card";
 import { useAuth } from "../../src/auth";
@@ -10,18 +9,7 @@ import { Button, ButtonVariant } from "../../src/components/button";
 import { AuthRegistrationForm } from "../../src/auth/components/registration-form/auth-registration-form.component";
 import type { IAuthRegistrationFormDto } from "../../src/auth/components/registration-form/auth-registration-form.dto";
 import { useState } from "react";
-
-const Main = styled.main`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-`;
+import { LayoutPublic } from "../../src/components/layout-public";
 
 const LoginCardTitle = styled.h2`
   font-size: 1.25rem;
@@ -52,22 +40,15 @@ const Registration: NextPage = () => {
   };
 
   return (
-    <>
-      <Main>
-        <Link href={"/"}>
-          <Title>Бюджет</Title>
-        </Link>
-        <Container>
-          <FormCard>
-            <LoginCardTitle>Регистрация</LoginCardTitle>
-            <AuthRegistrationForm onSubmit={auth} loading={loading} />
-            <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
-              Войти
-            </Button>
-          </FormCard>
-        </Container>
-      </Main>
-    </>
+    <LayoutPublic>
+      <FormCard>
+        <LoginCardTitle>Регистрация</LoginCardTitle>
+        <AuthRegistrationForm onSubmit={auth} loading={loading} />
+        <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
+          Войти
+        </Button>
+      </FormCard>
+    </LayoutPublic>
   );
 };
 

@@ -4,7 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "../../../styles/theme";
 import Head from "next/head";
 import { GlobalStyles } from "../../../styles/global";
-import { Popup, PopupProvider } from "../popup";
+import { PopupProvider } from "../popup";
 
 type LayoutGlobalProps = PropsWithChildren<{ theme?: DefaultTheme }>;
 
@@ -18,10 +18,7 @@ const LayoutGlobal: FC<LayoutGlobalProps> = ({ children, theme = defaultTheme })
     <ThemeProvider theme={theme}>
       <GlobalStyles />
 
-      <PopupProvider>
-        <Popup />
-        {children}
-      </PopupProvider>
+      <PopupProvider>{children}</PopupProvider>
     </ThemeProvider>
   </>
 );

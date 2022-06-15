@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import type { FC, ReactElement } from "react";
 import { Icon } from "../icon";
 import { Button, ButtonVariant } from "../button";
 
@@ -8,6 +7,11 @@ enum PopupType {
   DANGER = "danger",
   INFO = "info",
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const Content = styled.div`
   display: flex;
@@ -20,24 +24,23 @@ const ButtonClose = styled(Button).attrs(() => ({
   color: "inherit",
 }))``;
 
-const PopupStyled = styled.div.attrs<
-  { onClose?: () => void; type: PopupType; children: ReactElement },
-  { type?: PopupType; onClose?: () => void }
->(({ children, onClose, type }) => {
+type PopupProps = { type?: PopupType; onClose?: () => void; title?: string };
+
+const Popup = styled.div.attrs<PopupProps, PopupProps>(({ onClose, type, title }) => {
   const iconName: string = type === PopupType.SUCCESS ? "success" : "info";
 
   return {
     type,
     children: (
-      <>
+      <Wrapper>
         <Content>
           <Icon name={iconName} />
-          {children}
+          {title}
         </Content>
         <ButtonClose onClick={onClose}>
           <Icon name={"close"} size={"1.5rem"} />
         </ButtonClose>
-      </>
+      </Wrapper>
     ),
   };
 })`
@@ -70,27 +73,5 @@ const PopupStyled = styled.div.attrs<
     fill: ${(props) => props.theme.lightest};
   }
 `;
-
-const Wrapper = styled.div`
-  position: fixed;
-  top: 1rem;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const Popup: FC<{ title: string; type: PopupType; onClose: () => void }> = ({
-  type,
-  title,
-  onClose,
-}) => {
-  return (
-    <Wrapper>
-      <PopupStyled type={type} onClose={onClose}>
-        {title}
-      </PopupStyled>
-    </Wrapper>
-  );
-};
 
 export { Popup, PopupType };
