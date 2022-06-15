@@ -1,13 +1,12 @@
 import styled, { css } from "styled-components";
 import { Loader } from "../loader";
-import type { ButtonHTMLAttributes } from "react";
 
 enum ButtonVariant {
   TEXT = "text",
   ICON = "icon",
 }
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = {
   variant?: ButtonVariant;
   color?: Color;
   loading?: boolean;
