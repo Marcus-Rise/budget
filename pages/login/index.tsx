@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { useUser } from "../../src/user";
 import { Button, ButtonVariant } from "../../src/components/button";
 import { Link } from "../../src/components/link";
+import { useState } from "react";
 
 const Main = styled.main`
   display: flex;
@@ -41,15 +42,20 @@ const Login: NextPage = () => {
   const { login } = useAuth();
   const popup = usePopup();
   const user = useUser();
+  const [loading, setLoading] = useState(false);
 
-  const auth = (dto: IAuthLoginFormDto) =>
-    login(dto)
+  const auth = (dto: IAuthLoginFormDto) => {
+    setLoading(true);
+
+    return login(dto)
       .then(async () => {
         await user.updateUser();
 
         return router.push("/");
       })
-      .catch(() => popup.open("Не удалось выполнить вход", PopupType.DANGER));
+      .catch(() => popup.open("Не удалось выполнить вход", PopupType.DANGER))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <>
@@ -60,7 +66,7 @@ const Login: NextPage = () => {
         <Container>
           <FormCard>
             <FormCardTitle>Вход</FormCardTitle>
-            <AuthLoginForm onSubmit={auth} />
+            <AuthLoginForm onSubmit={auth} loading={loading} />
             <Button variant={ButtonVariant.TEXT} as={Link} href={"/registration"}>
               Зарегистрироваться
             </Button>
