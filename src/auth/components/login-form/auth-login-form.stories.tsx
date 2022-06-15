@@ -17,5 +17,10 @@ const Template: ComponentStory<typeof AuthLoginForm> = (args) => <AuthLoginForm 
 
 const Default = Template.bind({});
 
+const Loading = Template.bind({});
+Loading.args = {
+  loading: true,
+};
+
 export default Config;
-export { Default };
+export { Default, Loading };

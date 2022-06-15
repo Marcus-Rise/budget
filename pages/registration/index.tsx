@@ -9,6 +9,7 @@ import { Link } from "../../src/components/link";
 import { Button, ButtonVariant } from "../../src/components/button";
 import { AuthRegistrationForm } from "../../src/auth/components/registration-form/auth-registration-form.component";
 import type { IAuthRegistrationFormDto } from "../../src/auth/components/registration-form/auth-registration-form.dto";
+import { useState } from "react";
 
 const Main = styled.main`
   display: flex;
@@ -39,11 +40,16 @@ const Registration: NextPage = () => {
   const router = useRouter();
   const { register } = useAuth();
   const popup = usePopup();
+  const [loading, setLoading] = useState(false);
 
-  const auth = (dto: IAuthRegistrationFormDto) =>
-    register(dto)
+  const auth = (dto: IAuthRegistrationFormDto) => {
+    setLoading(true);
+
+    return register(dto)
       .then(() => router.push("/login"))
-      .catch(() => popup.open("Не удалось зарегистрироваться", PopupType.DANGER));
+      .catch(() => popup.open("Не удалось зарегистрироваться", PopupType.DANGER))
+      .finally(() => setLoading(false));
+  };
 
   return (
     <>
@@ -54,7 +60,7 @@ const Registration: NextPage = () => {
         <Container>
           <FormCard>
             <LoginCardTitle>Регистрация</LoginCardTitle>
-            <AuthRegistrationForm onSubmit={auth} />
+            <AuthRegistrationForm onSubmit={auth} loading={loading} />
             <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
               Войти
             </Button>

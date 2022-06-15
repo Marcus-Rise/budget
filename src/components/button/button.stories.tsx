@@ -34,5 +34,11 @@ Iconed.args = {
   children: <Icon name={"success"} />,
 };
 
+const Loading = Template.bind({});
+Loading.args = {
+  ...Default.args,
+  loading: true,
+};
+
 export default Config;
-export { Default, Text, Iconed };
+export { Default, Text, Iconed, Loading };

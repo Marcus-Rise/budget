@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { Loader } from "../loader";
 
 enum ButtonVariant {
   TEXT = "text",
@@ -8,9 +9,24 @@ enum ButtonVariant {
 type ButtonProps = {
   variant?: ButtonVariant;
   color?: Color;
+  loading?: boolean;
 };
 
-const Button = styled.button<ButtonProps>`
+const Button = styled.button.attrs<ButtonProps, ButtonProps>((props) => {
+  return {
+    ...props,
+    disabled: props.loading,
+    children: props.loading ? (
+      <Loader
+        size={"1rem"}
+        width={"0.1rem"}
+        color={!props.variant ? props.theme.lightest : props.theme.primary}
+      />
+    ) : (
+      props.children
+    ),
+  };
+})`
   border: none;
   border-radius: 0.5rem;
   text-align: center;
@@ -21,8 +37,13 @@ const Button = styled.button<ButtonProps>`
     cursor: pointer;
   }
 
-  &:active {
+  &:active,
+  &:disabled {
     opacity: 0.7;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 
   ${(props) => {
