@@ -16,9 +16,10 @@ const Form = styled.form`
 
 type AuthLoginFormProps = {
   onSubmit: (dto: IAuthLoginFormDto) => void;
+  loading?: boolean;
 };
 
-const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
+const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit, loading }) => {
   const { control, handleSubmit } = useForm<IAuthLoginFormDto>({
     defaultValues: {
       login: "",
@@ -72,7 +73,9 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit }) => {
           />
         )}
       />
-      <Button type={"submit"}>Войти</Button>
+      <Button type={"submit"} loading={loading}>
+        Войти
+      </Button>
     </Form>
   );
 };

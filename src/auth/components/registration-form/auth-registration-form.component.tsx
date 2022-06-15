@@ -20,9 +20,10 @@ const Form = styled.form`
 
 type AuthRegistrationFormProps = {
   onSubmit: (dto: IAuthRegistrationFormDto) => void;
+  loading?: boolean;
 };
 
-const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit }) => {
+const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit, loading }) => {
   const { control, handleSubmit } = useForm<IAuthRegistrationFormDto>({
     defaultValues: {
       login: "",
@@ -84,7 +85,9 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit }) => {
           />
         )}
       />
-      <Button type={"submit"}>Зарегистрироваться</Button>
+      <Button type={"submit"} loading={loading}>
+        Зарегистрироваться
+      </Button>
     </Form>
   );
 };

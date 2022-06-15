@@ -1,16 +1,19 @@
-import styled, { css } from "styled-components";
+import styled, { css, useTheme } from "styled-components";
+import { Loader } from "../loader";
+import type { ButtonHTMLAttributes } from "react";
+import { forwardRef } from "react";
 
 enum ButtonVariant {
   TEXT = "text",
   ICON = "icon",
 }
 
-type ButtonProps = {
+type ButtonStyledProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   color?: Color;
 };
 
-const Button = styled.button<ButtonProps>`
+const ButtonStyled = styled.button<ButtonStyledProps>`
   border: none;
   border-radius: 0.5rem;
   text-align: center;
@@ -21,8 +24,13 @@ const Button = styled.button<ButtonProps>`
     cursor: pointer;
   }
 
-  &:active {
+  &:active,
+  &:disabled {
     opacity: 0.7;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 
   ${(props) => {
@@ -62,5 +70,29 @@ const Button = styled.button<ButtonProps>`
     }
   }}
 `;
+
+type ButtonProps = ButtonStyledProps & {
+  loading?: boolean;
+};
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, loading, ...props }, ref) => {
+    const theme = useTheme();
+
+    return (
+      <ButtonStyled {...props} disabled={loading} ref={ref}>
+        {loading ? (
+          <Loader
+            size={"1rem"}
+            width={"0.1rem"}
+            color={!props.variant ? theme.lightest : theme.primary}
+          />
+        ) : (
+          children
+        )}
+      </ButtonStyled>
+    );
+  },
+);
 
 export { Button, ButtonVariant };
