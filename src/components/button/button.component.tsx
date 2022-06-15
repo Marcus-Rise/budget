@@ -12,11 +12,11 @@ type ButtonProps = {
   loading?: boolean;
 };
 
-const Button = styled.button.attrs<ButtonProps, ButtonProps>((props) => {
+const Button = styled.button.attrs<ButtonProps, ButtonProps>(({ loading, ...props }) => {
   return {
     ...props,
-    disabled: props.loading,
-    children: props.loading ? (
+    disabled: loading,
+    children: loading ? (
       <Loader
         size={"1rem"}
         width={"0.1rem"}
