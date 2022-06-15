@@ -1,19 +1,33 @@
-import styled, { css, useTheme } from "styled-components";
+import styled, { css } from "styled-components";
 import { Loader } from "../loader";
 import type { ButtonHTMLAttributes } from "react";
-import { forwardRef } from "react";
 
 enum ButtonVariant {
   TEXT = "text",
   ICON = "icon",
 }
 
-type ButtonStyledProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
   color?: Color;
+  loading?: boolean;
 };
 
-const ButtonStyled = styled.button<ButtonStyledProps>`
+const Button = styled.button.attrs<ButtonProps, ButtonProps>((props) => {
+  return {
+    ...props,
+    disabled: props.loading,
+    children: props.loading ? (
+      <Loader
+        size={"1rem"}
+        width={"0.1rem"}
+        color={!props.variant ? props.theme.lightest : props.theme.primary}
+      />
+    ) : (
+      props.children
+    ),
+  };
+})`
   border: none;
   border-radius: 0.5rem;
   text-align: center;
@@ -70,29 +84,5 @@ const ButtonStyled = styled.button<ButtonStyledProps>`
     }
   }}
 `;
-
-type ButtonProps = ButtonStyledProps & {
-  loading?: boolean;
-};
-
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, loading, ...props }, ref) => {
-    const theme = useTheme();
-
-    return (
-      <ButtonStyled {...props} disabled={loading} ref={ref}>
-        {loading ? (
-          <Loader
-            size={"1rem"}
-            width={"0.1rem"}
-            color={!props.variant ? theme.lightest : theme.primary}
-          />
-        ) : (
-          children
-        )}
-      </ButtonStyled>
-    );
-  },
-);
 
 export { Button, ButtonVariant };
