@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Layout } from "../../src/components/layout";
+import { LayoutPrivate } from "../../src/components/layout-private";
 import { useUser } from "../../src/user";
 import { Card } from "../../src/components/card";
 import { Container } from "../../src/components/container";
@@ -50,7 +50,7 @@ const Profile: NextPage = () => {
   };
 
   return (
-    <Layout>
+    <LayoutPrivate>
       <ProfileContainer>
         <Card>
           <Title>Профиль</Title>
@@ -71,7 +71,7 @@ const Profile: NextPage = () => {
           )}
         </Card>
       </ProfileContainer>
-    </Layout>
+    </LayoutPrivate>
   );
 };
 

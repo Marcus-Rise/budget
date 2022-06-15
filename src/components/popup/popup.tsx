@@ -1,6 +1,7 @@
 import type { Dispatch, FC, PropsWithChildren, Reducer } from "react";
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useCallback, useContext, useReducer } from "react";
 import { Popup, PopupType } from "./popup.component";
+import styled from "styled-components";
 
 type ReducerState = {
   message: string;
@@ -57,14 +58,28 @@ const PopupProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
 const usePopup = () => {
   const { state, dispatch } = useContext(Context);
 
+  const open = useCallback(
+    (title: string, type?: PopupType) =>
+      dispatch({ type: ReducerActionsEnum.OPEN, payload: { title, type } }),
+    [dispatch],
+  );
+
+  const close = useCallback(() => dispatch({ type: ReducerActionsEnum.CLOSE }), [dispatch]);
+
   return {
     title: state.message,
     type: state.type,
-    open: (title: string, type?: PopupType) =>
-      dispatch({ type: ReducerActionsEnum.OPEN, payload: { title, type } }),
-    close: () => dispatch({ type: ReducerActionsEnum.CLOSE }),
+    open,
+    close,
   };
 };
+
+const Wrapper = styled.div`
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 100;
+`;
 
 const PopupInContext: FC = () => {
   const { title, type, close } = usePopup();
@@ -73,7 +88,11 @@ const PopupInContext: FC = () => {
     return null;
   }
 
-  return <Popup type={type} onClose={close} title={title} />;
+  return (
+    <Wrapper>
+      <Popup type={type} onClose={close} title={title} />
+    </Wrapper>
+  );
 };
 
 export { usePopup, PopupProvider, PopupInContext };
