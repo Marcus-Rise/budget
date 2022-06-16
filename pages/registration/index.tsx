@@ -11,7 +11,7 @@ import type { IAuthRegistrationFormDto } from "../../src/auth/components/registr
 import { useState } from "react";
 import { LayoutPublic } from "../../src/components/layout-public";
 
-const LoginCardTitle = styled.h2`
+const Title = styled.h2`
   font-size: 1.25rem;
   text-align: center;
   margin: 0;
@@ -46,7 +46,7 @@ const Registration: NextPage = () => {
   return (
     <LayoutPublic>
       <FormCard>
-        <LoginCardTitle>Регистрация</LoginCardTitle>
+        <Title>Регистрация</Title>
         <AuthRegistrationForm onSubmit={auth} loading={loading} />
         <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
           Войти

@@ -1,39 +1,20 @@
+import type { AuthLoginDto, AuthRegistrationDto, AuthResetPasswordDto } from "./service";
+import { AuthService } from "./service";
+
 const useAuth = () => {
-  const login = async (dto: { login: string; password: string }) => {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const login = (dto: AuthLoginDto) => AuthService.login(dto);
 
-    if (!res.ok) {
-      throw new Error();
-    }
-  };
+  const logout = () => AuthService.logout();
 
-  const logout = () => fetch("/api/auth/logout");
+  const register = (dto: AuthRegistrationDto) => AuthService.register(dto);
 
-  const register = async (dto: { login: string; password: string }) => {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
-      body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      keepalive: true,
-    });
-
-    if (!res.ok) {
-      throw new Error();
-    }
-  };
+  const resetPassword = (dto: AuthResetPasswordDto) => AuthService.resetPassword(dto);
 
   return {
     login,
     logout,
     register,
+    resetPassword,
   };
 };
 
