@@ -45,7 +45,7 @@ const ForgotPasswordForm: FC<ForgotPasswordFormProps> = ({ onSubmit, loading }) 
           />
         )}
       />
-      <Button type={"submit"} loading={loading}>
+      <Button type={"submit"} isLoading={loading}>
         Сбросить пароль
       </Button>
     </Form>

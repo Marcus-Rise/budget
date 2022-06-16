@@ -9,24 +9,22 @@ enum ButtonVariant {
 type ButtonProps = {
   variant?: ButtonVariant;
   color?: Color;
-  loading?: boolean;
+  isLoading?: boolean;
 };
 
-const Button = styled.button.attrs<ButtonProps, ButtonProps>(({ loading, ...props }) => {
-  return {
-    ...props,
-    disabled: loading,
-    children: loading ? (
-      <Loader
-        size={"1rem"}
-        width={"0.1rem"}
-        color={!props.variant ? props.theme.lightest : props.theme.primary}
-      />
-    ) : (
-      props.children
-    ),
-  };
-})`
+const Button = styled.button.attrs<ButtonProps, ButtonProps>(({ isLoading, ...props }) => ({
+  ...props,
+  disabled: !!isLoading,
+  children: isLoading ? (
+    <Loader
+      size={"1rem"}
+      width={"0.1rem"}
+      color={!props.variant ? props.theme.lightest : props.theme.primary}
+    />
+  ) : (
+    props.children
+  ),
+}))`
   border: none;
   border-radius: 0.5rem;
   text-align: center;

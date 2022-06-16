@@ -73,7 +73,7 @@ const AuthLoginForm: FC<AuthLoginFormProps> = ({ onSubmit, loading }) => {
           />
         )}
       />
-      <Button type={"submit"} loading={loading}>
+      <Button type={"submit"} isLoading={loading}>
         Войти
       </Button>
     </Form>

@@ -85,7 +85,7 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit, loading
           />
         )}
       />
-      <Button type={"submit"} loading={loading}>
+      <Button type={"submit"} isLoading={loading}>
         Зарегистрироваться
       </Button>
     </Form>
