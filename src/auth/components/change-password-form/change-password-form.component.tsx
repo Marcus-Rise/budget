@@ -55,7 +55,7 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
         )}
       />
       <Button type={"submit"} isLoading={loading}>
-        Сбросить пароль
+        Сменить пароль
       </Button>
     </Form>
   );
