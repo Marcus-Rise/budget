@@ -14,8 +14,13 @@ type Handler = NextApiResponse | ServerResponse;
 
 const setCookie = (res: Handler, name: string, value: string, options = CookiesOptions): void => {
   const stringValue = typeof value === "object" ? `j:${JSON.stringify(value)}` : String(value);
+  let expires: CookieSerializeOptions["expires"];
 
-  res.setHeader("Set-Cookie", serialize(name, stringValue, options));
+  if (typeof options.maxAge === "number") {
+    expires = new Date(Date.now() + options.maxAge * 1000);
+  }
+
+  res.setHeader("Set-Cookie", serialize(name, stringValue, { ...options, expires }));
 };
 
 const removeCookie = (res: Handler, name: string) => {
