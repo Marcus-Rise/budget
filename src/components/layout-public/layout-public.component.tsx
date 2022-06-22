@@ -8,7 +8,7 @@ const Title = styled.h1`
   font-size: 2rem;
 `;
 
-const Wrapper = styled.main`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
