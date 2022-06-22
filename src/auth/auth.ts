@@ -1,4 +1,9 @@
-import type { AuthLoginDto, AuthRegistrationDto, AuthResetPasswordDto } from "./service";
+import type {
+  AuthChangePasswordDto,
+  AuthLoginDto,
+  AuthRegistrationDto,
+  AuthResetPasswordDto,
+} from "./service";
 import { AuthService } from "./service";
 
 const useAuth = () => {
@@ -10,11 +15,14 @@ const useAuth = () => {
 
   const resetPassword = (dto: AuthResetPasswordDto) => AuthService.resetPassword(dto);
 
+  const changePassword = (dto: AuthChangePasswordDto) => AuthService.changePassword(dto);
+
   return {
     login,
     logout,
     register,
     resetPassword,
+    changePassword,
   };
 };
 
