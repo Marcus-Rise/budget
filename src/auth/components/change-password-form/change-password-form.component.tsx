@@ -6,6 +6,7 @@ import { InputText } from "../../../components/input-text";
 import { Button } from "../../../components/button";
 import type { ChangePasswordFormDto } from "./change-password-form.dto";
 import { passwordLengthValidator } from "../../helpers";
+import { Icon } from "../../../components/icon";
 
 const Form = styled.form`
   display: flex;
@@ -40,7 +41,12 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
         name={"password"}
         rules={{ required: "Введите пароль", validate: passwordLengthValidator }}
         render={({ field, fieldState }) => (
-          <InputText {...field} label={"Пароль"} error={fieldState.error?.message} />
+          <InputText
+            {...field}
+            label={"Пароль"}
+            error={fieldState.error?.message}
+            startIcon={<Icon name={"lock"} />}
+          />
         )}
       />
       <Controller
@@ -51,7 +57,12 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
           validate: (value) => getValues("password") === value || "Пароли не совпадают",
         }}
         render={({ field, fieldState }) => (
-          <InputText {...field} label={"Повторить пароль"} error={fieldState.error?.message} />
+          <InputText
+            {...field}
+            label={"Повторить пароль"}
+            error={fieldState.error?.message}
+            startIcon={<Icon name={"lock"} />}
+          />
         )}
       />
       <Button type={"submit"} isLoading={loading}>
