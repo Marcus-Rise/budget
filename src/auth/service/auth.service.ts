@@ -1,6 +1,7 @@
 type AuthLoginDto = { login: string; password: string };
 type AuthRegistrationDto = { login: string; password: string };
 type AuthResetPasswordDto = { login: string };
+type AuthChangePasswordDto = { password: string };
 
 class AuthService {
   static async login(dto: AuthLoginDto) {
@@ -52,7 +53,21 @@ class AuthService {
       throw new Error();
     }
   }
+
+  static async changePassword(dto: AuthChangePasswordDto) {
+    const res = await fetch("/api/auth/proxy/change-password", {
+      method: "POST",
+      body: JSON.stringify(dto),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error();
+    }
+  }
 }
 
 export { AuthService };
-export type { AuthLoginDto, AuthRegistrationDto, AuthResetPasswordDto };
+export type { AuthLoginDto, AuthRegistrationDto, AuthResetPasswordDto, AuthChangePasswordDto };

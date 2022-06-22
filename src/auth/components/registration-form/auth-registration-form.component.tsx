@@ -8,8 +8,7 @@ import { InputText } from "../../../components/input-text";
 import { Icon } from "../../../components/icon";
 import { Button, ButtonVariant } from "../../../components/button";
 import isEmailValidator from "validator/lib/isEmail";
-
-const PASSWORD_MIN_LENGTH = 8;
+import { passwordLengthValidator } from "../../helpers";
 
 const Form = styled.form`
   display: flex;
@@ -61,9 +60,7 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit, loading
         name={"password"}
         rules={{
           required: "Введите пароль",
-          validate: (password) =>
-            password.length >= PASSWORD_MIN_LENGTH ||
-            `Длинна логина должна быть не меньше ${PASSWORD_MIN_LENGTH}`,
+          validate: passwordLengthValidator,
         }}
         render={({ field, fieldState }) => (
           <InputText
