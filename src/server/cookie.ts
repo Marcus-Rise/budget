@@ -1,7 +1,12 @@
-import type { NextApiResponse } from "next";
+/* eslint-disable @next/next/no-server-import-in-page */
+import type { NextApiRequest, NextApiResponse } from "next";
 import type { CookieSerializeOptions } from "cookie";
 import { serialize } from "cookie";
+import { sign, unsign } from "cookie-signature";
 import type { ServerResponse } from "http";
+import type { NextRequest } from "next/server";
+
+const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
 
 const CookiesOptions: CookieSerializeOptions = {
   httpOnly: true,
@@ -20,7 +25,17 @@ const setCookie = (res: Handler, name: string, value: string, options = CookiesO
     expires = new Date(Date.now() + options.maxAge * 1000);
   }
 
-  res.setHeader("Set-Cookie", serialize(name, stringValue, { ...options, expires }));
+  const signedValue = sign(stringValue, COOKIE_SECRET);
+
+  res.setHeader("Set-Cookie", serialize(name, signedValue, { ...options, expires }));
+};
+
+const getCookies = (req: NextApiRequest | NextRequest, name: string) => {
+  const cookie = req.cookies[name];
+
+  if (!!cookie) {
+    return unsign(cookie, COOKIE_SECRET);
+  }
 };
 
 const removeCookie = (res: Handler, name: string) => {
@@ -30,4 +45,4 @@ const removeCookie = (res: Handler, name: string) => {
   });
 };
 
-export { setCookie, removeCookie };
+export { setCookie, getCookies, removeCookie };

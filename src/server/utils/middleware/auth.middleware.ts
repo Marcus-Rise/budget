@@ -1,9 +1,10 @@
 /* eslint-disable @next/next/no-server-import-in-page */
 import type { NextMiddleware } from "next/server";
 import { NextResponse } from "next/server";
+import { getCookies } from "../../cookie";
 
 const MustBeAuthedMiddleware: NextMiddleware = (request) => {
-  const { auth } = request.cookies;
+  const auth = getCookies(request, "auth");
 
   if (!auth) {
     const url = request.nextUrl.clone();
@@ -14,7 +15,7 @@ const MustBeAuthedMiddleware: NextMiddleware = (request) => {
 };
 
 const MustBeNotAuthedMiddleware: NextMiddleware = (request) => {
-  const { auth } = request.cookies;
+  const auth = getCookies(request, "auth");
 
   if (auth) {
     const url = request.nextUrl.clone();
