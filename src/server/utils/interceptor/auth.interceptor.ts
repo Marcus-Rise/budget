@@ -9,6 +9,8 @@ const withAuth: Interceptor =
     const stringifyDto = getCookies(req, "auth");
 
     if (!stringifyDto) {
+      removeCookie(response, "auth");
+
       return response.status(401).json({ error: "Unauthorized" });
     }
 
