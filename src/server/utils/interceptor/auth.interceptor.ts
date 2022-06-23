@@ -1,14 +1,16 @@
 import type { Interceptor } from "./interceptor";
 import type { LoginResponseDto } from "../../dto";
-import { removeCookie, setCookie } from "../../cookie";
+import { getCookies, removeCookie, setCookie } from "../../cookie";
 import jwtDecode from "jwt-decode";
 
 const withAuth: Interceptor =
   (handler = () => {}) =>
   async (req, response) => {
-    const { auth: stringifyDto } = req.cookies;
+    const stringifyDto = getCookies(req, "auth");
 
     if (!stringifyDto) {
+      removeCookie(response, "auth");
+
       return response.status(401).json({ error: "Unauthorized" });
     }
 
