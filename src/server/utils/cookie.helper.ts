@@ -12,7 +12,7 @@ const CookiesOptions: CookieSerializeOptions = {
   httpOnly: true,
   maxAge: parseInt(process.env.COOKIE_TTL ?? ""),
   path: "/",
-  sameSite: "strict",
+  sameSite: "lax",
   secure: process.env.NODE_ENV === "production",
 };
 type Handler = NextApiResponse | ServerResponse;
