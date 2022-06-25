@@ -1,6 +1,8 @@
 import type { NextApiHandler } from "next";
-import { setCookie } from "../../../src/server/cookie";
-import { withMethodHandlers } from "../../../src/server/utils/interceptor";
+import { setCookie } from "../../../src/server/utils/cookie.helper";
+import {
+  withMethodHandlers,
+} from "../../../src/server/utils/interceptor";
 import type { LoginResponseDto } from "../../../src/server/dto";
 
 const LoginHandler: NextApiHandler = async (req, response) =>
