@@ -45,4 +45,4 @@ const removeCookie = (res: Handler, name: string) => {
   });
 };
 
-export { setCookie, getCookies, removeCookie };
+export { setCookie, getCookies, removeCookie, CookiesOptions, COOKIE_SECRET };

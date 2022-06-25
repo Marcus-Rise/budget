@@ -1,5 +1,5 @@
 import type { NextApiHandler } from "next";
-import { removeCookie } from "../../../src/server/cookie";
+import { getCookies, removeCookie } from "../../../src/server/utils/cookie.helper";
 import {
   applyInterceptors,
   withAuth,
@@ -8,7 +8,14 @@ import {
 import type { LoginResponseDto } from "../../../src/server/dto";
 
 const LogoutHandler: NextApiHandler = (req, response) => {
-  const { auth: stringifyDto } = req.cookies;
+  const stringifyDto = getCookies(req, "auth");
+
+  if (!stringifyDto) {
+    removeCookie(response, "auth");
+
+    return response.status(401).json({ error: "Unauthorized" });
+  }
+
   const { access_token, type, refresh_token }: LoginResponseDto = JSON.parse(stringifyDto);
 
   return fetch(process.env.API_URL + "/api/auth/logout", {
@@ -37,6 +44,6 @@ const LogoutHandler: NextApiHandler = (req, response) => {
 
 export default applyInterceptors(
   () => {},
-  withMethodHandlers({ method: "GET", handler: LogoutHandler }),
   withAuth,
+  withMethodHandlers({ method: "GET", handler: LogoutHandler }),
 );
