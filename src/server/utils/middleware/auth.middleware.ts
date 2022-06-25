@@ -10,6 +10,8 @@ const MustBeAuthedMiddleware: NextMiddleware = (request) => {
     url.pathname = "/login";
 
     return NextResponse.redirect(url);
+  } else {
+    NextResponse.next();
   }
 };
 
@@ -21,6 +23,8 @@ const MustBeNotAuthedMiddleware: NextMiddleware = (request) => {
     url.pathname = "/profile";
 
     return NextResponse.redirect(url);
+  } else {
+    NextResponse.next();
   }
 };
 
