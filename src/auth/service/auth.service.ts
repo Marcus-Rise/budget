@@ -19,7 +19,7 @@ class AuthService {
   }
 
   static async register(dto: AuthRegistrationDto) {
-    const res = await fetch("/api/auth/proxy/register", {
+    const res = await fetch("/api/auth/register", {
       method: "POST",
       body: JSON.stringify(dto),
       headers: {
