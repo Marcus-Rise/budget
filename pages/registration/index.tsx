@@ -35,7 +35,10 @@ const Registration: NextPage = () => {
 
     return register(dto)
       .then(() => {
-        popup.open("Вы успешно зарегистрировались!", PopupType.SUCCESS);
+        popup.open(
+          "Вы успешно зарегистрировались! На Вашу почту придет письмо с инструкциями",
+          PopupType.SUCCESS,
+        );
 
         return router.push("/login");
       })
