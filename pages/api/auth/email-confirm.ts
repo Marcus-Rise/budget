@@ -19,7 +19,7 @@ const EmailConfirm: NextApiHandler = (req, response) => {
         return response.status(res.status).json(json);
       }
 
-      response.status(200).end();
+      response.redirect(307, "/registration/confirm");
     })
     .catch((e) => response.status(500).json(e));
 };
@@ -27,4 +27,4 @@ const EmailConfirm: NextApiHandler = (req, response) => {
 export default withMethodHandlers({
   method: "GET",
   handler: EmailConfirm,
-});
+})();
