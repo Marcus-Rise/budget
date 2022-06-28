@@ -1,5 +1,5 @@
 import type { NextApiHandler } from "next";
-import { applyInterceptors, withMethodHandlers } from "../../../src/server/utils/interceptor";
+import { withMethodHandlers } from "../../../src/server/utils/interceptor";
 
 const EmailConfirm: NextApiHandler = (req, response) => {
   const accessToken = req.query.token;
@@ -24,10 +24,7 @@ const EmailConfirm: NextApiHandler = (req, response) => {
     .catch((e) => response.status(500).json(e));
 };
 
-export default applyInterceptors(
-  () => {},
-  withMethodHandlers({
-    method: "GET",
-    handler: EmailConfirm,
-  }),
-);
+export default withMethodHandlers({
+  method: "GET",
+  handler: EmailConfirm,
+});
