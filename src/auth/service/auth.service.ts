@@ -41,7 +41,7 @@ class AuthService {
   }
 
   static async resetPassword(dto: AuthResetPasswordDto) {
-    const res = await fetch("/api/auth/proxy/reset-password", {
+    const res = await fetch("/api/auth/reset-password", {
       method: "POST",
       body: JSON.stringify(dto),
       headers: {
