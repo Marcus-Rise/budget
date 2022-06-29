@@ -13,7 +13,7 @@ const Default = Template.bind({});
 Default.parameters = {
   msw: {
     handlers: [
-      rest.post("/api/auth/proxy/change-password", (req, res, ctx) => {
+      rest.post("/api/auth/change-password", (req, res, ctx) => {
         return res(ctx.status(200));
       }),
     ],
@@ -24,7 +24,7 @@ const Failed = Template.bind({});
 Failed.parameters = {
   msw: {
     handlers: [
-      rest.post("/api/auth/proxy/change-password", (req, res, ctx) => {
+      rest.post("/api/auth/change-password", (req, res, ctx) => {
         return res(ctx.status(500));
       }),
     ],

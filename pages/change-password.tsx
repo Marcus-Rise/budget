@@ -1,12 +1,15 @@
 import type { NextPage } from "next";
-import { LayoutPublic } from "../../src/components/layout-public";
+import { LayoutPublic } from "../src/components/layout-public";
 import styled from "styled-components";
-import { Card } from "../../src/components/card";
+import { Card } from "../src/components/card";
 import { useState } from "react";
-import { useAuth } from "../../src/auth";
-import { PopupType, usePopup } from "../../src/components/popup";
-import type { ChangePasswordFormDto } from "../../src/auth/components/change-password-form";
-import { ChangePasswordForm } from "../../src/auth/components/change-password-form";
+import { useAuth } from "../src/auth";
+import { PopupType, usePopup } from "../src/components/popup";
+import type { ChangePasswordFormDto } from "../src/auth/components/change-password-form";
+import { ChangePasswordForm } from "../src/auth/components/change-password-form";
+import { Button, ButtonVariant } from "../src/components/button";
+import { Link } from "../src/components/link";
+import { useRouter } from "next/router";
 
 const Title = styled.h2`
   font-size: 1.25rem;
@@ -25,6 +28,7 @@ const ChangePassword: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const popup = usePopup();
+  const router = useRouter();
 
   const changePassword = (dto: ChangePasswordFormDto) => {
     setLoading(true);
@@ -33,9 +37,14 @@ const ChangePassword: NextPage = () => {
       .changePassword(dto)
       .then(() => {
         popup.open("Ваш пароль изменен!", PopupType.SUCCESS);
+
+        return router.push("/login");
       })
-      .catch(() => popup.open("Не удалось изменить пароль", PopupType.DANGER))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        popup.open("Не удалось изменить пароль", PopupType.DANGER);
+
+        setLoading(false);
+      });
   };
 
   return (
@@ -43,6 +52,9 @@ const ChangePassword: NextPage = () => {
       <FormCard>
         <Title>Смена пароля</Title>
         <ChangePasswordForm onSubmit={changePassword} loading={loading} />
+        <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
+          Войти
+        </Button>
       </FormCard>
     </LayoutPublic>
   );

@@ -1,9 +1,10 @@
 import type { FC } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import { InputText } from "../../../components/input-text";
-import { Button } from "../../../components/button";
+import { Button, ButtonVariant } from "../../../components/button";
 import type { ChangePasswordFormDto } from "./change-password-form.dto";
 import { passwordLengthValidator } from "../../helpers";
 import { Icon } from "../../../components/icon";
@@ -21,6 +22,10 @@ type ChangePasswordFormProps = {
 };
 
 const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => setShowPassword((show) => !show);
+
   const { control, handleSubmit, getValues } = useForm<
     ChangePasswordFormDto & { rePassword: string }
   >({
@@ -46,6 +51,18 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
             label={"Пароль"}
             error={fieldState.error?.message}
             startIcon={<Icon name={"lock"} />}
+            password={!showPassword}
+            endIcon={
+              <Button
+                type={"button"}
+                variant={ButtonVariant.ICON}
+                color={"inherit"}
+                onClick={toggleShowPassword}
+                tabIndex={-1}
+              >
+                <Icon hoverable name={showPassword ? "eye-off" : "eye"} />
+              </Button>
+            }
           />
         )}
       />
@@ -61,7 +78,19 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
             {...field}
             label={"Повторить пароль"}
             error={fieldState.error?.message}
+            password={!showPassword}
             startIcon={<Icon name={"lock"} />}
+            endIcon={
+              <Button
+                type={"button"}
+                variant={ButtonVariant.ICON}
+                color={"inherit"}
+                onClick={toggleShowPassword}
+                tabIndex={-1}
+              >
+                <Icon hoverable name={showPassword ? "eye-off" : "eye"} />
+              </Button>
+            }
           />
         )}
       />
