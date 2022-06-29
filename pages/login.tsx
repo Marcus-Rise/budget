@@ -41,8 +41,11 @@ const Login: NextPage = () => {
 
         return router.push("/");
       })
-      .catch(() => popup.open("Не удалось выполнить вход", PopupType.DANGER))
-      .finally(() => setLoading(false));
+      .catch(() => {
+        popup.open("Не удалось выполнить вход", PopupType.DANGER);
+
+        setLoading(false);
+      });
   };
 
   return (
