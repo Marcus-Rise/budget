@@ -74,6 +74,7 @@ const AuthRegistrationForm: FC<AuthRegistrationFormProps> = ({ onSubmit, loading
                 variant={ButtonVariant.ICON}
                 color={"inherit"}
                 onClick={toggleShowPassword}
+                tabIndex={-1}
               >
                 <Icon hoverable name={showPassword ? "eye-off" : "eye"} />
               </Button>
