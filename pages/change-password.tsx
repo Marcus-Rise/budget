@@ -7,6 +7,8 @@ import { useAuth } from "../src/auth";
 import { PopupType, usePopup } from "../src/components/popup";
 import type { ChangePasswordFormDto } from "../src/auth/components/change-password-form";
 import { ChangePasswordForm } from "../src/auth/components/change-password-form";
+import { Button, ButtonVariant } from "../src/components/button";
+import { Link } from "../src/components/link";
 
 const Title = styled.h2`
   font-size: 1.25rem;
@@ -43,6 +45,9 @@ const ChangePassword: NextPage = () => {
       <FormCard>
         <Title>Смена пароля</Title>
         <ChangePasswordForm onSubmit={changePassword} loading={loading} />
+        <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
+          Войти
+        </Button>
       </FormCard>
     </LayoutPublic>
   );
