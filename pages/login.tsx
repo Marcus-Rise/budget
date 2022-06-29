@@ -1,16 +1,16 @@
 import type { NextPage } from "next";
-import { AuthLoginForm } from "../../src/auth/components/login-form";
+import { AuthLoginForm } from "../src/auth/components/login-form";
 import styled from "styled-components";
-import { Card } from "../../src/components/card";
-import { useAuth } from "../../src/auth";
-import type { IAuthLoginFormDto } from "../../src/auth/components/login-form/auth-login-form.dto";
-import { PopupType, usePopup } from "../../src/components/popup";
+import { Card } from "../src/components/card";
+import { useAuth } from "../src/auth";
+import type { IAuthLoginFormDto } from "../src/auth/components/login-form/auth-login-form.dto";
+import { PopupType, usePopup } from "../src/components/popup";
 import { useRouter } from "next/router";
-import { useUser } from "../../src/user";
-import { Button, ButtonVariant } from "../../src/components/button";
-import { Link } from "../../src/components/link";
+import { useUser } from "../src/user";
+import { Button, ButtonVariant } from "../src/components/button";
+import { Link } from "../src/components/link";
 import { useState } from "react";
-import { LayoutPublic } from "../../src/components/layout-public";
+import { LayoutPublic } from "../src/components/layout-public";
 
 const FormCardTitle = styled.h2`
   font-size: 1.25rem;

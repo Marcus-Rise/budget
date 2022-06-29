@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import ForgotPassword from "../../../pages/forgot-password/index";
+import ForgotPassword from "../../../pages/forgot-password";
 import { rest } from "msw";
 
 const Config: ComponentMeta<typeof ForgotPassword> = {

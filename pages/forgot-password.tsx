@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import { LayoutPublic } from "../../src/components/layout-public";
+import { LayoutPublic } from "../src/components/layout-public";
 import styled from "styled-components";
-import { Card } from "../../src/components/card";
-import type { ForgotPasswordFormDto } from "../../src/auth/components/forgot-password-form";
-import { ForgotPasswordForm } from "../../src/auth/components/forgot-password-form";
+import { Card } from "../src/components/card";
+import type { ForgotPasswordFormDto } from "../src/auth/components/forgot-password-form";
+import { ForgotPasswordForm } from "../src/auth/components/forgot-password-form";
 import { useState } from "react";
-import { useAuth } from "../../src/auth";
-import { PopupType, usePopup } from "../../src/components/popup";
+import { useAuth } from "../src/auth";
+import { PopupType, usePopup } from "../src/components/popup";
 
 const Title = styled.h2`
   font-size: 1.25rem;

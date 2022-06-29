@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import { LayoutPrivate } from "../../src/components/layout-private";
-import { useUser } from "../../src/user";
-import { Card } from "../../src/components/card";
-import { Container } from "../../src/components/container";
-import { Button, ButtonVariant } from "../../src/components/button";
+import { LayoutPrivate } from "../src/components/layout-private";
+import { useUser } from "../src/user";
+import { Card } from "../src/components/card";
+import { Container } from "../src/components/container";
+import { Button, ButtonVariant } from "../src/components/button";
 import { useRouter } from "next/router";
 import styled, { useTheme } from "styled-components";
-import { useAuth } from "../../src/auth";
+import { useAuth } from "../src/auth";
 
 const ProfileContainer = styled(Container)`
   padding-top: 1rem;
