@@ -53,6 +53,9 @@ const Login: NextPage = () => {
         <Button variant={ButtonVariant.TEXT} as={Link} href={"/registration"}>
           Зарегистрироваться
         </Button>
+        <Button variant={ButtonVariant.TEXT} as={Link} href={"/forgot-password"}>
+          Сбросить пароль
+        </Button>
       </FormCard>
     </LayoutPublic>
   );
