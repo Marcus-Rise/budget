@@ -11,6 +11,7 @@ import type { ChangePasswordFormProps } from "../src/auth/components/change-pass
 import { ChangePasswordForm } from "../src/auth/components/change-password-form";
 import { useState } from "react";
 import { PopupType, usePopup } from "../src/components/popup";
+import { FormProvider, useForm } from "react-hook-form";
 
 const ProfileContainer = styled(Container)`
   padding-top: 1rem;
@@ -48,6 +49,7 @@ const Profile: NextPage = () => {
   const theme = useTheme();
   const [changePasswordLoading, setChangePasswordLoading] = useState(false);
   const popup = usePopup();
+  const changePasswordMethods = useForm();
 
   const logout = async () => {
     await auth.logout();
@@ -74,7 +76,11 @@ const Profile: NextPage = () => {
 
     return auth
       .changePassword(dto)
-      .then(() => popup.open("Ваш пароль изменен!", PopupType.SUCCESS))
+      .then(() => {
+        popup.open("Ваш пароль изменен!", PopupType.SUCCESS);
+
+        changePasswordMethods.reset();
+      })
       .catch(() => popup.open("Не удалось изменить пароль", PopupType.DANGER))
       .finally(() => setChangePasswordLoading(false));
   };
@@ -91,7 +97,9 @@ const Profile: NextPage = () => {
               Логин: {user.login}
               <ChangePasswordFormWrapper>
                 <ChangePasswordFormTitle>Смена пароля</ChangePasswordFormTitle>
-                <ChangePasswordForm onSubmit={changePassword} loading={changePasswordLoading} />
+                <FormProvider {...changePasswordMethods}>
+                  <ChangePasswordForm onSubmit={changePassword} loading={changePasswordLoading} />
+                </FormProvider>
               </ChangePasswordFormWrapper>
               <ActionsContainer>
                 <Button onClick={logout}>Выйти</Button>

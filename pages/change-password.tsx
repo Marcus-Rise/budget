@@ -10,6 +10,7 @@ import { ChangePasswordForm } from "../src/auth/components/change-password-form"
 import { Button, ButtonVariant } from "../src/components/button";
 import { Link } from "../src/components/link";
 import { useRouter } from "next/router";
+import { FormProvider, useForm } from "react-hook-form";
 
 const Title = styled.h2`
   font-size: 1.25rem;
@@ -29,6 +30,7 @@ const ChangePassword: NextPage = () => {
   const auth = useAuth();
   const popup = usePopup();
   const router = useRouter();
+  const formMethods = useForm();
 
   const changePassword = (dto: ChangePasswordFormDto) => {
     setLoading(true);
@@ -37,6 +39,8 @@ const ChangePassword: NextPage = () => {
       .changePassword(dto)
       .then(() => {
         popup.open("Ваш пароль изменен!", PopupType.SUCCESS);
+
+        formMethods.reset();
 
         return router.push("/login");
       })
@@ -51,7 +55,9 @@ const ChangePassword: NextPage = () => {
     <LayoutPublic>
       <FormCard>
         <Title>Смена пароля</Title>
-        <ChangePasswordForm onSubmit={changePassword} loading={loading} />
+        <FormProvider {...formMethods}>
+          <ChangePasswordForm onSubmit={changePassword} loading={loading} />
+        </FormProvider>
         <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
           Войти
         </Button>

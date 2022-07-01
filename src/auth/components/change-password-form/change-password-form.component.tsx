@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import type { SubmitHandler } from "react-hook-form";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { InputText } from "../../../components/input-text";
 import { Button, ButtonVariant } from "../../../components/button";
 import type { ChangePasswordFormDto } from "./change-password-form.dto";
@@ -26,20 +26,16 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
 
   const toggleShowPassword = () => setShowPassword((show) => !show);
 
-  const { control, handleSubmit, getValues } = useForm<
+  const { control, handleSubmit, getValues } = useFormContext<
     ChangePasswordFormDto & { rePassword: string }
-  >({
-    defaultValues: {
-      password: "",
-      rePassword: "",
-    },
-  });
+  >();
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Controller
         control={control}
         name={"password"}
+        defaultValue={""}
         rules={{ required: "Введите пароль", validate: passwordLengthValidator }}
         render={({ field, fieldState }) => (
           <InputText
@@ -65,6 +61,7 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
       <Controller
         control={control}
         name={"rePassword"}
+        defaultValue={""}
         rules={{
           required: "Введите повторно пароль",
           validate: (value) => getValues("password") === value || "Пароли не совпадают",
