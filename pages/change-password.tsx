@@ -36,7 +36,7 @@ const ChangePassword: NextPage = () => {
     setLoading(true);
 
     return auth
-      .changePassword(dto)
+      .changePasswordFromEmail(dto)
       .then(() => {
         popup.open("Ваш пароль изменен!", PopupType.SUCCESS);
 

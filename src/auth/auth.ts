@@ -15,6 +15,8 @@ const useAuth = () => {
 
   const resetPassword = (dto: AuthResetPasswordDto) => AuthService.resetPassword(dto);
 
+  const changePasswordFromEmail = (dto: AuthChangePasswordDto) =>
+    AuthService.changePasswordFromEmail(dto);
   const changePassword = (dto: AuthChangePasswordDto) => AuthService.changePassword(dto);
 
   return {
@@ -22,6 +24,7 @@ const useAuth = () => {
     logout,
     register,
     resetPassword,
+    changePasswordFromEmail,
     changePassword,
   };
 };

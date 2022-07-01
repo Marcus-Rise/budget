@@ -54,7 +54,7 @@ class AuthService {
     }
   }
 
-  static async changePassword(dto: AuthChangePasswordDto) {
+  static async changePasswordFromEmail(dto: AuthChangePasswordDto) {
     const url = new URL(window.location.href);
     const token = url.searchParams.get("token");
     const tokenType = url.searchParams.get("type");
@@ -65,6 +65,20 @@ class AuthService {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${tokenType} ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error();
+    }
+  }
+
+  static async changePassword(dto: AuthChangePasswordDto) {
+    const res = await fetch("/api/proxy/auth/change-password", {
+      method: "POST",
+      body: JSON.stringify(dto),
+      headers: {
+        "Content-Type": "application/json",
       },
     });
 
