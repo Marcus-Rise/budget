@@ -17,7 +17,7 @@ const Form = styled.form`
 `;
 
 type ChangePasswordFormProps = {
-  onSubmit(dto: ChangePasswordFormDto): void;
+  onSubmit: SubmitHandler<ChangePasswordFormDto>;
   loading?: boolean;
 };
 
@@ -35,12 +35,8 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
     },
   });
 
-  const submit: SubmitHandler<ChangePasswordFormDto> = ({ password }) => {
-    onSubmit({ password });
-  };
-
   return (
-    <Form onSubmit={handleSubmit(submit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Controller
         control={control}
         name={"password"}
@@ -102,3 +98,4 @@ const ChangePasswordForm: FC<ChangePasswordFormProps> = ({ onSubmit, loading }) 
 };
 
 export { ChangePasswordForm };
+export type { ChangePasswordFormProps };
