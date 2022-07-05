@@ -5,12 +5,19 @@ import type { ITransactionRepositoryDto } from "../dto";
 
 class TransactionModelFactory {
   static fromFormDto(dto: ITransactionFormDto): TransactionModel {
-    return new TransactionModel(uuid(), dto.title, dto.category, dto.amount, dto.type, dto.date);
+    return new TransactionModel(
+      dto.uuid ?? uuid(),
+      dto.title,
+      dto.category,
+      dto.amount,
+      dto.type,
+      dto.date,
+    );
   }
 
   static fromRepositoryDto(dto: ITransactionRepositoryDto): TransactionModel {
     return new TransactionModel(
-      uuid(),
+      dto.uuid,
       dto.title,
       dto.category,
       dto.amount,
