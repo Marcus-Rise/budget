@@ -13,7 +13,6 @@ describe("TransactionModelFactory", () => {
       });
 
       expect(transaction).toBeInstanceOf(TransactionModel);
-      expect(transaction.uuid.length).toBeGreaterThan(0);
     });
   });
 });

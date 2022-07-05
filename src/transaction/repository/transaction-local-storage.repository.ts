@@ -63,4 +63,4 @@ class TransactionLocalStorageRepository implements ITransactionRepository {
   }
 }
 
-export { TransactionLocalStorageRepository };
+export { TransactionLocalStorageRepository, TRANSACTION_LOCAL_STORAGE_KEY };
