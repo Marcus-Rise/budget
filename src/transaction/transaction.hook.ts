@@ -1,32 +1,34 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { TransactionModel } from "./models";
 import type { ITransactionFormDto } from "./components/form";
 import type { TransactionFilter } from "./components/filter-form";
 import { TransactionService } from "./service/transaction.service";
-import { TransactionLocalStorageRepository } from "./repository/transaction-local-storage.repository";
+import { apiRepository, localStorageRepository } from "./repository";
 
-const useTransaction = (filters: Array<TransactionFilter> = []) => {
+const useTransaction = (isAuthed: boolean, filters: Array<TransactionFilter> = []) => {
   const [items, setItems] = useState<TransactionModel[]>([]);
-  const service = useRef(new TransactionService(new TransactionLocalStorageRepository()));
+  const service = useMemo(
+    () => new TransactionService(isAuthed ? apiRepository : localStorageRepository),
+    [isAuthed],
+  );
 
   useEffect(() => {
-    service.current.load().then((data) => setItems(data));
-  }, []);
+    service
+      .load()
+      .then((data) => setItems(data))
+      .catch(console.error);
+  }, [service]);
 
   const remove = useCallback(
     (uuid: string) =>
-      service.current
-        .remove(uuid)
-        .finally(() => service.current.load().then((data) => setItems(data))),
-    [],
+      service.remove(uuid).finally(() => service.load().then((data) => setItems(data))),
+    [service],
   );
 
   const save = useCallback(
     (dto: ITransactionFormDto) =>
-      service.current
-        .save(dto)
-        .finally(() => service.current.load().then((data) => setItems(data))),
-    [],
+      service.save(dto).finally(() => service.load().then((data) => setItems(data))),
+    [service],
   );
 
   const filteredItems = useMemo(

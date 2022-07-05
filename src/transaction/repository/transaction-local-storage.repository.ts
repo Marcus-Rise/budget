@@ -5,6 +5,7 @@ import type {
   TransactionRepositoryQuery,
 } from "./transaction.repository.interface";
 import type { TransactionRepositoryDto } from "../dto";
+import { v4 as uuid } from "uuid";
 
 const TRANSACTION_LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
@@ -34,6 +35,7 @@ class TransactionLocalStorageRepository implements ITransactionRepository {
     let data: TransactionModel[];
 
     if (transactionIndex === -1) {
+      transaction.uuid = uuid();
       data = [transaction, ...transactions];
     } else {
       data = [

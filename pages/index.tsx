@@ -8,10 +8,11 @@ import { TransactionForm } from "../src/transaction/components/form";
 import { Button } from "../src/components/button";
 import { TRANSACTION_CATEGORY_OTHER } from "../src/transaction/models";
 import styled from "styled-components";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { TransactionFilter } from "../src/transaction/components/filter-form";
 import { isTransactionInSameMonthFilter } from "../src/transaction/components/filter-form";
 import { TransactionFilterController } from "../src/transaction/components/filter-controller";
+import { useUser } from "../src/user";
 
 const FormSubmitButton = styled(Button).attrs(() => ({
   type: "submit",
@@ -32,14 +33,23 @@ const FilterContainer = styled(Container)`
 `;
 
 const Home: NextPage = () => {
+  const { user, isLoading } = useUser();
+  const isAuthed: boolean = useMemo(() => !isLoading && !!user, [isLoading, user]);
   const [transactionFilters, setTransactionFilters] = useState<Array<TransactionFilter>>([
     isTransactionInSameMonthFilter,
   ]);
 
-  const { saveTransaction, transactions, deleteTransaction } = useTransaction(transactionFilters);
+  const { saveTransaction, transactions, deleteTransaction } = useTransaction(
+    isAuthed,
+    transactionFilters,
+  );
 
   const [statisticFullView, setStatisticFullView] = useState(false);
   const toggleStatisticFullView = () => setStatisticFullView((full) => !full);
+
+  if (isLoading) {
+    return <LayoutPrivate>Loading...</LayoutPrivate>;
+  }
 
   return (
     <LayoutPrivate>
