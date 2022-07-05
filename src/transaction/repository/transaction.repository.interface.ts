@@ -16,8 +16,6 @@ interface ITransactionRepository {
 
   remove(uuid: string): Promise<void>;
 
-  find(uuid: string): Promise<TransactionModel | null>;
-
   list(query: Partial<TransactionRepositoryQuery>): Promise<TransactionModel[]>;
 }
 

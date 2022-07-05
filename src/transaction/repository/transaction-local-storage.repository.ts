@@ -4,17 +4,11 @@ import type {
   ITransactionRepository,
   TransactionRepositoryQuery,
 } from "./transaction.repository.interface";
-import type { ITransactionRepositoryDto } from "../dto";
+import type { TransactionRepositoryDto } from "../dto";
 
 const TRANSACTION_LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
 class TransactionLocalStorageRepository implements ITransactionRepository {
-  async find(uuid: string): Promise<TransactionModel | null> {
-    const items = await this.getItems();
-
-    return items.find((i) => i.uuid === uuid) ?? null;
-  }
-
   list(query: Partial<TransactionRepositoryQuery>): Promise<TransactionModel[]> {
     return this.getItems();
   }
@@ -58,7 +52,7 @@ class TransactionLocalStorageRepository implements ITransactionRepository {
     const data = localStorage.getItem(TRANSACTION_LOCAL_STORAGE_KEY);
 
     if (data) {
-      return JSON.parse(data).map((dto: ITransactionRepositoryDto) =>
+      return JSON.parse(data).map((dto: TransactionRepositoryDto) =>
         TransactionModelFactory.fromRepositoryDto(dto),
       );
     }
