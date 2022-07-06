@@ -1,5 +1,5 @@
 import type { Dispatch, FC, PropsWithChildren } from "react";
-import { createContext, useEffect, useMemo, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import type { UserReducerActions, UserReducerState } from "./user.reducer";
 import { userReducer, UserReducerActionsEnum, userReducerInitialState } from "./user.reducer";
 import { UserService } from "./user.service";
@@ -16,13 +16,9 @@ const UserContext = createContext<{
 const UserProvider: FC<PropsWithChildren<{ user?: IUser }>> = ({ children, user = null }) => {
   const [state, dispatch] = useReducer(userReducer, { ...userReducerInitialState, user });
   const [isInitialized, setIsInitialized] = useState(false);
-  const shouldInitialize = useMemo(
-    () => !isInitialized && !state.isLoading,
-    [isInitialized, state.isLoading],
-  );
 
   useEffect(() => {
-    if (shouldInitialize) {
+    if (!isInitialized) {
       dispatch({ type: UserReducerActionsEnum.SET_LOADING, payload: true });
 
       UserService.get()
@@ -35,7 +31,7 @@ const UserProvider: FC<PropsWithChildren<{ user?: IUser }>> = ({ children, user 
           setIsInitialized(true);
         });
     }
-  }, [shouldInitialize]);
+  }, [isInitialized]);
 
   return <UserContext.Provider value={{ state, dispatch }}>{children}</UserContext.Provider>;
 };
