@@ -5,7 +5,8 @@ import type { TransactionFilter } from "./components/filter-form";
 import { TransactionService } from "./service/transaction.service";
 import { apiRepository, localStorageRepository } from "./repository";
 
-const useTransaction = (isAuthed: boolean, filters: Array<TransactionFilter> = []) => {
+const useTransaction = (isAuthed: boolean | null, filters: Array<TransactionFilter> = []) => {
+  const [isInitialized, setIsInitialized] = useState(false);
   const [items, setItems] = useState<TransactionModel[]>([]);
   const service = useMemo(
     () => new TransactionService(isAuthed ? apiRepository : localStorageRepository),
@@ -13,11 +14,16 @@ const useTransaction = (isAuthed: boolean, filters: Array<TransactionFilter> = [
   );
 
   useEffect(() => {
-    service
-      .load()
-      .then((data) => setItems(data))
-      .catch(console.error);
-  }, [service]);
+    if (isAuthed !== null && !isInitialized) {
+      service
+        .load()
+        .then((data) => {
+          setItems(data);
+          setIsInitialized(true);
+        })
+        .catch(console.error);
+    }
+  }, [isAuthed, isInitialized, service]);
 
   const remove = useCallback(
     (uuid: string) =>

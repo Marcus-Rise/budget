@@ -34,7 +34,7 @@ const FilterContainer = styled(Container)`
 
 const Home: NextPage = () => {
   const { user, isLoading } = useUser();
-  const isAuthed: boolean = useMemo(() => !isLoading && !!user, [isLoading, user]);
+  const isAuthed: boolean | null = useMemo(() => (isLoading ? null : !!user), [isLoading, user]);
   const [transactionFilters, setTransactionFilters] = useState<Array<TransactionFilter>>([
     isTransactionInSameMonthFilter,
   ]);

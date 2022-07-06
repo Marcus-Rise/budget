@@ -6,7 +6,7 @@ type UserReducerState = {
   isLoading: boolean;
 };
 const userReducerInitialState: UserReducerState = {
-  isLoading: false,
+  isLoading: true,
   user: null,
 };
 
