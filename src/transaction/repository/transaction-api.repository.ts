@@ -36,12 +36,14 @@ class TransactionApiRepository implements ITransactionRepository {
         .then((dto) => TransactionModelFactory.fromRepositoryDto(dto));
     }
 
+    const { uuid, ...dto } = transaction;
+
     return fetch(baseUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(transaction),
+      body: JSON.stringify(dto),
     })
       .then<TransactionRepositoryDto>((res) => res.json())
       .then((dto) => TransactionModelFactory.fromRepositoryDto(dto));
