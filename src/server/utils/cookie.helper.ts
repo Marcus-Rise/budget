@@ -43,11 +43,7 @@ const getCookies = (req: NextApiRequest, name: string) => {
   }
 };
 
-const removeCookie = (res: NextApiResponse, name: string) => {
-  setCookie(res, name, "", {
-    path: "/",
-    maxAge: -1,
-  });
-};
+const removeCookie = (res: NextApiResponse, name: string) =>
+  res.setHeader("Set-Cookie", serialize(name, "", { maxAge: -1, path: "/" }));
 
 export { setCookie, getCookies, removeCookie, CookiesOptions, COOKIE_SECRET };
