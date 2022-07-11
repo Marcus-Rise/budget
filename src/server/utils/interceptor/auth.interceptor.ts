@@ -3,6 +3,12 @@ import type { LoginResponseDto } from "../../dto";
 import { getCookies, removeCookie, setCookie } from "../cookie.helper";
 import jwtDecode from "jwt-decode";
 import type { NextApiRequest, NextApiResponse } from "next";
+import type { StringValue } from "ms";
+import ms from "ms";
+
+type SessionTTL = StringValue;
+
+const SESSION_TTL: number = ms(process.env.SESSION_TTL as SessionTTL) / 1000;
 
 const COOKIE_AUTH_KEY = "auth";
 
@@ -25,7 +31,9 @@ const parseAuth = (req: NextApiRequest): LoginResponseDto | null => {
 const removeAuth = (response: NextApiResponse) => removeCookie(response, COOKIE_AUTH_KEY);
 
 const setAuth = (dto: LoginResponseDto, response: NextApiResponse) =>
-  setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(dto));
+  setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(dto), {
+    maxAge: SESSION_TTL,
+  });
 
 const withAuth: Interceptor =
   (handler = () => {}) =>
@@ -87,7 +95,7 @@ const withAuth: Interceptor =
       auth.access_token = access_token;
       auth.type = type;
 
-      setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(auth));
+      setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(auth), { maxAge: SESSION_TTL });
     }
 
     req.headers.authorization = `${auth.type} ${auth.access_token}`;

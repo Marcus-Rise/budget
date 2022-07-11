@@ -7,7 +7,6 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
 
 const CookiesOptions: CookieSerializeOptions = {
   httpOnly: true,
-  maxAge: parseInt(process.env.COOKIE_TTL ?? ""),
   path: "/",
   sameSite: "lax",
   secure: process.env.NODE_ENV === "production",
