@@ -1,22 +1,20 @@
 import type { NextApiHandler } from "next";
-import { getCookies, removeCookie } from "../../../src/server/utils/cookie.helper";
 import {
   applyInterceptors,
+  parseAuth,
+  removeAuth,
   withAuth,
   withMethodHandlers,
 } from "../../../src/server/utils/interceptor";
-import type { LoginResponseDto } from "../../../src/server/dto";
 
 const LogoutHandler: NextApiHandler = (req, response) => {
-  const stringifyDto = getCookies(req, "auth");
+  const auth = parseAuth(req);
 
-  if (!stringifyDto) {
-    removeCookie(response, "auth");
-
+  if (!auth) {
     return response.status(401).json({ error: "Unauthorized" });
   }
 
-  const { access_token, type, refresh_token }: LoginResponseDto = JSON.parse(stringifyDto);
+  const { access_token, type, refresh_token } = auth;
 
   return fetch(process.env.API_URL + "/api/auth/logout", {
     method: "POST",
@@ -36,7 +34,7 @@ const LogoutHandler: NextApiHandler = (req, response) => {
       return json;
     })
     .then(() => {
-      removeCookie(response, "auth");
+      removeAuth(response);
 
       response.status(200).end();
     });

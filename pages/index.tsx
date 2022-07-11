@@ -13,6 +13,9 @@ import type { TransactionFilter } from "../src/transaction/components/filter-for
 import { isTransactionInSameMonthFilter } from "../src/transaction/components/filter-form";
 import { TransactionFilterController } from "../src/transaction/components/filter-controller";
 import { useUser } from "../src/user";
+import { useRouter } from "next/router";
+import { Modal } from "../src/components/modal";
+import { UploadDataDialog } from "../src/transaction/components/upload-data-dialog";
 
 const FormSubmitButton = styled(Button).attrs(() => ({
   type: "submit",
@@ -33,13 +36,15 @@ const FilterContainer = styled(Container)`
 `;
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const showUploadDataDialog = router?.query?.uploadData === "true";
   const { user, isLoading } = useUser();
   const isAuthed: boolean | null = useMemo(() => (isLoading ? null : !!user), [isLoading, user]);
   const [transactionFilters, setTransactionFilters] = useState<Array<TransactionFilter>>([
     isTransactionInSameMonthFilter,
   ]);
 
-  const { saveTransaction, transactions, deleteTransaction } = useTransaction(
+  const { saveTransaction, transactions, deleteTransaction, uploadTransactions } = useTransaction(
     isAuthed,
     transactionFilters,
   );
@@ -47,12 +52,18 @@ const Home: NextPage = () => {
   const [statisticFullView, setStatisticFullView] = useState(false);
   const toggleStatisticFullView = () => setStatisticFullView((full) => !full);
 
+  const closeUploadDataDialog = () => router.push("/");
+  const uploadData = () => uploadTransactions().then(() => closeUploadDataDialog());
+
   if (isLoading) {
     return <LayoutPrivate>Loading...</LayoutPrivate>;
   }
 
   return (
     <LayoutPrivate>
+      <Modal show={showUploadDataDialog} onClose={closeUploadDataDialog}>
+        <UploadDataDialog onAgree={uploadData} onDisagree={closeUploadDataDialog} />
+      </Modal>
       <br />
       <FilterContainer>
         <TransactionFilterController

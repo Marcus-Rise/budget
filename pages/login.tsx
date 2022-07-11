@@ -39,7 +39,7 @@ const Login: NextPage = () => {
       .then(async () => {
         await user.updateUser();
 
-        return router.push("/");
+        return router.push("/?uploadData=true");
       })
       .catch(() => {
         popup.open("Не удалось выполнить вход", PopupType.DANGER);

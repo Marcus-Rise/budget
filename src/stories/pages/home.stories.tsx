@@ -3,10 +3,18 @@ import Home from "../../../pages/index";
 import { useEffect, useState } from "react";
 import { TRANSACTION_DATA_MOCK } from "../../transaction/transactions-data.mock";
 import { TRANSACTION_LOCAL_STORAGE_KEY } from "../../transaction/repository/transaction-local-storage.repository";
+import { UserProvider } from "../../user";
 
 const Config: ComponentMeta<typeof Home> = {
   title: "pages/Home",
   component: Home,
+  decorators: [
+    (Story) => (
+      <UserProvider>
+        <Story />
+      </UserProvider>
+    ),
+  ],
 };
 
 const Default: ComponentStory<typeof Home> = (args) => {
@@ -39,5 +47,15 @@ const WithData: ComponentStory<typeof Home> = (args) => {
   return isInitialized ? <Home {...args} /> : <></>;
 };
 
+const UploadData = WithData.bind({});
+UploadData.parameters = {
+  nextRouter: {
+    path: "/",
+    query: {
+      uploadData: "true",
+    },
+  },
+};
+
 export default Config;
-export { Default, WithData };
+export { Default, WithData, UploadData };
