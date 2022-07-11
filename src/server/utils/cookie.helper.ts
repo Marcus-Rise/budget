@@ -7,9 +7,8 @@ const COOKIE_SECRET = process.env.COOKIE_SECRET ?? "";
 
 const CookiesOptions: CookieSerializeOptions = {
   httpOnly: true,
-  maxAge: parseInt(process.env.COOKIE_TTL ?? ""),
   path: "/",
-  sameSite: "lax",
+  sameSite: "strict",
   secure: process.env.NODE_ENV === "production",
 };
 
@@ -17,18 +16,23 @@ const setCookie = (
   res: NextApiResponse,
   name: string,
   value: string,
-  options = CookiesOptions,
+  options?: CookieSerializeOptions,
 ): void => {
   const stringValue = typeof value === "object" ? `j:${JSON.stringify(value)}` : String(value);
   let expires: CookieSerializeOptions["expires"];
 
-  if (typeof options.maxAge === "number") {
-    expires = new Date(Date.now() + options.maxAge * 1000);
+  const opts: CookieSerializeOptions = {
+    ...CookiesOptions,
+    ...options,
+  };
+
+  if (typeof opts.maxAge === "number") {
+    expires = new Date(Date.now() + opts.maxAge * 1000);
   }
 
   const signedValue = sign(stringValue, COOKIE_SECRET);
 
-  res.setHeader("Set-Cookie", serialize(name, signedValue, { ...options, expires }));
+  res.setHeader("Set-Cookie", serialize(name, signedValue, { ...opts, expires }));
 };
 
 const getCookies = (req: NextApiRequest, name: string) => {
