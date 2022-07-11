@@ -9,7 +9,11 @@ const useTransaction = (isAuthed: boolean | null, filters: Array<TransactionFilt
   const [isInitialized, setIsInitialized] = useState(false);
   const [items, setItems] = useState<TransactionModel[]>([]);
   const service = useMemo(
-    () => new TransactionService(isAuthed ? apiRepository : localStorageRepository),
+    () =>
+      new TransactionService(
+        isAuthed ? apiRepository : localStorageRepository,
+        localStorageRepository,
+      ),
     [isAuthed],
   );
 
@@ -27,13 +31,19 @@ const useTransaction = (isAuthed: boolean | null, filters: Array<TransactionFilt
 
   const remove = useCallback(
     (uuid: string) =>
-      service.remove(uuid).finally(() => service.load().then((data) => setItems(data))),
+      service
+        .remove(uuid)
+        .then((data) => setItems(data))
+        .catch(console.error),
     [service],
   );
 
   const save = useCallback(
     (dto: ITransactionFormDto) =>
-      service.save(dto).finally(() => service.load().then((data) => setItems(data))),
+      service
+        .save(dto)
+        .then((data) => setItems(data))
+        .catch(console.error),
     [service],
   );
 
@@ -42,10 +52,20 @@ const useTransaction = (isAuthed: boolean | null, filters: Array<TransactionFilt
     [filters, items],
   );
 
+  const uploadData = useCallback(
+    () =>
+      service
+        .upload()
+        .then((data) => setItems(data))
+        .catch(console.error),
+    [service],
+  );
+
   return {
     transactions: filteredItems,
     deleteTransaction: remove,
     saveTransaction: save,
+    uploadTransactions: uploadData,
   };
 };
 

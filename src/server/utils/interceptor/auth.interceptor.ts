@@ -2,22 +2,38 @@ import type { Interceptor } from "./interceptor";
 import type { LoginResponseDto } from "../../dto";
 import { getCookies, removeCookie, setCookie } from "../cookie.helper";
 import jwtDecode from "jwt-decode";
+import type { NextApiRequest, NextApiResponse } from "next";
+
+const COOKIE_AUTH_KEY = "auth";
+
+const parseAuth = (req: NextApiRequest): LoginResponseDto | null => {
+  const stringifyDto = getCookies(req, COOKIE_AUTH_KEY);
+
+  if (!stringifyDto) {
+    return null;
+  }
+
+  const auth: LoginResponseDto = JSON.parse(stringifyDto);
+
+  if (!auth.access_token || !auth.refresh_token) {
+    return null;
+  }
+
+  return auth;
+};
+
+const removeAuth = (response: NextApiResponse) => removeCookie(response, COOKIE_AUTH_KEY);
+
+const setAuth = (dto: LoginResponseDto, response: NextApiResponse) =>
+  setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(dto));
 
 const withAuth: Interceptor =
   (handler = () => {}) =>
   async (req, response) => {
-    const stringifyDto = getCookies(req, "auth");
+    const auth = parseAuth(req);
 
-    if (!stringifyDto) {
-      removeCookie(response, "auth");
-
-      return response.status(401).json({ error: "Unauthorized" });
-    }
-
-    const auth: LoginResponseDto = JSON.parse(stringifyDto);
-
-    if (!auth.access_token || !auth.refresh_token) {
-      removeCookie(response, "auth");
+    if (!auth) {
+      removeCookie(response, COOKIE_AUTH_KEY);
 
       return response.status(401).json({ error: "Unauthorized" });
     }
@@ -46,7 +62,7 @@ const withAuth: Interceptor =
     const now = Date.now();
 
     if (refreshTokenBody.exp * 1000 < now) {
-      removeCookie(response, "auth");
+      removeCookie(response, COOKIE_AUTH_KEY);
 
       return response.status(401).json("Session expired");
     }
@@ -71,7 +87,7 @@ const withAuth: Interceptor =
       auth.access_token = access_token;
       auth.type = type;
 
-      setCookie(response, "auth", JSON.stringify(auth));
+      setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(auth));
     }
 
     req.headers.authorization = `${auth.type} ${auth.access_token}`;
@@ -79,4 +95,4 @@ const withAuth: Interceptor =
     return handler(req, response);
   };
 
-export { withAuth };
+export { withAuth, parseAuth, removeAuth, setAuth };

@@ -10,6 +10,10 @@ import { v4 as uuid } from "uuid";
 const TRANSACTION_LOCAL_STORAGE_KEY = "BUDGET_DATA";
 
 class TransactionLocalStorageRepository implements ITransactionRepository {
+  async persist(transactions: TransactionModel[]): Promise<void> {
+    localStorage.setItem(TRANSACTION_LOCAL_STORAGE_KEY, JSON.stringify(transactions));
+  }
+
   list(query: Partial<TransactionRepositoryQuery>): Promise<TransactionModel[]> {
     return this.getItems();
   }

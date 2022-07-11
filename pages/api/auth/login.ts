@@ -1,8 +1,5 @@
 import type { NextApiHandler } from "next";
-import { setCookie } from "../../../src/server/utils/cookie.helper";
-import {
-  withMethodHandlers,
-} from "../../../src/server/utils/interceptor";
+import { setAuth, withMethodHandlers } from "../../../src/server/utils/interceptor";
 import type { LoginResponseDto } from "../../../src/server/dto";
 
 const LoginHandler: NextApiHandler = async (req, response) =>
@@ -24,7 +21,7 @@ const LoginHandler: NextApiHandler = async (req, response) =>
     })
     .then((dto) => {
       if (dto) {
-        setCookie(response, "auth", JSON.stringify(dto));
+        setAuth(dto, response);
 
         response.status(200).end();
       }
