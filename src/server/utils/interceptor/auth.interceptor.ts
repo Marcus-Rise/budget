@@ -41,7 +41,7 @@ const withAuth: Interceptor =
     const auth = parseAuth(req);
 
     if (!auth) {
-      removeCookie(response, COOKIE_AUTH_KEY);
+      removeAuth(response);
 
       return response.status(401).json({ error: "Unauthorized" });
     }
@@ -70,30 +70,30 @@ const withAuth: Interceptor =
     const now = Date.now();
 
     if (refreshTokenBody.exp * 1000 < now) {
-      removeCookie(response, COOKIE_AUTH_KEY);
+      removeAuth(response);
 
       return response.status(401).json("Session expired");
     }
 
     if (accessTokenBody.exp * 1000 < now) {
-      const { access_token, type } = await fetch(process.env.API_URL + "/api/auth/refresh", {
+      const res = await fetch(process.env.API_URL + "/api/auth/refresh", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ refresh_token: auth.refresh_token }),
-      }).then<Omit<LoginResponseDto, "refresh_token">>(async (res) => {
-        const json = await res.json();
-
-        if (!res.ok) {
-          return response.status(res.status).json(json);
-        }
-
-        return json;
       });
 
-      auth.access_token = access_token;
-      auth.type = type;
+      const json: Omit<LoginResponseDto, "refresh_token"> = await res.json();
+
+      if (!res.ok) {
+        removeAuth(response);
+
+        return response.status(res.status).json(json);
+      }
+
+      auth.access_token = json.access_token;
+      auth.type = json.type;
 
       setAuth(auth, response);
     }
