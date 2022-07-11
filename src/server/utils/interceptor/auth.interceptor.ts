@@ -95,7 +95,7 @@ const withAuth: Interceptor =
       auth.access_token = access_token;
       auth.type = type;
 
-      setCookie(response, COOKIE_AUTH_KEY, JSON.stringify(auth), { maxAge: SESSION_TTL });
+      setAuth(auth, response);
     }
 
     req.headers.authorization = `${auth.type} ${auth.access_token}`;
