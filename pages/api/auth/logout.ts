@@ -23,21 +23,17 @@ const LogoutHandler: NextApiHandler = (req, response) => {
       Authorization: `${type} ${access_token}`,
     },
     body: JSON.stringify({ refresh_token }),
-  })
-    .then(async (res) => {
-      const json = await res.json();
+  }).then(async (res) => {
+    const json = await res.json();
 
-      if (!res.ok) {
-        return response.status(res.status).json(json);
-      }
+    if (!res.ok) {
+      return response.status(res.status).json(json);
+    }
 
-      return json;
-    })
-    .then(() => {
-      removeAuth(response);
+    removeAuth(response);
 
-      response.status(200).end();
-    });
+    response.status(200).end();
+  });
 };
 
 export default applyInterceptors(
