@@ -2,7 +2,7 @@ import type { IUser } from "./user";
 
 class UserService {
   static get(): Promise<IUser> {
-    return fetch("/api/proxy/user").then((res) => {
+    return fetch("/api/auth/me").then((res) => {
       if (!res.ok) {
         throw new Error();
       }

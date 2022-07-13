@@ -10,21 +10,16 @@ const LoginHandler: NextApiHandler = async (req, response) =>
     },
     body: JSON.stringify(req.body),
   })
-    .then<LoginResponseDto>(async (res) => {
-      const json = await res.json();
+    .then(async (res) => {
+      const dto: LoginResponseDto = await res.json();
 
       if (!res.ok) {
-        return response.status(res.status).json(json);
+        return response.status(res.status).json(dto);
       }
 
-      return json;
-    })
-    .then((dto) => {
-      if (dto) {
-        setAuth(dto, response);
+      setAuth(dto, response);
 
-        response.status(200).end();
-      }
+      return response.status(200).end();
     })
     .catch((e) => response.status(500).json(e));
 
