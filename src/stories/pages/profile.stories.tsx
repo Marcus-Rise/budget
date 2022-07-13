@@ -19,7 +19,7 @@ const Default = Template.bind({});
 Default.parameters = {
   msw: {
     handlers: [
-      rest.get<IUser>("/api/proxy/user", (req, res, ctx) => {
+      rest.get<IUser>("/api/auth/me", (req, res, ctx) => {
         return res(ctx.json({ login: "some@some.com" }));
       }),
       rest.post("/api/auth/change-password", (req, res, ctx) => {
@@ -33,7 +33,7 @@ const FailedChangePassword = Template.bind({});
 FailedChangePassword.parameters = {
   msw: {
     handlers: [
-      rest.get<IUser>("/api/proxy/user", (req, res, ctx) => {
+      rest.get<IUser>("/api/auth/me", (req, res, ctx) => {
         return res(ctx.json({ login: "some@some.com" }));
       }),
       rest.post("/api/auth/change-password", (req, res, ctx) => {
