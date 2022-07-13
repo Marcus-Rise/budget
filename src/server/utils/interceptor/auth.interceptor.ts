@@ -6,6 +6,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import type { StringValue } from "ms";
 import ms from "ms";
 
+type JwtPayload = {
+  username: string;
+  id: number;
+  role: string;
+};
+
 type SessionTTL = StringValue;
 
 const SESSION_TTL: number = ms(process.env.SESSION_TTL as SessionTTL) / 1000;
@@ -35,6 +41,16 @@ const setAuth = (dto: LoginResponseDto, response: NextApiResponse) =>
     maxAge: SESSION_TTL,
   });
 
+const parseJwtPayload = (req: NextApiRequest): JwtPayload => {
+  const auth = parseAuth(req);
+
+  if (!auth) {
+    throw new Error();
+  }
+
+  return jwtDecode<JwtPayload>(auth.access_token);
+};
+
 const withAuth: Interceptor =
   (handler = () => {}) =>
   async (req, response) => {
@@ -46,15 +62,15 @@ const withAuth: Interceptor =
       return response.status(401).json({ error: "Unauthorized" });
     }
 
-    const accessTokenBody = jwtDecode<{
-      username: string;
-      id: number;
-      iat: number;
-      exp: number;
-      aud: string;
-      iss: string;
-      sub: string;
-    }>(auth.access_token);
+    const accessTokenBody = jwtDecode<
+      JwtPayload & {
+        iat: number;
+        exp: number;
+        aud: string;
+        iss: string;
+        sub: string;
+      }
+    >(auth.access_token);
     const refreshTokenBody = jwtDecode<{
       iat: number;
       exp: number;
@@ -103,4 +119,4 @@ const withAuth: Interceptor =
     return handler(req, response);
   };
 
-export { withAuth, parseAuth, removeAuth, setAuth };
+export { withAuth, parseAuth, removeAuth, setAuth, parseJwtPayload };
