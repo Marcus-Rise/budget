@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { media } from "../../../styles/grid";
+import { media } from "../../styles/grid";
 
 const Container = styled.div<{ centered?: boolean }>`
   margin: 0 auto;

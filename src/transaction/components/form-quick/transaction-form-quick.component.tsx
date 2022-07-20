@@ -7,7 +7,7 @@ import type { SubmitHandler } from "react-hook-form";
 import { Controller, useForm } from "react-hook-form";
 import type { ITransactionFormQuickDto } from "./transaction-form-quick.dto";
 import styled from "styled-components";
-import { media } from "../../../../styles/grid";
+import { media } from "../../../styles/grid";
 
 const Form = styled.form`
   display: flex;

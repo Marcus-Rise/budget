@@ -14,7 +14,7 @@ import { Modal } from "../../../components/modal";
 import styled, { useTheme } from "styled-components";
 import { TransactionPrice } from "../price";
 import { Button, ButtonVariant } from "../../../components/button";
-import { media } from "../../../../styles/grid";
+import { media } from "../../../styles/grid";
 
 const MetaContainer = styled.div`
   display: flex;

@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { UserProfile } from "../../../../user/components/profile";
 import { Link } from "../../../link";
 import { useUser } from "../../../../user";
-import { media } from "../../../../../styles/grid";
+import { media } from "../../../../styles/grid";
+import { ThemeToggle } from "../../../theme-toggle";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -32,9 +33,15 @@ const HeaderContainer = styled(Container)`
   flex-direction: row;
 `;
 
+const RightColumn = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
 const Header: FC = () => {
   const { user, isLoading } = useUser();
-  const userProfileLabel = isLoading ? "Загрузка..." : user?.login ?? "Войти";
+  const userProfileLabel = isLoading ? "Загрузка..." : user ? "Профиль" : "Войти";
   const userProfileLink = !user ? "/login" : "/profile";
 
   return (
@@ -43,9 +50,12 @@ const Header: FC = () => {
         <Link href={"/"}>
           <Logo>Бюджет</Logo>
         </Link>
-        <Link href={userProfileLink}>
-          <UserProfile label={userProfileLabel} />
-        </Link>
+        <RightColumn>
+          <ThemeToggle />
+          <Link href={userProfileLink}>
+            <UserProfile label={userProfileLabel} />
+          </Link>
+        </RightColumn>
       </HeaderContainer>
     </StyledHeader>
   );

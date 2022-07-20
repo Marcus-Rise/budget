@@ -10,7 +10,7 @@ import { InputDate } from "../../../components/input-date";
 import { InputAutocomplete } from "../../../components/input-autocomplete/input-autocomplete.component";
 import type { ITransactionFormDto } from "./transaction-form.dto";
 import { TransactionType } from "../../models";
-import { media } from "../../../../styles/grid";
+import { media } from "../../../styles/grid";
 
 const Form = styled.form`
   display: flex;

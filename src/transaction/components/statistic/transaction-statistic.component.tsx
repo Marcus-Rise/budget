@@ -5,7 +5,7 @@ import { TransactionType } from "../../models";
 import type { ChartCircleData } from "../../../components/chart-cirlce";
 import { ChartCircle } from "../../../components/chart-cirlce";
 import styled from "styled-components";
-import { media } from "../../../../styles/grid";
+import { media } from "../../../styles/grid";
 import { TransactionPrice } from "../price";
 import { ChartSlim } from "../../../components/chart-slim";
 import { getDateMonthHelper } from "../../../helpers/get-date-month";

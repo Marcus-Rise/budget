@@ -1,26 +1,32 @@
 import type { FC, PropsWithChildren } from "react";
-import type { DefaultTheme } from "styled-components";
+import { useMemo } from "react";
 import { ThemeProvider } from "styled-components";
-import { defaultTheme } from "../../../styles/theme";
+import { darkTheme, defaultTheme } from "../../styles/theme";
 import Head from "next/head";
-import { GlobalStyles } from "../../../styles/global";
+import { GlobalStyles } from "../../styles/global";
 import { PopupProvider } from "../popup";
+import { useTheme } from "@marcus-rise/react-theme";
 
-type LayoutGlobalProps = PropsWithChildren<{ theme?: DefaultTheme }>;
+type LayoutGlobalProps = PropsWithChildren<unknown>;
 
-const LayoutGlobal: FC<LayoutGlobalProps> = ({ children, theme = defaultTheme }) => (
-  <>
-    <Head>
-      <title>Бюджет</title>
-      <meta name={"description"} content={"Учет бюджета"} />
-      <meta name={"theme-color"} content={theme.primary} />
-    </Head>
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
+const LayoutGlobal: FC<LayoutGlobalProps> = ({ children }) => {
+  const { isDarkTheme } = useTheme();
 
-      <PopupProvider>{children}</PopupProvider>
-    </ThemeProvider>
-  </>
-);
+  const currentTheme = useMemo(() => (isDarkTheme ? darkTheme : defaultTheme), [isDarkTheme]);
+
+  return (
+    <>
+      <Head>
+        <title>Бюджет</title>
+        <meta name={"description"} content={"Учет бюджета"} />
+        <meta name={"theme-toggle-color"} content={currentTheme.primaryBackground} />
+      </Head>
+      <ThemeProvider theme={currentTheme}>
+        <GlobalStyles />
+        <PopupProvider>{children}</PopupProvider>
+      </ThemeProvider>
+    </>
+  );
+};
 
 export { LayoutGlobal };

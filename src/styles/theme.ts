@@ -2,23 +2,11 @@ import type { DefaultTheme } from "styled-components";
 
 const defaultTheme: DefaultTheme = {
   primary: "#1976D2",
-  primaryLight: "#719ace",
-  primaryLighter: "#9eb4ce",
   secondary: "#be52f2",
-  secondaryLight: "#dba5f5",
-  secondaryLighter: "#eedff2",
   warning: "#ffcf5c",
-  warningLight: "#ffe29d",
-  warningLighter: "#fff8e7",
   danger: "#ff647c",
-  dangerLight: "#fdafbb",
-  dangerLighter: "#fbe4e8",
   success: "#00c48c",
-  successLight: "#7ddfc3",
-  successLighter: "#d5f2ea",
   info: "#0084f4",
-  infoLight: "#66b5f8",
-  infoLighter: "#d5e9fa",
   darkest: "#1A051D",
   lightest: "#ffffff",
   neutral: "#3f3356",
@@ -30,4 +18,13 @@ const defaultTheme: DefaultTheme = {
   primaryBackground: "#fff",
 };
 
-export { defaultTheme };
+const createTheme = (theme: Partial<DefaultTheme>): DefaultTheme => ({
+  ...defaultTheme,
+  ...theme,
+});
+
+const darkTheme = createTheme({
+  primaryBackground: "#1a1d41",
+});
+
+export { defaultTheme, darkTheme };
