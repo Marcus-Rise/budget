@@ -1581,10 +1581,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@marcus-rise/react-theme@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@marcus-rise/react-theme/-/react-theme-0.3.2.tgz#411a4fe762cc4a69b8d97c2f7269250362337861"
-  integrity sha512-lo/Vy6R6HpsnGVziw0DZLwMjqf2WcgmBhRUUTqgyLrulsclTE5ByEiZvpj7uqgmQzmZwu64Qw0CZkIMnXmlQIg==
+"@marcus-rise/react-theme@^0.4.5":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@marcus-rise/react-theme/-/react-theme-0.4.6.tgz#1318730eed8e1d46301b1de2443e2aa55254002a"
+  integrity sha512-pajFlFznLa17jek+JFJ3JvtsLyhbAjGn9+ATUUPZ9Vavhf/GyGYTOj2NxFSi2VbGAz5YLlbV0cYJO4+F86SKCg==
 
 "@mdx-js/mdx@^1.6.22":
   version "1.6.22"

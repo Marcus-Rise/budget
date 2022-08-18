@@ -13,7 +13,7 @@
     "ci": "yarn lint && yarn test --silent && yarn build && yarn build-storybook && cp -rf storybook-static public/storybook && rm public/mockServiceWorker.js"
   },
   "dependencies": {
-    "@marcus-rise/react-theme": "^0.3.2",
+    "@marcus-rise/react-theme": "^0.4.5",
     "chart.js": "^3.7.1",
     "cookie": "^0.5.0",
     "cookie-signature": "^1.2.0",
