@@ -1,11 +1,11 @@
 import type { NextApiHandler } from "next";
 import {
-  applyInterceptors,
   parseAuth,
   removeAuth,
   withAuth,
   withMethodHandlers,
 } from "../../../src/server/utils/interceptor";
+import { applyInterceptors } from "@marcus-rise/next-api-interceptor";
 
 const LogoutHandler: NextApiHandler = (req, response) => {
   const auth = parseAuth(req);

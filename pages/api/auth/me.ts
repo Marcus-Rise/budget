@@ -1,11 +1,11 @@
 import type { NextApiHandler } from "next";
 import {
-  applyInterceptors,
   parseJwtPayload,
   withAuth,
   withMethodHandlers,
 } from "../../../src/server/utils/interceptor";
 import type { IUser } from "../../../src/user";
+import { applyInterceptors } from "@marcus-rise/next-api-interceptor";
 
 const Me: NextApiHandler<IUser> = (req, res) => {
   const { username } = parseJwtPayload(req);
