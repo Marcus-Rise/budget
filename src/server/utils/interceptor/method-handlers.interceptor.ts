@@ -1,4 +1,4 @@
-import type { Interceptor } from "./interceptor";
+import type { Interceptor } from "@marcus-rise/next-api-interceptor";
 import type { NextApiHandler } from "next";
 
 enum RequestMethod {

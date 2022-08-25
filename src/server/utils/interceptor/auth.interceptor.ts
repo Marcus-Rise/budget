@@ -1,4 +1,4 @@
-import type { Interceptor } from "./interceptor";
+import type { Interceptor } from "@marcus-rise/next-api-interceptor";
 import type { LoginResponseDto } from "../../dto";
 import { getCookies, removeCookie, setCookie } from "../cookie.helper";
 import jwtDecode from "jwt-decode";
