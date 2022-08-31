@@ -14,7 +14,7 @@ const Card = styled.div.attrs<
   width: 100%;
 
   ${(props) => css`
-    background: ${props.theme.lightest};
+    background: ${props.theme.secondaryBackground};
   `}
 
   ${(props) => {
