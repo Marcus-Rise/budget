@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { ContainerContext } from "./container.context";
+import type { Container } from "inversify";
 
 const useInjection = <T>(identifier: symbol): T => {
   const { container } = useContext(ContainerContext);
@@ -11,4 +12,14 @@ const useInjection = <T>(identifier: symbol): T => {
   return container.get<T>(identifier);
 };
 
-export { useInjection };
+const useContainer = (): Container => {
+  const { container } = useContext(ContainerContext);
+
+  if (!container) {
+    throw new Error("no container");
+  }
+
+  return container;
+};
+
+export { useInjection, useContainer };
