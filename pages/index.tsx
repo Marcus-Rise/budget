@@ -104,15 +104,9 @@ const Home: NextPage<{ userStore: IUserStore }> = ({ userStore }) => {
 };
 
 const ObservableHome = observer(Home);
-const InjectedHome: FC = ({ children }) => {
-  const userStore = useContainer<IUserStore>(USER_STORE);
-
-  if (!userStore) {
-    return null;
-  }
-
-  return <ObservableHome userStore={userStore}>{children}</ObservableHome>;
-};
+const InjectedHome: FC = ({ children }) => (
+  <ObservableHome userStore={useContainer(USER_STORE)}>{children}</ObservableHome>
+);
 
 export default InjectedHome;
 export { ObservableHome as Home };

@@ -68,15 +68,9 @@ const Login: NextPage<{ userService: IUserService }> = ({ userService }) => {
 };
 
 const ObservableLogin = observer(Login);
-const InjectedLogin: FC = ({ children }) => {
-  const userService = useContainer<IUserService>(USER_SERVICE);
-
-  if (!userService) {
-    return null;
-  }
-
-  return <ObservableLogin userService={userService}>{children}</ObservableLogin>;
-};
+const InjectedLogin: FC = ({ children }) => (
+  <ObservableLogin userService={useContainer(USER_SERVICE)}>{children}</ObservableLogin>
+);
 
 export default InjectedLogin;
 export { ObservableLogin as Login };
