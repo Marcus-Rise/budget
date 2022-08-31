@@ -1,14 +1,23 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { ContainerContext } from "./container.context";
 
-const useContainer = <T>(identifier: symbol): T => {
+const useContainer = <T>(identifier: symbol) => {
+  const ref = useRef<T | null>(null);
   const { container } = useContext(ContainerContext);
 
   if (!container) {
     throw new Error("no container");
   }
 
-  return container.get<T>(identifier);
+  if (container.isBound(identifier)) {
+    ref.current = container.get<T>(identifier);
+  } else {
+    container.getAsync<T>(identifier).then((module) => {
+      ref.current = module;
+    });
+  }
+
+  return ref.current;
 };
 
 export { useContainer };

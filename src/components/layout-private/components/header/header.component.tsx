@@ -54,8 +54,14 @@ const Header: FC<{ userStore: IUserStore }> = ({ userStore }) => {
 };
 
 const ObservableHeader = observer(Header);
-const InjectedHeader: FC = ({ children }) => (
-  <ObservableHeader userStore={useContainer(USER_STORE)}>{children}</ObservableHeader>
-);
+const InjectedHeader: FC = ({ children }) => {
+  const userStore = useContainer<IUserStore>(USER_STORE);
+
+  if (!userStore) {
+    return null;
+  }
+
+  return <ObservableHeader userStore={userStore}>{children}</ObservableHeader>;
+};
 
 export { ObservableHeader as Header, InjectedHeader };

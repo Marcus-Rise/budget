@@ -3,6 +3,6 @@ import { UserModule } from "../user/ioc";
 
 const container = new Container();
 
-container.load(UserModule);
+container.loadAsync(UserModule);
 
 export { container };

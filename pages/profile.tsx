@@ -122,11 +122,20 @@ const Profile: NextPage<{ userStore: IUserStore; userService: IUserService }> = 
 };
 
 const ObservableProfile = observer(Profile);
-const InjectedProfile: FC = ({ children }) => (
-  <ObservableProfile userStore={useContainer(USER_STORE)} userService={useContainer(USER_SERVICE)}>
-    {children}
-  </ObservableProfile>
-);
+const InjectedProfile: FC = ({ children }) => {
+  const userStore = useContainer<IUserStore>(USER_STORE);
+  const userService = useContainer<IUserService>(USER_SERVICE);
+
+  if (!userStore || !userService) {
+    return null;
+  }
+
+  return (
+    <ObservableProfile userStore={userStore} userService={userService}>
+      {children}
+    </ObservableProfile>
+  );
+};
 
 export default InjectedProfile;
 export { ObservableProfile as Profile };
