@@ -1,5 +1,5 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import Login from "../../../pages/login";
+import { Login } from "../../../pages/login";
 
 const Config: ComponentMeta<typeof Login> = {
   title: "pages/Login",

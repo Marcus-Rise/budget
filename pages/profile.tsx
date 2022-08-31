@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { LayoutPrivate } from "../src/components/layout-private";
-import { useUser } from "../src/user";
 import { Card } from "../src/components/card";
 import { Container } from "../src/components/container";
 import { Button, ButtonVariant } from "../src/components/button";
@@ -9,9 +8,14 @@ import styled, { useTheme } from "styled-components";
 import { useAuth } from "../src/auth";
 import type { ChangePasswordFormProps } from "../src/auth/components/change-password-form";
 import { ChangePasswordForm } from "../src/auth/components/change-password-form";
+import type { FC } from "react";
 import { useState } from "react";
 import { PopupType, usePopup } from "../src/components/popup";
 import { FormProvider, useForm } from "react-hook-form";
+import type { IUserService, IUserStore } from "../src/user";
+import { USER_SERVICE, USER_STORE } from "../src/user";
+import { useContainer } from "../src/ioc";
+import { observer } from "mobx-react-lite";
 
 const ProfileContainer = styled(Container)`
   padding-top: 1rem;
@@ -42,8 +46,10 @@ const ActionsContainer = styled.div`
   gap: 1rem;
 `;
 
-const Profile: NextPage = () => {
-  const { user, isLoading, updateUser, deleteUser } = useUser();
+const Profile: NextPage<{ userStore: IUserStore; userService: IUserService }> = ({
+  userStore,
+  userService,
+}) => {
   const auth = useAuth();
   const router = useRouter();
   const theme = useTheme();
@@ -54,7 +60,7 @@ const Profile: NextPage = () => {
   const logout = async () => {
     await auth.logout();
 
-    await updateUser();
+    await userService.loadCurrentUser();
 
     return router.push("/");
   };
@@ -63,7 +69,7 @@ const Profile: NextPage = () => {
     const agree = confirm("Вы действительно хотите удалить свой аккаунт?");
 
     if (agree) {
-      await deleteUser();
+      await userService.deleteAccount();
 
       await auth.logout();
 
@@ -90,11 +96,11 @@ const Profile: NextPage = () => {
       <ProfileContainer>
         <ProfileCard>
           <Title>Профиль</Title>
-          {!user || isLoading ? (
+          {!userStore.user || userStore.isLoading ? (
             "Loading..."
           ) : (
             <>
-              Логин: {user.login}
+              Логин: {userStore.user.login}
               <ChangePasswordFormWrapper>
                 <ChangePasswordFormTitle>Смена пароля</ChangePasswordFormTitle>
                 <FormProvider {...changePasswordMethods}>
@@ -115,4 +121,12 @@ const Profile: NextPage = () => {
   );
 };
 
-export default Profile;
+const ObservableProfile = observer(Profile);
+const InjectedProfile: FC = ({ children }) => (
+  <ObservableProfile userStore={useContainer(USER_STORE)} userService={useContainer(USER_SERVICE)}>
+    {children}
+  </ObservableProfile>
+);
+
+export default InjectedProfile;
+export { ObservableProfile as Profile };

@@ -6,11 +6,15 @@ import { useAuth } from "../src/auth";
 import type { IAuthLoginFormDto } from "../src/auth/components/login-form/auth-login-form.dto";
 import { PopupType, usePopup } from "../src/components/popup";
 import { useRouter } from "next/router";
-import { useUser } from "../src/user";
 import { Button, ButtonVariant } from "../src/components/button";
 import { Link } from "../src/components/link";
+import type { FC } from "react";
 import { useState } from "react";
 import { LayoutPublic } from "../src/components/layout-public";
+import type { IUserService } from "../src/user";
+import { USER_SERVICE } from "../src/user";
+import { useContainer } from "../src/ioc";
+import { observer } from "mobx-react-lite";
 
 const FormCardTitle = styled.h2`
   font-size: 1.25rem;
@@ -25,11 +29,10 @@ const FormCard = styled(Card)`
   padding: 2rem;
 `;
 
-const Login: NextPage = () => {
+const Login: NextPage<{ userService: IUserService }> = ({ userService }) => {
   const router = useRouter();
   const { login } = useAuth();
   const popup = usePopup();
-  const user = useUser();
   const [loading, setLoading] = useState(false);
 
   const auth = (dto: IAuthLoginFormDto) => {
@@ -37,7 +40,7 @@ const Login: NextPage = () => {
 
     return login(dto)
       .then(async () => {
-        await user.updateUser();
+        await userService.loadCurrentUser();
 
         return router.push("/?uploadData=true");
       })
@@ -64,4 +67,10 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+const ObservableLogin = observer(Login);
+const InjectedLogin: FC = ({ children }) => (
+  <ObservableLogin userService={useContainer(USER_SERVICE)}>{children}</ObservableLogin>
+);
+
+export default InjectedLogin;
+export { ObservableLogin as Login };
