@@ -18,7 +18,7 @@ import { Modal } from "../src/components/modal";
 import { UploadDataDialog } from "../src/transaction/components/upload-data-dialog";
 import type { IUserStore } from "../src/user";
 import { USER_STORE } from "../src/user";
-import { useContainer } from "../src/ioc";
+import { useInjection } from "../src/ioc";
 import { observer } from "mobx-react-lite";
 
 const FormSubmitButton = styled(Button).attrs(() => ({
@@ -105,7 +105,7 @@ const Home: NextPage<{ userStore: IUserStore }> = ({ userStore }) => {
 
 const ObservableHome = observer(Home);
 const InjectedHome: FC = ({ children }) => (
-  <ObservableHome userStore={useContainer(USER_STORE)}>{children}</ObservableHome>
+  <ObservableHome userStore={useInjection(USER_STORE)}>{children}</ObservableHome>
 );
 
 export default InjectedHome;

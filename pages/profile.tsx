@@ -14,7 +14,7 @@ import { PopupType, usePopup } from "../src/components/popup";
 import { FormProvider, useForm } from "react-hook-form";
 import type { IUserService, IUserStore } from "../src/user";
 import { USER_SERVICE, USER_STORE } from "../src/user";
-import { useContainer } from "../src/ioc";
+import { useInjection } from "../src/ioc";
 import { observer } from "mobx-react-lite";
 
 const ProfileContainer = styled(Container)`
@@ -123,7 +123,7 @@ const Profile: NextPage<{ userStore: IUserStore; userService: IUserService }> = 
 
 const ObservableProfile = observer(Profile);
 const InjectedProfile: FC = ({ children }) => (
-  <ObservableProfile userStore={useContainer(USER_STORE)} userService={useContainer(USER_SERVICE)}>
+  <ObservableProfile userStore={useInjection(USER_STORE)} userService={useInjection(USER_SERVICE)}>
     {children}
   </ObservableProfile>
 );

@@ -6,7 +6,7 @@ import { Link } from "../../../link";
 import { media } from "../../../../../styles/grid";
 import type { IUserStore } from "../../../../user";
 import { USER_STORE } from "../../../../user";
-import { useContainer } from "../../../../ioc";
+import { useInjection } from "../../../../ioc";
 import { observer } from "mobx-react-lite";
 
 const StyledHeader = styled.header`
@@ -55,7 +55,7 @@ const Header: FC<{ userStore: IUserStore }> = ({ userStore }) => {
 
 const ObservableHeader = observer(Header);
 const InjectedHeader: FC = ({ children }) => (
-  <ObservableHeader userStore={useContainer(USER_STORE)}>{children}</ObservableHeader>
+  <ObservableHeader userStore={useInjection(USER_STORE)}>{children}</ObservableHeader>
 );
 
 export { ObservableHeader as Header, InjectedHeader };

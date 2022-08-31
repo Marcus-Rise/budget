@@ -13,7 +13,7 @@ import { useState } from "react";
 import { LayoutPublic } from "../src/components/layout-public";
 import type { IUserService } from "../src/user";
 import { USER_SERVICE } from "../src/user";
-import { useContainer } from "../src/ioc";
+import { useInjection } from "../src/ioc";
 import { observer } from "mobx-react-lite";
 
 const FormCardTitle = styled.h2`
@@ -69,7 +69,7 @@ const Login: NextPage<{ userService: IUserService }> = ({ userService }) => {
 
 const ObservableLogin = observer(Login);
 const InjectedLogin: FC = ({ children }) => (
-  <ObservableLogin userService={useContainer(USER_SERVICE)}>{children}</ObservableLogin>
+  <ObservableLogin userService={useInjection(USER_SERVICE)}>{children}</ObservableLogin>
 );
 
 export default InjectedLogin;

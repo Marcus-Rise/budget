@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ContainerContext } from "./container.context";
 
-const useContainer = <T>(identifier: symbol): T => {
+const useInjection = <T>(identifier: symbol): T => {
   const { container } = useContext(ContainerContext);
 
   if (!container) {
@@ -11,4 +11,4 @@ const useContainer = <T>(identifier: symbol): T => {
   return container.get<T>(identifier);
 };
 
-export { useContainer };
+export { useInjection };
