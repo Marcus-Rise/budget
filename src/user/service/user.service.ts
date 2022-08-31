@@ -18,9 +18,7 @@ class UserService implements IUserService {
 
     const user = await this._http.get<IUser>("/api/auth/me").catch(console.error);
 
-    if (user) {
-      this._store.user = user;
-    }
+    this._store.user = user ?? null;
 
     this._store.isLoading = false;
   }
