@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { LayoutPrivate } from "../src/components/layout-private";
 import { Card } from "../src/components/card";
 import { Container } from "../src/components/container";
@@ -46,7 +45,7 @@ const ActionsContainer = styled.div`
   gap: 1rem;
 `;
 
-const Profile: NextPage<{ userStore: IUserStore; userService: IUserService }> = ({
+const Profile: NextPageWithLayout<{ userStore: IUserStore; userService: IUserService }> = ({
   userStore,
   userService,
 }) => {
@@ -92,34 +91,34 @@ const Profile: NextPage<{ userStore: IUserStore; userService: IUserService }> = 
   };
 
   return (
-    <LayoutPrivate>
-      <ProfileContainer>
-        <ProfileCard>
-          <Title>Профиль</Title>
-          {!userStore.user || userStore.isLoading ? (
-            "Loading..."
-          ) : (
-            <>
-              Логин: {userStore.user.login}
-              <ChangePasswordFormWrapper>
-                <ChangePasswordFormTitle>Смена пароля</ChangePasswordFormTitle>
-                <FormProvider {...changePasswordMethods}>
-                  <ChangePasswordForm onSubmit={changePassword} loading={changePasswordLoading} />
-                </FormProvider>
-              </ChangePasswordFormWrapper>
-              <ActionsContainer>
-                <Button onClick={logout}>Выйти</Button>
-                <Button variant={ButtonVariant.TEXT} color={theme.danger} onClick={deleteAccount}>
-                  Удалить аккаунт
-                </Button>
-              </ActionsContainer>
-            </>
-          )}
-        </ProfileCard>
-      </ProfileContainer>
-    </LayoutPrivate>
+    <ProfileContainer>
+      <ProfileCard>
+        <Title>Профиль</Title>
+        {!userStore.user || userStore.isLoading ? (
+          "Loading..."
+        ) : (
+          <>
+            Логин: {userStore.user.login}
+            <ChangePasswordFormWrapper>
+              <ChangePasswordFormTitle>Смена пароля</ChangePasswordFormTitle>
+              <FormProvider {...changePasswordMethods}>
+                <ChangePasswordForm onSubmit={changePassword} loading={changePasswordLoading} />
+              </FormProvider>
+            </ChangePasswordFormWrapper>
+            <ActionsContainer>
+              <Button onClick={logout}>Выйти</Button>
+              <Button variant={ButtonVariant.TEXT} color={theme.danger} onClick={deleteAccount}>
+                Удалить аккаунт
+              </Button>
+            </ActionsContainer>
+          </>
+        )}
+      </ProfileCard>
+    </ProfileContainer>
   );
 };
+
+Profile.getLayout = (page) => <LayoutPrivate>{page}</LayoutPrivate>;
 
 const ObservableProfile = observer(Profile);
 const InjectedProfile: FC = ({ children }) => (

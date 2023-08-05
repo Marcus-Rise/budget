@@ -1,7 +1,9 @@
 interface IHttpService {
-  get<Response>(url: string, init?: RequestInit): Promise<Response>;
+  get(url: string, init?: RequestInit): Promise<Response>;
 
-  delete(url: string, init?: RequestInit): Promise<void>;
+  post(url: string, init?: RequestInit): Promise<Response>;
+
+  delete(url: string, init?: RequestInit): Promise<Response>;
 }
 
 export type { IHttpService };

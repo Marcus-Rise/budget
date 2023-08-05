@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { LayoutPublic } from "../../src/components/layout-public";
 import styled, { useTheme } from "styled-components";
 import { Card } from "../../src/components/card";
@@ -20,20 +19,20 @@ const Title = styled.h2`
   margin: 0;
 `;
 
-const RegistrationConfirm: NextPage = () => {
+const RegistrationConfirm: NextPageWithLayout = () => {
   const theme = useTheme();
 
   return (
-    <LayoutPublic>
-      <StyledCard>
-        <Title>Ваш аккаунт подтвержден!</Title>{" "}
-        <Icon name={"success"} color={theme.success} size={"3rem"} />
-        <Button href={"/login"} as={Link}>
-          Войти
-        </Button>
-      </StyledCard>
-    </LayoutPublic>
+    <StyledCard>
+      <Title>Ваш аккаунт подтвержден!</Title>{" "}
+      <Icon name={"success"} color={theme.success} size={"3rem"} />
+      <Button href={"/login"} as={Link}>
+        Войти
+      </Button>
+    </StyledCard>
   );
 };
+
+RegistrationConfirm.getLayout = (page) => <LayoutPublic>{page}</LayoutPublic>;
 
 export default RegistrationConfirm;

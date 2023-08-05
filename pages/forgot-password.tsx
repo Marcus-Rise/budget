@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { LayoutPublic } from "../src/components/layout-public";
 import styled from "styled-components";
 import { Card } from "../src/components/card";
@@ -21,7 +20,7 @@ const FormCard = styled(Card)`
   padding: 2rem;
 `;
 
-const ForgotPassword: NextPage = () => {
+const ForgotPassword: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const popup = usePopup();
@@ -42,13 +41,13 @@ const ForgotPassword: NextPage = () => {
   };
 
   return (
-    <LayoutPublic>
-      <FormCard>
-        <Title>Сброс пароля</Title>
-        <ForgotPasswordForm onSubmit={resetPassword} loading={loading} />
-      </FormCard>
-    </LayoutPublic>
+    <FormCard>
+      <Title>Сброс пароля</Title>
+      <ForgotPasswordForm onSubmit={resetPassword} loading={loading} />
+    </FormCard>
   );
 };
+
+ForgotPassword.getLayout = (page) => <LayoutPublic>{page}</LayoutPublic>;
 
 export default ForgotPassword;

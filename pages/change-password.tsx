@@ -25,7 +25,7 @@ const FormCard = styled(Card)`
   padding: 2rem;
 `;
 
-const ChangePassword: NextPage = () => {
+const ChangePassword: NextPageWithLayout = () => {
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
   const popup = usePopup();
@@ -52,18 +52,18 @@ const ChangePassword: NextPage = () => {
   };
 
   return (
-    <LayoutPublic>
-      <FormCard>
-        <Title>Смена пароля</Title>
-        <FormProvider {...formMethods}>
-          <ChangePasswordForm onSubmit={changePassword} loading={loading} />
-        </FormProvider>
-        <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
-          Войти
-        </Button>
-      </FormCard>
-    </LayoutPublic>
+    <FormCard>
+      <Title>Смена пароля</Title>
+      <FormProvider {...formMethods}>
+        <ChangePasswordForm onSubmit={changePassword} loading={loading} />
+      </FormProvider>
+      <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
+        Войти
+      </Button>
+    </FormCard>
   );
 };
+
+ChangePassword.getLayout = (page) => <LayoutPublic>{page}</LayoutPublic>;
 
 export default ChangePassword;

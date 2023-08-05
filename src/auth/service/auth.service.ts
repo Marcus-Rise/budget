@@ -1,90 +1,56 @@
+import type { IAuthService } from "./auth-service.interface";
+import { inject, injectable } from "inversify";
+import type { IHttpService } from "../../utils/http";
+import { HTTP_SERVICE } from "../../utils/http";
+
 type AuthLoginDto = { login: string; password: string };
 type AuthRegistrationDto = { login: string; password: string };
 type AuthResetPasswordDto = { login: string };
 type AuthChangePasswordDto = { password: string };
 
-class AuthService {
-  static async login(dto: AuthLoginDto) {
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
+@injectable()
+class AuthService implements IAuthService {
+  constructor(@inject(HTTP_SERVICE) private readonly _http: IHttpService) {}
+
+  async login(dto: AuthLoginDto) {
+    await this._http.post("/api/auth/login", {
       body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-
-    if (!res.ok) {
-      throw new Error();
-    }
   }
 
-  static async register(dto: AuthRegistrationDto) {
-    const res = await fetch("/api/auth/register", {
-      method: "POST",
+  async register(dto: AuthRegistrationDto) {
+    await this._http.post("/api/auth/register", {
       body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-
-    if (!res.ok) {
-      throw new Error();
-    }
   }
 
-  static async logout() {
-    const res = await fetch("/api/auth/logout", { keepalive: true });
-
-    if (!res.ok) {
-      throw new Error();
-    }
+  async logout() {
+    await this._http.get("/api/auth/logout", { keepalive: true });
   }
 
-  static async resetPassword(dto: AuthResetPasswordDto) {
-    const res = await fetch("/api/auth/reset-password", {
-      method: "POST",
+  async resetPassword(dto: AuthResetPasswordDto) {
+    await this._http.post("/api/auth/reset-password", {
       body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-
-    if (!res.ok) {
-      throw new Error();
-    }
   }
 
-  static async changePasswordFromEmail(dto: AuthChangePasswordDto) {
+  async changePasswordFromEmail(dto: AuthChangePasswordDto) {
     const url = new URL(window.location.href);
     const token = url.searchParams.get("token");
     const tokenType = url.searchParams.get("type");
 
-    const res = await fetch("/api/auth/change-password", {
-      method: "POST",
+    await this._http.post("/api/auth/change-password", {
       body: JSON.stringify(dto),
       headers: {
-        "Content-Type": "application/json",
         Authorization: `${tokenType} ${token}`,
       },
     });
-
-    if (!res.ok) {
-      throw new Error();
-    }
   }
 
-  static async changePassword(dto: AuthChangePasswordDto) {
-    const res = await fetch("/api/proxy/auth/change-password", {
-      method: "POST",
+  async changePassword(dto: AuthChangePasswordDto) {
+    await this._http.post("/api/proxy/auth/change-password", {
       body: JSON.stringify(dto),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
-
-    if (!res.ok) {
-      throw new Error();
-    }
   }
 }
 

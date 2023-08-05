@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { AuthLoginForm } from "../src/auth/components/login-form";
 import styled from "styled-components";
 import { Card } from "../src/components/card";
@@ -29,7 +28,7 @@ const FormCard = styled(Card)`
   padding: 2rem;
 `;
 
-const Login: NextPage<{ userService: IUserService }> = ({ userService }) => {
+const Login: NextPageWithLayout<{ userService: IUserService }> = ({ userService }) => {
   const router = useRouter();
   const { login } = useAuth();
   const popup = usePopup();
@@ -52,20 +51,20 @@ const Login: NextPage<{ userService: IUserService }> = ({ userService }) => {
   };
 
   return (
-    <LayoutPublic>
-      <FormCard>
-        <FormCardTitle>Вход</FormCardTitle>
-        <AuthLoginForm onSubmit={auth} loading={loading} />
-        <Button variant={ButtonVariant.TEXT} as={Link} href={"/registration"}>
-          Зарегистрироваться
-        </Button>
-        <Button variant={ButtonVariant.TEXT} as={Link} href={"/forgot-password"}>
-          Сбросить пароль
-        </Button>
-      </FormCard>
-    </LayoutPublic>
+    <FormCard>
+      <FormCardTitle>Вход</FormCardTitle>
+      <AuthLoginForm onSubmit={auth} loading={loading} />
+      <Button variant={ButtonVariant.TEXT} as={Link} href={"/registration"}>
+        Зарегистрироваться
+      </Button>
+      <Button variant={ButtonVariant.TEXT} as={Link} href={"/forgot-password"}>
+        Сбросить пароль
+      </Button>
+    </FormCard>
   );
 };
+
+Login.getLayout = (page) => <LayoutPublic>{page}</LayoutPublic>;
 
 const ObservableLogin = observer(Login);
 const InjectedLogin: FC = ({ children }) => (

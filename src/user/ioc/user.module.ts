@@ -7,10 +7,10 @@ import type { IHttpService } from "../../utils/http";
 import { HTTP_SERVICE } from "../../utils/http";
 
 const UserModule = new AsyncContainerModule(async (bind) => {
-  const [{ UserStore }, { UserService }, { HttpService }] = await Promise.all([
-    import("../store/user.store"),
-    import("../service/user.service"),
-    import("../../utils/http/http.service"),
+  const [UserStore, UserService, HttpService] = await Promise.all([
+    import("../store/user.store").then((module) => module.UserStore),
+    import("../service/user.service").then((module) => module.UserService),
+    import("../../utils/http/http.service").then((module) => module.HttpService),
   ]);
 
   bind<IHttpService>(HTTP_SERVICE).to(HttpService);

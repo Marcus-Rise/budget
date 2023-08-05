@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import styled from "styled-components";
 import { Card } from "../../src/components/card";
 import { useAuth } from "../../src/auth";
@@ -24,7 +23,7 @@ const FormCard = styled(Card)`
   padding: 2rem;
 `;
 
-const Registration: NextPage = () => {
+const Registration: NextPageWithLayout = () => {
   const router = useRouter();
   const { register } = useAuth();
   const popup = usePopup();
@@ -47,16 +46,16 @@ const Registration: NextPage = () => {
   };
 
   return (
-    <LayoutPublic>
-      <FormCard>
-        <Title>Регистрация</Title>
-        <AuthRegistrationForm onSubmit={auth} loading={loading} />
-        <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
-          Войти
-        </Button>
-      </FormCard>
-    </LayoutPublic>
+    <FormCard>
+      <Title>Регистрация</Title>
+      <AuthRegistrationForm onSubmit={auth} loading={loading} />
+      <Button variant={ButtonVariant.TEXT} as={Link} href={"/login"}>
+        Войти
+      </Button>
+    </FormCard>
   );
 };
+
+Registration.getLayout = (page) => <LayoutPublic>{page}</LayoutPublic>;
 
 export default Registration;

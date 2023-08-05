@@ -16,15 +16,18 @@ class UserService implements IUserService {
   async loadCurrentUser(): Promise<void> {
     this._store.isLoading = true;
 
-    const user = await this._http.get<IUser>("/api/auth/me").catch(console.error);
+    const user = await this._http
+      .get("/api/auth/me")
+      .then((res) => res.json())
+      .catch(console.error);
 
     this._store.user = user ?? null;
 
     this._store.isLoading = false;
   }
 
-  deleteAccount(): Promise<void> {
-    return this._http.delete("/api/proxy/user");
+  async deleteAccount() {
+    await this._http.delete("/api/proxy/user");
   }
 }
 

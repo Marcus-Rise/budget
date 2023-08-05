@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { Container } from "../src/components/container";
 import { useTransaction } from "../src/transaction/transaction.hook";
 import { LayoutPrivate } from "../src/components/layout-private";
@@ -39,7 +38,7 @@ const FilterContainer = styled(Container)`
   flex-direction: column;
 `;
 
-const Home: NextPage<{ userStore: IUserStore }> = ({ userStore }) => {
+const Home: NextPageWithLayout<{ userStore: IUserStore }> = ({ userStore }) => {
   const router = useRouter();
   const showUploadDataDialog = router?.query?.uploadData === "true";
   const isAuthed: boolean | null = userStore.isLoading ? null : !!userStore.user;
@@ -63,7 +62,7 @@ const Home: NextPage<{ userStore: IUserStore }> = ({ userStore }) => {
   }
 
   return (
-    <LayoutPrivate>
+    <>
       <Modal show={showUploadDataDialog} onClose={closeUploadDataDialog}>
         <UploadDataDialog onAgree={uploadData} onDisagree={closeUploadDataDialog} />
       </Modal>
@@ -99,9 +98,11 @@ const Home: NextPage<{ userStore: IUserStore }> = ({ userStore }) => {
           </TransactionForm>
         </WelcomeFormContainer>
       )}
-    </LayoutPrivate>
+    </>
   );
 };
+
+Home.getLayout = (page) => <LayoutPrivate>{page}</LayoutPrivate>;
 
 const ObservableHome = observer(Home);
 const InjectedHome: FC = ({ children }) => (
