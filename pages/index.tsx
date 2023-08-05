@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { Container } from "../src/components/container";
 import { useTransaction } from "../src/transaction/transaction.hook";
 import { LayoutPrivate } from "../src/components/layout-private";
@@ -8,14 +7,18 @@ import { TransactionForm } from "../src/transaction/components/form";
 import { Button } from "../src/components/button";
 import { TRANSACTION_CATEGORY_OTHER } from "../src/transaction/models";
 import styled from "styled-components";
-import { useMemo, useState } from "react";
+import type { FC } from "react";
+import { useState } from "react";
 import type { TransactionFilter } from "../src/transaction/components/filter-form";
 import { isTransactionInSameMonthFilter } from "../src/transaction/components/filter-form";
 import { TransactionFilterController } from "../src/transaction/components/filter-controller";
-import { useUser } from "../src/user";
 import { useRouter } from "next/router";
 import { Modal } from "../src/components/modal";
 import { UploadDataDialog } from "../src/transaction/components/upload-data-dialog";
+import type { IUserStore } from "../src/user";
+import { USER_STORE } from "../src/user";
+import { useInjection } from "../src/ioc";
+import { observer } from "mobx-react-lite";
 
 const FormSubmitButton = styled(Button).attrs(() => ({
   type: "submit",
@@ -35,11 +38,10 @@ const FilterContainer = styled(Container)`
   flex-direction: column;
 `;
 
-const Home: NextPage = () => {
+const Home: NextPageWithLayout<{ userStore: IUserStore }> = ({ userStore }) => {
   const router = useRouter();
   const showUploadDataDialog = router?.query?.uploadData === "true";
-  const { user, isLoading } = useUser();
-  const isAuthed: boolean | null = useMemo(() => (isLoading ? null : !!user), [isLoading, user]);
+  const isAuthed: boolean | null = userStore.isLoading ? null : !!userStore.user;
   const [transactionFilters, setTransactionFilters] = useState<Array<TransactionFilter>>([
     isTransactionInSameMonthFilter,
   ]);
@@ -55,12 +57,12 @@ const Home: NextPage = () => {
   const closeUploadDataDialog = () => router.push("/");
   const uploadData = () => uploadTransactions().then(() => closeUploadDataDialog());
 
-  if (isLoading) {
+  if (userStore.isLoading) {
     return <LayoutPrivate>Loading...</LayoutPrivate>;
   }
 
   return (
-    <LayoutPrivate>
+    <>
       <Modal show={showUploadDataDialog} onClose={closeUploadDataDialog}>
         <UploadDataDialog onAgree={uploadData} onDisagree={closeUploadDataDialog} />
       </Modal>
@@ -96,8 +98,16 @@ const Home: NextPage = () => {
           </TransactionForm>
         </WelcomeFormContainer>
       )}
-    </LayoutPrivate>
+    </>
   );
 };
 
-export default Home;
+Home.getLayout = (page) => <LayoutPrivate>{page}</LayoutPrivate>;
+
+const ObservableHome = observer(Home);
+const InjectedHome: FC = ({ children }) => (
+  <ObservableHome userStore={useInjection(USER_STORE)}>{children}</ObservableHome>
+);
+
+export default InjectedHome;
+export { ObservableHome as Home };

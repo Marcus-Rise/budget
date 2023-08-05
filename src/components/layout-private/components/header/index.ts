@@ -1,1 +1,1 @@
-export * from "./header.component";
+export { InjectedHeader as Header } from "./header.component";

@@ -1,4 +1,3 @@
-import type { NextPage } from "next";
 import { AuthLoginForm } from "../src/auth/components/login-form";
 import styled from "styled-components";
 import { Card } from "../src/components/card";
@@ -6,11 +5,15 @@ import { useAuth } from "../src/auth";
 import type { IAuthLoginFormDto } from "../src/auth/components/login-form/auth-login-form.dto";
 import { PopupType, usePopup } from "../src/components/popup";
 import { useRouter } from "next/router";
-import { useUser } from "../src/user";
 import { Button, ButtonVariant } from "../src/components/button";
 import { Link } from "../src/components/link";
+import type { FC } from "react";
 import { useState } from "react";
 import { LayoutPublic } from "../src/components/layout-public";
+import type { IUserService } from "../src/user";
+import { USER_SERVICE } from "../src/user";
+import { useInjection } from "../src/ioc";
+import { observer } from "mobx-react-lite";
 
 const FormCardTitle = styled.h2`
   font-size: 1.25rem;
@@ -25,11 +28,10 @@ const FormCard = styled(Card)`
   padding: 2rem;
 `;
 
-const Login: NextPage = () => {
+const Login: NextPageWithLayout<{ userService: IUserService }> = ({ userService }) => {
   const router = useRouter();
   const { login } = useAuth();
   const popup = usePopup();
-  const user = useUser();
   const [loading, setLoading] = useState(false);
 
   const auth = (dto: IAuthLoginFormDto) => {
@@ -37,7 +39,7 @@ const Login: NextPage = () => {
 
     return login(dto)
       .then(async () => {
-        await user.updateUser();
+        await userService.loadCurrentUser();
 
         return router.push("/?uploadData=true");
       })
@@ -49,19 +51,25 @@ const Login: NextPage = () => {
   };
 
   return (
-    <LayoutPublic>
-      <FormCard>
-        <FormCardTitle>Вход</FormCardTitle>
-        <AuthLoginForm onSubmit={auth} loading={loading} />
-        <Button variant={ButtonVariant.TEXT} as={Link} href={"/registration"}>
-          Зарегистрироваться
-        </Button>
-        <Button variant={ButtonVariant.TEXT} as={Link} href={"/forgot-password"}>
-          Сбросить пароль
-        </Button>
-      </FormCard>
-    </LayoutPublic>
+    <FormCard>
+      <FormCardTitle>Вход</FormCardTitle>
+      <AuthLoginForm onSubmit={auth} loading={loading} />
+      <Button variant={ButtonVariant.TEXT} as={Link} href={"/registration"}>
+        Зарегистрироваться
+      </Button>
+      <Button variant={ButtonVariant.TEXT} as={Link} href={"/forgot-password"}>
+        Сбросить пароль
+      </Button>
+    </FormCard>
   );
 };
 
-export default Login;
+Login.getLayout = (page) => <LayoutPublic>{page}</LayoutPublic>;
+
+const ObservableLogin = observer(Login);
+const InjectedLogin: FC = ({ children }) => (
+  <ObservableLogin userService={useInjection(USER_SERVICE)}>{children}</ObservableLogin>
+);
+
+export default InjectedLogin;
+export { ObservableLogin as Login };

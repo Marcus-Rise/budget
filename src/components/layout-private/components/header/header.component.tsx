@@ -3,8 +3,11 @@ import { Container } from "../../../container";
 import styled from "styled-components";
 import { UserProfile } from "../../../../user/components/profile";
 import { Link } from "../../../link";
-import { useUser } from "../../../../user";
 import { media } from "../../../../../styles/grid";
+import type { IUserStore } from "../../../../user";
+import { USER_STORE } from "../../../../user";
+import { useInjection } from "../../../../ioc";
+import { observer } from "mobx-react-lite";
 
 const StyledHeader = styled.header`
   position: sticky;
@@ -32,10 +35,9 @@ const HeaderContainer = styled(Container)`
   flex-direction: row;
 `;
 
-const Header: FC = () => {
-  const { user, isLoading } = useUser();
-  const userProfileLabel = isLoading ? "Загрузка..." : user?.login ?? "Войти";
-  const userProfileLink = !user ? "/login" : "/profile";
+const Header: FC<{ userStore: IUserStore }> = ({ userStore }) => {
+  const userProfileLabel = userStore.isLoading ? "Загрузка..." : userStore.user?.login ?? "Войти";
+  const userProfileLink = !userStore.user ? "/login" : "/profile";
 
   return (
     <StyledHeader>
@@ -51,4 +53,9 @@ const Header: FC = () => {
   );
 };
 
-export { Header };
+const ObservableHeader = observer(Header);
+const InjectedHeader: FC = ({ children }) => (
+  <ObservableHeader userStore={useInjection(USER_STORE)}>{children}</ObservableHeader>
+);
+
+export { ObservableHeader as Header, InjectedHeader };

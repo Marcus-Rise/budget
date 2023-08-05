@@ -1,7 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
 import { Header } from "./header.component";
 import styled from "styled-components";
-import { UserProvider } from "../../../../user";
 
 const Wrapper = styled.div`
   height: 120vh;
@@ -21,15 +20,11 @@ const Config: ComponentMeta<typeof Header> = {
 };
 
 const Default: ComponentStory<typeof Header> = (args) => (
-  <UserProvider>
-    <Header {...args} />
-  </UserProvider>
+  <Header {...args} userStore={{ user: null, isLoading: false }} />
 );
 
 const UserExist: ComponentStory<typeof Header> = (args) => (
-  <UserProvider user={{ login: "some@somes.com" }}>
-    <Header {...args} />
-  </UserProvider>
+  <Header {...args} userStore={{ user: { login: "some@somes.com" }, isLoading: false }} />
 );
 
 export default Config;

@@ -1,7 +1,6 @@
 import type { ComponentMeta, ComponentStory } from "@storybook/react";
-import Profile from "../../../pages/profile";
+import { Profile } from "../../../pages/profile";
 import type { IUser } from "../../user";
-import { UserProvider } from "../../user";
 import { rest } from "msw";
 
 const Config: ComponentMeta<typeof Profile> = {
@@ -9,11 +8,7 @@ const Config: ComponentMeta<typeof Profile> = {
   component: Profile,
 };
 
-const Template: ComponentStory<typeof Profile> = (args) => (
-  <UserProvider>
-    <Profile {...args} />
-  </UserProvider>
-);
+const Template: ComponentStory<typeof Profile> = (args) => <Profile {...args} />;
 
 const Default = Template.bind({});
 Default.parameters = {
